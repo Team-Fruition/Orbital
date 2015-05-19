@@ -103,7 +103,7 @@ class object:
         self.bottom_bound = self.y + self.height;           
     
     def update():
-        #updatePosition();
+        updatePosition();
         updateBounds();
 
     
