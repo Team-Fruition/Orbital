@@ -40,7 +40,7 @@ class object:
 
         return collision;
 
-    def updatePosition(W_pressed = False, A_pressed = False; S_pressed = False; D_pressed = False):
+    def updatePosition(W_pressed = False, A_pressed = False, S_pressed = False, D_pressed = False):
         
         #Handle acceleration:
         if A_pressed == True:
