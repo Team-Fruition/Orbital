@@ -1,3 +1,5 @@
+import pygame;
+
 class object:
 
     width = 0;

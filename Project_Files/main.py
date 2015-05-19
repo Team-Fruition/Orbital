@@ -1,5 +1,8 @@
 import pygame;
 
+from supplementary import *;
+from background import loadBackground;
+
 pygame.init();
 
 #Define and initialize surface to show to the user:
@@ -34,8 +37,35 @@ def message_to_screen(msg, color=black, displayPos = fontDisplayPos):
     gameDisplay.blit(textSurface, textRect);
     pygame.display.update();
 
-def nearest(num):
-    return round(num/10.0)*10.0;
+class backgroundDisplayLogic:
+
+    background = [];
+    backgroundLoopBackwards = False;
+    backgroundSpriteCount = 0;
+    backgroundDelay = 5;
+    
+    def __init__(self, backgroundList):
+        self.background = backgroundList;
+
+    def update(self):
+        if self.backgroundDelay >= 5:
+            if self.backgroundLoopBackwards == False:
+                self.backgroundSpriteCount += 1;
+                if self.backgroundSpriteCount >= len(self.background):
+                    self.backgroundLoopBackwards = True;
+                    self.backgroundSpriteCount -= 1;
+            else:
+                self.backgroundSpriteCount -= 1;
+                if self.backgroundSpriteCount <= 0:
+                    self.backgroundLoopBackwards = False;
+                    self.backgroundSpriteCount +=1;
+                
+            self.backgroundDelay = 0;
+        else:
+            self.backgroundDelay += 1;
+
+    def obtainBackgroundSprite(self):
+        return self.background[self.backgroundSpriteCount];
 
 def gameLoop():
 
@@ -55,6 +85,9 @@ def gameLoop():
     acceleration = 0.35;
     friction = 0.25;
 
+    #Background:
+    background = backgroundDisplayLogic(loadBackground());
+    
     #Object Properties:
 
     #Main Game Loop:
@@ -90,8 +123,12 @@ def gameLoop():
         #Logic
 
         #Render
-                    
-        pygame.display.update;
+
+        #Background:
+        gameDisplay.blit(background.obtainBackgroundSprite(), (-1024, -1024));
+        background.update();
+        
+        pygame.display.update();
 
         #Control FPS:
         clock.tick(framesPerSecond);
