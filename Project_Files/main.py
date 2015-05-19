@@ -23,9 +23,16 @@ font = pygame.font.SysFont(None, fontSize);
 pygame.display.set_caption("Space Arena");
 
 #External Functions:
-def msg_to_screen(msg, color = black, displayPos = fontDisplayPos):
-    screen_text = font.render(msg, True, color);
-    gameDisplay.blit(screen_text, displayPos);
+def message_to_screen(msg, color=black, displayPos = fontDisplayPos):
+
+    def textObjects():
+        textSurface = font.render(msg, True, color);
+        return textSurface, textSurface.get_rect();
+    
+    textSurface, textRect = textObjects();
+    textRect.center = (displayPos[0]), (displayPos[1]);
+    gameDisplay.blit(textSurface, textRect);
+    pygame.display.update();
 
 def nearest(num):
     return round(num/10.0)*10.0;
