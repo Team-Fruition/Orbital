@@ -49,7 +49,7 @@ class BackgroundDisplayLogic:
     backgroundSpriteCount = 0;
 
     #Prevents background from updating too quickly
-    backgroundDelay = 0; 
+    backgroundDelay = 5; 
 
     #Controls rendering position in the game (x, y)
     backgroundPos = [];
