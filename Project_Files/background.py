@@ -22,20 +22,13 @@ class BackgroundDisplayLogic:
     #Default Color
     BLACK = (0, 0, 0);
 
-    #Constants initialization
-    MOVE_DOWN = 1;
-    MOVE_RIGHT = 2;
-    MOVE_UP = 3;
-    MOVE_LEFT = 4;
-
     BACKGROUND_BORDER_THICKNESS = 5;
 
-    #Background movement boundaries (variable names according to view from camera)
-    #Tuple Values: (exceedBottom, exceedRight, exceedTop, exceedLeft)
-    BTM_RIGHT = (True, True, False, False);
-    BTM_LEFT = (True, False, False, True);
-    TOP_RIGHT = (False, True, True, False);
-    TOP_LEFT = (False, False, True, True);
+    #Background boundary check variables
+    canContinueMovingLeft = True;
+    canContinueMovingRight = True;
+    canContinueMovingUp = True;
+    canContinueMovingDown = True;
 
     #Variables initialization
     background = [];
@@ -49,16 +42,16 @@ class BackgroundDisplayLogic:
     backgroundSpriteCount = 0;
 
     #Prevents background from updating too quickly
-    backgroundDelay = 5; 
+    backgroundDelay = 3; 
 
     #Controls rendering position in the game (x, y)
     backgroundPos = [];
 
-    #Controls camera movement
-    currentMovement = MOVE_DOWN;
+    #Controls free-roam camera speed:
+    autoRoamSpeed = 0.5;
 
-    #Controls camera speed:
-    movementSpeed = 0.5;
+    #Controls camera movement (Up, Down, Left, Right)
+    currentMovement = [0, autoRoamSpeed, 0, 0];    
     
     def __init__(self, backgroundList):
         self.background = backgroundList;
@@ -72,74 +65,82 @@ class BackgroundDisplayLogic:
         self.backgroundHeight = self.background[0].get_height();
         self.backgroundPos = [-self.backgroundWidth/4, -self.backgroundHeight/4];
 
-    def _checkBounds(self):
-        exceedBottom = False;
-        exceedRight = False;
-        exceedTop = False;
-        exceedLeft = False;
-        
+    def _checkBounds(self):    
         #Check if camera is about to exceed bottom boundary
         if self.backgroundPos[1] <= -self.backgroundHeight/2 + self.BACKGROUND_BORDER_THICKNESS:
-            exceedBottom = True;
+            self.canContinueMovingDown = False;
+        else:
+            self.canContinueMovingDown = True;
         #Check if camera is about to exceed right boundary
         if self.backgroundPos[0] <= -self.backgroundWidth/2 + self.BACKGROUND_BORDER_THICKNESS:
-            exceedRight = True;
+            self.canContinueMovingRight = False;
+        else:
+            self.canContinueMovingRight = True;
         #Check if camera is about to exceed top boundary
         if self.backgroundPos[1] >= 0 - self.BACKGROUND_BORDER_THICKNESS:
-            exceedTop = True;      
+            self.canContinueMovingUp = False;
+        else:
+            self.canContinueMovingUp = True;
         #Check if camera is about to exceed left boundary
         if self.backgroundPos[0] >= 0 - self.BACKGROUND_BORDER_THICKNESS:
-            exceedLeft = True;
-
-        return (exceedBottom, exceedRight, exceedTop, exceedLeft);
+            self.canContinueMovingLeft = False;
+        else:
+            self.canContinueMovingLeft = True;
             
     def _determineFreeMovement(self):
-        boundaryCheck = self._checkBounds();
+        self._checkBounds();
 
-        numEntryTrue = 0;
+        reachedBottomBound = not self.canContinueMovingDown;
+        reachedLeftBound = not self.canContinueMovingLeft;
+        reachedTopBound = not self.canContinueMovingUp;
+        reachedRightBound = not self.canContinueMovingRight;
         
-        for entry in boundaryCheck:
-            if entry == True:
-                numEntryTrue += 1;
+        reachedBottomLeft = reachedBottomBound and reachedLeftBound;
+        reachedBottomRight = reachedBottomBound and reachedRightBound;
+        reachedTopLeft = reachedTopBound and reachedLeftBound;
+        reachedTopRight = reachedTopBound and reachedRightBound;
 
-        if numEntryTrue == 1:
-            #Exceed one of the boundaries
-            if boundaryCheck[0] == True:
-                self.currentMovement = self.MOVE_LEFT;
-            elif boundaryCheck[1] == True:
-                self.currentMovement = self.MOVE_DOWN;
-            elif boundaryCheck[2] == True:
-                self.currentMovement = self.MOVE_RIGHT;
-            else:
-                self.currentMovement = self.MOVE_UP;
+        #Check for Bottom Boundary
+        if reachedBottomBound:
+            self.currentMovement = [0, 0, self.autoRoamSpeed, 0]; #Start going Left
+        elif reachedLeftBound:
+            self.currentMovement = [self.autoRoamSpeed, 0, 0, 0]; #Start going Up
+        elif reachedTopBound:
+            self.currentMovement = [0, 0, 0, self.autoRoamSpeed]; #Start going Right
+        elif reachedRightBound:
+            self.currentMovement = [0, self.autoRoamSpeed, 0, 0]; #Start going Down
+        
+        #Check for Bottom Left Corner
+        if reachedBottomLeft:
+            self.currentMovement = [self.autoRoamSpeed, 0, 0, 0]; #Go Up
+            
+        #Check for Bottom Right Corner
+        elif reachedBottomRight:
+            self.currentMovement = [0, 0, self.autoRoamSpeed, 0]; #Go Left
 
-        elif numEntryTrue == 2:
-            #Camera is at one of the corners
-            if boundaryCheck == self.BTM_RIGHT:
-                self.currentMovement = self.MOVE_LEFT;
-            elif boundaryCheck == self.BTM_LEFT:
-                self.currentMovement = self.MOVE_UP;
-            elif boundaryCheck == self.TOP_RIGHT:
-                self.currentMovement = self.MOVE_DOWN;
-            else:
-                self.currentMovement = self.MOVE_RIGHT;
+        #Check for Top Left Corner
+        elif reachedTopLeft:
+            self.currentMovement = [0, 0, 0, self.autoRoamSpeed]; #Go Right
 
-    def moveBackground(self):
-        self._determineFreeMovement();
+        #Check for Top Right Corner
+        elif reachedTopRight:
+            self.currentMovement = [0, self.autoRoamSpeed, 0, 0]; #Go Down
 
-        if self.currentMovement == self.MOVE_DOWN:
-            self.backgroundPos[1] -= self.movementSpeed;
-        elif self.currentMovement == self.MOVE_RIGHT:
-            self.backgroundPos[0] -= self.movementSpeed;
-        elif self.currentMovement == self.MOVE_UP:
-            self.backgroundPos[1] += self.movementSpeed;
-        else:
-            self.backgroundPos[0] += self.movementSpeed;
+    def _calculatePositionChange(self, moveConfig = "Free"):
+        #Assumes that self.currentMovement represents the camera/window and not the background itself
+        if moveConfig == "Free":
+            self._determineFreeMovement();
+
+        self.currentMovement[0] *= -1;
+        self.currentMovement[2] *= -1;
+        
+        self.backgroundPos[0] += -(self.currentMovement[2] + self.currentMovement[3]);
+        self.backgroundPos[1] += -(self.currentMovement[0] + self.currentMovement[1]);
 
     #Called at every iteration of the loop    
     def update(self):
         #Controls background positioning
-        self.moveBackground();
+        self._calculatePositionChange();
         
         #Controls background sprite refresh rate
         if self.backgroundDelay >= 5:
