@@ -1,14 +1,14 @@
 import pygame;
 
 from supplementary import *;
-from background import loadBackground;
+from background import *;
 
 pygame.init();
 
 #Define and initialize surface to show to the user:
-window_width = 1024;
-window_height = 1024;
-gameDisplay = pygame.display.set_mode((window_width, window_height));
+windowWidth = 1024;
+windowHeight = 1024;
+gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
 
 #Define colors:
 white = (255, 255, 255);
@@ -19,45 +19,17 @@ green = (0, 255, 0);
 
 #Define font:
 fontSize = 25;
-fontDisplayPos = (window_width/2, window_height/2);
+fontDisplayPos = (windowWidth/2, windowHeight/2);
 font = pygame.font.SysFont(None, fontSize);
 
 #Title:
 pygame.display.set_caption("Space Arena");
 
 #Classes
-class BackgroundDisplayLogic:
 
-    background = [];
-    backgroundLoopBackwards = False;
-    backgroundSpriteCount = 0;
-    backgroundDelay = 5;
-    
-    def __init__(self, backgroundList):
-        self.background = backgroundList;
-
-    def update(self):
-        if self.backgroundDelay >= 5:
-            if self.backgroundLoopBackwards == False:
-                self.backgroundSpriteCount += 1;
-                if self.backgroundSpriteCount >= len(self.background):
-                    self.backgroundLoopBackwards = True;
-                    self.backgroundSpriteCount -= 1;
-            else:
-                self.backgroundSpriteCount -= 1;
-                if self.backgroundSpriteCount <= 0:
-                    self.backgroundLoopBackwards = False;
-                    self.backgroundSpriteCount +=1;
-                
-            self.backgroundDelay = 0;
-        else:
-            self.backgroundDelay += 1;
-
-    def obtainBackgroundSprite(self):
-        return self.background[self.backgroundSpriteCount];
 
 #Functions:
-def message_to_screen(msg, color=black, displayPos = fontDisplayPos):
+def messageToScreen(msg, color=black, displayPos = fontDisplayPos):
 
     def textObjects():
         textSurface = font.render(msg, True, color);
@@ -87,7 +59,7 @@ def gameLoop():
     friction = 0.25;
 
     #Background:
-    background = BackgroundDisplayLogic(loadBackground());
+    backgroundObj = BackgroundDisplayLogic(loadBackground());
     
     #Object Properties:
 
@@ -122,12 +94,24 @@ def gameLoop():
 
 
         #Logic
+        if W_pressed:
+            #do something
+            pass;
+        if A_pressed:
+            #do something
+            pass;
+        if S_pressed:
+            #do something
+            pass;
+        if D_pressed:
+            #do something
+            pass;
 
         #Render
 
         #Background:
-        gameDisplay.blit(background.obtainBackgroundSprite(), (-1024, -1024));
-        background.update();
+        gameDisplay.blit(backgroundObj.getBackgroundSprite(), backgroundObj.getRenderCoordinates());
+        backgroundObj.update();
         
         pygame.display.update();
 
