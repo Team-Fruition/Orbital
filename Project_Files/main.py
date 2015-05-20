@@ -25,19 +25,8 @@ font = pygame.font.SysFont(None, fontSize);
 #Title:
 pygame.display.set_caption("Space Arena");
 
-#External Functions:
-def message_to_screen(msg, color=black, displayPos = fontDisplayPos):
-
-    def textObjects():
-        textSurface = font.render(msg, True, color);
-        return textSurface, textSurface.get_rect();
-    
-    textSurface, textRect = textObjects();
-    textRect.center = (displayPos[0]), (displayPos[1]);
-    gameDisplay.blit(textSurface, textRect);
-    pygame.display.update();
-
-class backgroundDisplayLogic:
+#Classes
+class BackgroundDisplayLogic:
 
     background = [];
     backgroundLoopBackwards = False;
@@ -67,6 +56,18 @@ class backgroundDisplayLogic:
     def obtainBackgroundSprite(self):
         return self.background[self.backgroundSpriteCount];
 
+#Functions:
+def message_to_screen(msg, color=black, displayPos = fontDisplayPos):
+
+    def textObjects():
+        textSurface = font.render(msg, True, color);
+        return textSurface, textSurface.get_rect();
+    
+    textSurface, textRect = textObjects();
+    textRect.center = (displayPos[0]), (displayPos[1]);
+    gameDisplay.blit(textSurface, textRect);
+    pygame.display.update();
+
 def gameLoop():
 
     #Game Loop Variables:
@@ -86,7 +87,7 @@ def gameLoop():
     friction = 0.25;
 
     #Background:
-    background = backgroundDisplayLogic(loadBackground());
+    background = BackgroundDisplayLogic(loadBackground());
     
     #Object Properties:
 
