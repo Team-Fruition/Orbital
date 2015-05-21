@@ -48,10 +48,10 @@ class BackgroundDisplayLogic:
     backgroundPos = [];
 
     #Controls free-roam camera speed:
-    autoRoamSpeed = 0.5;
+    autoRoamSpeed = 2;
 
     currentMovement = speedList();
-    currentMovement.adjustSpeed(0, -autoRoamSpeed);
+    currentMovement.adjustSpeed(0, autoRoamSpeed);
     
     def __init__(self, backgroundList):
         self.background = backgroundList;
@@ -99,34 +99,34 @@ class BackgroundDisplayLogic:
         reachedBottomRight = reachedBottomBound and reachedRightBound;
         reachedTopLeft = reachedTopBound and reachedLeftBound;
         reachedTopRight = reachedTopBound and reachedRightBound;
-
-        if reachedBottomBound:
-            self.currentMovement.adjustSpeed(-self.autoRoamSpeed, 0); #Start going Left
-            
-        elif reachedLeftBound:
-            self.currentMovement.adjustSpeed(0, self.autoRoamSpeed); #Start going Up
-            
-        elif reachedTopBound:
-            self.currentMovement.adjustSpeed(self.autoRoamSpeed, 0); #Start going Right
-            
-        elif reachedRightBound:
-            self.currentMovement.adjustSpeed(0, -self.autoRoamSpeed); #Start going Down
-        
+    
         #Check for Bottom Left Corner
         if reachedBottomLeft:
-            self.currentMovement.adjustSpeed(0, self.autoRoamSpeed); #Go Up
+            self.currentMovement.adjustSpeed(0, -self.autoRoamSpeed); #Go Up
             
         #Check for Bottom Right Corner
         elif reachedBottomRight:
-            self.currentMovement.adjustSpeed(-self.autoRoamSpeed, 0); #Go Left
+            self.currentMovement.adjustSpeed(self.autoRoamSpeed, 0); #Go Left
 
         #Check for Top Left Corner
         elif reachedTopLeft:
-            self.currentMovement.adjustSpeed(self.autoRoamSpeed, 0); #Go Right
+            self.currentMovement.adjustSpeed(-self.autoRoamSpeed, 0); #Go Right
 
         #Check for Top Right Corner
         elif reachedTopRight:
-            self.currentMovement.adjustSpeed(0, -self.autoRoamSpeed); #Go Down
+            self.currentMovement.adjustSpeed(0, self.autoRoamSpeed); #Go Down
+
+        if reachedBottomBound and not reachedBottomLeft:
+            self.currentMovement.adjustSpeed(self.autoRoamSpeed, 0); #Start going Left
+            
+        elif reachedLeftBound and not reachedTopLeft:
+            self.currentMovement.adjustSpeed(0, -self.autoRoamSpeed); #Start going Up
+            
+        elif reachedTopBound and not reachedTopRight:
+            self.currentMovement.adjustSpeed(-self.autoRoamSpeed, 0); #Start going Right
+            
+        elif reachedRightBound and not reachedBottomRight:
+            self.currentMovement.adjustSpeed(0, self.autoRoamSpeed); #Start going Down
 
     def _calculatePositionChange(self, moveConfig = "Free", currentMovement = None):
         #Assumes that self.currentMovement represents the camera/window and not the background itself
@@ -170,3 +170,7 @@ class BackgroundDisplayLogic:
     
     def getRenderCoordinates(self):
         return (self.backgroundPos[0], self.backgroundPos[1]);
+
+    def setRenderCoordinates(self, coordinates):
+        self.backgroundPos[0] = coordinates[0];
+        self.backgroundPos[1] = coordinates[1];

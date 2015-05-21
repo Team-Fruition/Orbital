@@ -1,7 +1,8 @@
 import pygame;
 
 from supplementary import *;
-from background import *;
+from backgroundClass import *;
+from scene import *;
 
 pygame.init();
 
@@ -58,8 +59,8 @@ def gameLoop():
     acceleration = 0.35;
     friction = 0.25;
 
-    #Background:
-    backgroundObj = BackgroundDisplayLogic(loadBackground());
+    #Scene:
+    mainScene = Scene(Background(windowWidth, windowHeight), [], [], [], acceleration, friction);
     
     #Object Properties:
 
@@ -94,24 +95,11 @@ def gameLoop():
 
 
         #Logic
-        if W_pressed:
-            #do something
-            pass;
-        if A_pressed:
-            #do something
-            pass;
-        if S_pressed:
-            #do something
-            pass;
-        if D_pressed:
-            #do something
-            pass;
+        mainScene.update(W_pressed, A_pressed, S_pressed, D_pressed);
 
         #Render
-
-        #Background:
-        gameDisplay.blit(backgroundObj.getBackgroundSprite(), backgroundObj.getRenderCoordinates());
-        backgroundObj.update();
+        for item in mainScene.getObjectsToRender():
+            gameDisplay.blit(item.getSprite(), item.getPos());
         
         pygame.display.update();
 

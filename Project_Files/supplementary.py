@@ -16,61 +16,60 @@ def urlConstructor(*folders):
 def loadImg(rootURL, filename):
     return pygame.image.load(os.path.join(rootURL, filename));
 
-class speedList:
-    #(Up, Down, Left, Right)
-    UP_INDEX = 0;
-    DOWN_INDEX = 1;
-    LEFT_INDEX = 2;
-    RIGHT_INDEX = 3;
-
+class SpeedList:
+    HORIZONTAL_INDEX = 0;
+    VERTICAL_INDEX = 1;
+    
     #Input values via the functions below according to a person's view of it on the screen
-    #Move Left == -ve amt for adjustHorizontalSpeed()
-    #Move Right == +ve amt for adjustHorizontalSpeed()
-    #Move Up == +ve amt for adjustVerticalSpeed()
-    #Move Down == -ve amt for adjustVerticalSpeed()
-    speed = [0, 0, 0, 0];
+    #Attempt to Move Left == -ve amt for adjustHorizontalSpeed()
+    #Attempt to Move Right == +ve amt for adjustHorizontalSpeed()
+    #Attempt to Move Up == +ve amt for adjustVerticalSpeed()
+    #Attempt to Move Down == -ve amt for adjustVerticalSpeed()
+    speed = [0, 0];
 
     def __init__(self):
-        self.speed = [0, 0, 0, 0];
+        self.speed = [0, 0];
 
-    def adjustVerticalSpeed(self, amt):
-        #Positive == Up
-        #Negative == Down
-        if amt < 0:
-            self.speed[self.DOWN_INDEX] = amt;
-        elif amt > 0:
-            self.speed[self.UP_INDEX] = amt;
-        else:
-            self.speed[self.DOWN_INDEX] = 0;
-            self.speed[self.UP_INDEX] = 0;
-
-    def adjustHorizontalSpeed(self, amt):
+    def adjustVerticalSpeed(self, amt, setDirect):
         amt *= -1;
-        #Positive == Right
-        #Negative == Left
-        if amt < 0:
-            self.speed[self.LEFT_INDEX] = amt;
-        elif amt > 0:
-            self.speed[self.RIGHT_INDEX] = amt;
+        #Positive == Up ##Stored as -ve component
+        #Negative == Down ##Stored as +ve component
+        if setDirect:
+            self.speed[self.VERTICAL_INDEX] = amt;
         else:
-            self.speed[self.LEFT_INDEX] = 0;
-            self.speed[self.RIGHT_INDEX] = 0;
+            self.speed[self.VERTICAL_INDEX] += amt;
 
-    def adjustSpeed(self, horizontal, vertical):
-        self.adjustHorizontalSpeed(horizontal);
-        self.adjustVerticalSpeed(vertical);
-    
+    def adjustHorizontalSpeed(self, amt, setDirect):
+        #Positive == Right
+        #Negative == Left    
+        if setDirect:
+            self.speed[self.HORIZONTAL_INDEX] = amt;
+        else:
+            self.speed[self.HORIZONTAL_INDEX] += amt;
+
+    def getNetHorizontalSpeed(self):
+        return self.speed[self.HORIZONTAL_INDEX];
+
+    def getNetVerticalSpeed(self):
+        return self.speed[self.VERTICAL_INDEX];
+
     def getSpeedList(self):
         return self.speed;
 
-    def getNetHorizontalSpeed(self):
-        return self.speed[self.RIGHT_INDEX] + self.speed[self.LEFT_INDEX];
+    def stopHorizontally(self):
+        self.speed[self.HORIZONTAL_INDEX] = 0;
 
-    def getNetVerticalSpeed(self):
-        return self.speed[self.UP_INDEX] + self.speed[self.DOWN_INDEX];
+    def stopVertically(self):
+        self.speed[self.VERTICAL_INDEX] = 0;
 
-    def noNetSpeed(self):
-        return self.getNetHorizontalSpeed() == 0 and self.getNetVerticalSpeed() == 0;
+    def movingLeft(self):
+        return self.getNetHorizontalSpeed() < 0;
 
+    def movingRight(self):
+        return self.getNetHorizontalSpeed() > 0;
 
-    
+    def movingUp(self):
+        return self.getNetVerticalSpeed() < 0;
+
+    def movingDown(self):
+        return self.getNetVerticalSpeed() > 0;
