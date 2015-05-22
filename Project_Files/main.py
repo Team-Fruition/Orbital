@@ -2,6 +2,7 @@ import pygame;
 
 from supplementary import *;
 from backgroundClass import *;
+from playerClass import *;
 from scene import *;
 
 pygame.init();
@@ -10,13 +11,6 @@ pygame.init();
 windowWidth = 1024;
 windowHeight = 1024;
 gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
-
-#Define colors:
-white = (255, 255, 255);
-black = (0, 0, 0);
-red = (255, 0, 0);
-blue = (0, 0, 255);
-green = (0, 255, 0);
 
 #Define font:
 fontSize = 25;
@@ -27,7 +21,6 @@ font = pygame.font.SysFont(None, fontSize);
 pygame.display.set_caption("Space Arena");
 
 #Classes
-
 
 #Functions:
 def messageToScreen(msg, color=black, displayPos = fontDisplayPos):
@@ -51,18 +44,17 @@ def gameLoop():
     #Main Game Properties:
     framesPerSecond = 60;
     clock = pygame.time.Clock();
-
-    W_pressed = False;
-    A_pressed = False;
-    S_pressed = False;
-    D_pressed = False;
+    
     acceleration = 0.35;
     friction = 0.25;
 
     #Scene:
-    mainScene = Scene(Background(windowWidth, windowHeight), [], [], [], acceleration, friction);
+    mainScene = Scene(Background(windowWidth, windowHeight), [], [], [], Player(windowWidth, windowHeight),acceleration, friction);
     
     #Object Properties:
+    gameState = {"W_pressed":False, "A_pressed":False, "S_pressed":False, "D_pressed":False,
+                 "Q_pressed":False, "E_pressed":False, "mouseCoordinates":(0, 0), "leftMouseClicked":False,
+                 "rightMouseClicked":False};
 
     #Main Game Loop:
     while not gameExit:
@@ -75,27 +67,51 @@ def gameLoop():
             if event.type == pygame.QUIT:       #Detect for Quit Event 
                 gameExit = True;
 
-            if event.type == pygame.KEYDOWN:    #Detect for Key press
-                if event.key == pygame.K_a:     #Detect for A Key
-                    A_pressed = True;
-                if event.key == pygame.K_d:     #Detect for D Key
-                    D_pressed = True;
-                if event.key == pygame.K_w:     #Detect for W Key
-                    W_pressed = True;
-                if event.key == pygame.K_s:     #Detect for S Key
-                    S_pressed = True;
+            elif event.type == pygame.KEYDOWN:    #Detect for Key press
+                if event.key == pygame.K_a:       #Detect for A Key
+                    gameState["A_pressed"] = True;
+                elif event.key == pygame.K_d:     #Detect for D Key
+                    gameState["D_pressed"] = True;
+                elif event.key == pygame.K_w:     #Detect for W Key
+                    gameState["W_pressed"] = True;
+                elif event.key == pygame.K_s:     #Detect for S Key
+                    gameState["S_pressed"] = True;
+                elif event.key == pygame.K_q:     #Detect for Q Key
+                    gameState["Q_pressed"] = True;
+                elif event.key == pygame.K_e:     #Detect for E Key
+                    gameState["E_pressed"] = True;
 
-            if event.type == pygame.KEYUP:      #Detect for Key release
-                if event.key == pygame.K_a or event.key == pygame.K_d:             
-                    A_pressed = False;
-                    D_pressed = False;
-                if event.key == pygame.K_w or event.key == pygame.K_s:
-                    W_pressed = False;
-                    S_pressed = False;
+            elif event.type == pygame.KEYUP:      #Detect for Key release
+                if event.key == pygame.K_a:       #Detect for A Key
+                    gameState["A_pressed"] = False;
+                elif event.key == pygame.K_d:     #Detect for D Key
+                    gameState["D_pressed"] = False;
+                elif event.key == pygame.K_w:     #Detect for W Key
+                    gameState["W_pressed"] = False;
+                elif event.key == pygame.K_s:     #Detect for S Key
+                    gameState["S_pressed"] = False;
+                elif event.key == pygame.K_q:     #Detect for Q Key
+                    gameState["Q_pressed"] = False;
+                elif event.key == pygame.K_e:     #Detect for E Key
+                    gameState["E_pressed"] = False;
 
+            elif event.type == pygame.MOUSEMOTION:#Detect for movement of Mouse
+                gameState["mouseCoordinates"] = event.pos;
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:  #Detect for Mouse Button Press
+                if event.button == MOUSELEFT:
+                    gameState["leftMouseClicked"] = True;
+                elif event.button == MOUSERIGHT:
+                    gameState["rightMouseClicked"] = True;
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == MOUSELEFT:
+                    gameState["leftMouseClicked"] = False;
+                elif event.button == MOUSERIGHT:
+                    gameState["rightMouseClicked"] = False;
 
         #Logic
-        mainScene.update(W_pressed, A_pressed, S_pressed, D_pressed);
+        mainScene.update(gameState);
 
         #Render
         for item in mainScene.getObjectsToRender():

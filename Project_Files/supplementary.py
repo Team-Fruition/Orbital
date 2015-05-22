@@ -1,6 +1,17 @@
 import pygame;
 import os;
 
+#Define colors:
+white = (255, 255, 255);
+black = (0, 0, 0);
+red = (255, 0, 0);
+blue = (0, 0, 255);
+green = (0, 255, 0);
+
+#Define constants:
+MOUSELEFT = 1;
+MOUSERIGHT = 3;
+
 def nearest(num):
     return round(num/10.0)*10.0;
 

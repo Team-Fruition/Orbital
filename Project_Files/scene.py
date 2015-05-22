@@ -1,5 +1,3 @@
-import pygame;
-
 from supplementary import *;
 from backgroundClass import *;
 
@@ -9,7 +7,10 @@ class Scene:
 
     currentObjectsInScene = [];
 
+    #Scene constants
     BORDER = 5;
+    BACKGROUND_INDEX = 0;   #The Background obj will always be the first item in the allObjects list
+    PLAYER_INDEX = -1;      #The Player obj will always be the last item in the allObjects list
 
     #For checking camera boundaries in scene
     #Up to individual objects to check for own boundaries
@@ -29,22 +30,27 @@ class Scene:
     #To account for horizontal or vertical movement from the player's key presses
     globalSpeedList = SpeedList();
 
-    #Environment Forces:
+    #Environment Forces
     globalAcceleration = 0;
     globalFriction = 0;
+
+    #Controls if camera should focus onto the Player Ship (controls if Player Ship can move freely in the camera)
+    lockPlayerShip = True;
     
-    def __init__(self, background, ships, projectiles, others, acceleration, friction):
+    def __init__(self, background, enemyShips, projectiles, others, playerShip, acceleration, friction):
         #Load everything here
         #Assume ships is a set of ship objects
         #Assume projectiles is a set of projectile objects
         #Assume others is a set of supplementary objects
+        #Assume playerShip is the object that controls the player obj
         #Lower Index == Objects that will be "most behind" in the scene
         self.allObjects += [background, ];
         self.allObjects += others;
         self.allObjects += projectiles;
-        self.allObjects += ships;
+        self.allObjects += enemyShips;
+        #self.allObjects += [playerShip, ];
 
-        self.addObjectToScene(background);
+        self.addObjectToScene(self.allObjects[self.BACKGROUND_INDEX], self.allObjects[self.PLAYER_INDEX]);
 
         self.leftBound = 0 - self.BORDER;
         self.rightBound = background.getPos()[0]*2 + self.BORDER;
@@ -54,18 +60,19 @@ class Scene:
         self.globalAcceleration = acceleration;
         self.globalFriction = friction;
 
-    def addObjectToScene(self, obj):
-        self.currentObjectsInScene.append(obj);
+    def addObjectToScene(self, *obj):
+        for item in obj:
+            self.currentObjectsInScene.append(item);
 
     def getObjectsToRender(self):
         return self.currentObjectsInScene;
 
     def getCurrentBackgroundCoordinates(self):
-        return self.currentObjectsInScene[0].getPos();
+        return self.currentObjectsInScene[self.BACKGROUND_INDEX].getPos();
 
     def determineNewSceneCoordinates(self):
         currentBackgroundLocation = self.getCurrentBackgroundCoordinates();
-        return (currentBackgroundLocation[0] + self.globalSpeedList.getNetHorizontalSpeed(), currentBackgroundLocation[1] + self.globalSpeedList.getNetVerticalSpeed());
+        return (currentBackgroundLocation[self.BACKGROUND_INDEX] + self.globalSpeedList.getNetHorizontalSpeed(), currentBackgroundLocation[1] + self.globalSpeedList.getNetVerticalSpeed());
 
     def _checkBounds(self):
         newBackgroundLocation = self.determineNewSceneCoordinates(); 
@@ -106,17 +113,17 @@ class Scene:
     def resetShiftAmt(self):
         self.globalShiftAmt = [0, 0];
             
-    def update(self, W_pressed, A_pressed, S_pressed, D_pressed):
+    def update(self, gameState):
         
         self.resetShiftAmt();
         
-        if W_pressed:
+        if gameState["W_pressed"]:
             self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration - self.globalFriction, False);
-        if A_pressed:
+        if gameState["A_pressed"]:
             self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration + self.globalFriction, False);
-        if D_pressed:
+        if gameState["D_pressed"]:
             self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration - self.globalFriction, False);
-        if S_pressed:
+        if gameState["S_pressed"]:
             self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration + self.globalFriction, False);
 
         self._checkBounds();
@@ -145,7 +152,9 @@ class Scene:
                 self.globalSpeedList.adjustVerticalSpeed(0, True);
                 self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
 
-        currentMousePos = pygame.mouse.get_pos();
-                    
+        gameState["shiftAmt"] = list(self.getShiftAmt());
+        gameState["speed"] = self.globalSpeedList;
+        gameState["lockPlayerShip"] = self.lockPlayerShip;
+                
         for item in self.currentObjectsInScene:
-            item.update(self.globalShiftAmt, self.globalSpeedList);
+            item.update(gameState);

@@ -1,8 +1,6 @@
-import pygame;
-
 from supplementary import *;
 
-#Constants:
+#Path Constants:
 
 ART_ASSETS = "Art_Assets";
 MAIN_MENU = "MainMenu";
@@ -49,13 +47,6 @@ class Background:
         self.centerBackgroundPos = [-self.backgroundWidth/2 + window_width/2, -self.backgroundHeight/2 + window_height/2];
         self.backgroundPos = [self.centerBackgroundPos[0], self.centerBackgroundPos[1]];
 
-    def update(self, shiftAmt, speed = None):
-        #Controls positioning
-        self.adjustPos(speed);
-        self.shiftPos(shiftAmt[0], shiftAmt[1]);
-        #Controls refresh rate
-        self.refreshBackgroundSprite();
-
     def refreshBackgroundSprite(self):
         if self.backgroundDelay >= 5:
             if self.backgroundLoopBackwards == False:
@@ -95,15 +86,21 @@ class Background:
         self.setHorizontalCoordinates(coordinates[0]);
         self.setVerticalCoordinates(coordinates[1]);
 
-    def shiftPos(self, amt_x, amt_y):
-        self.backgroundPos[0] += amt_x;
-        self.backgroundPos[1] += amt_y;
+    def shiftPos(self, amt):
+        self.backgroundPos[0] += amt[0];
+        self.backgroundPos[1] += amt[1];
     
     def adjustPos(self, speed):
         #Move Right = +ve value ##Camera going Left
         #Move Left = -ve value ##Camera going Right
         #Move Up = +ve value ##Camera going Down
         #Move Down = -ve value ##Camera going Up
-        if not speed == None:
-            self.backgroundPos[0] += -speed.getNetHorizontalSpeed();
-            self.backgroundPos[1] += -speed.getNetVerticalSpeed();
+        self.backgroundPos[0] += -speed.getNetHorizontalSpeed();
+        self.backgroundPos[1] += -speed.getNetVerticalSpeed();
+
+    def update(self, gameState):
+        #Controls positioning
+        self.adjustPos(gameState["speed"]);
+        self.shiftPos(gameState["shiftAmt"]);
+        #Controls refresh rate
+        self.refreshBackgroundSprite();
