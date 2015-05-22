@@ -91,14 +91,23 @@ class Scene:
         else:
             self.canContinueMovingLeft = True;
 
+    def getShiftAmt(self):
+        return self.globalShiftAmt;
+
     def setShiftAmt(self, amt_x, amt_y):
         self.globalShiftAmt = [amt_x, amt_y];
+
+    def setShiftAmtX(self, amt_x):
+        self.globalShiftAmt[0] = amt_x;
+
+    def setShiftAmtY(self, amt_y):
+        self.globalShiftAmt[1] = amt_y;
 
     def resetShiftAmt(self):
         self.globalShiftAmt = [0, 0];
             
     def update(self, W_pressed, A_pressed, S_pressed, D_pressed):
-
+        
         self.resetShiftAmt();
         
         if W_pressed:
@@ -116,25 +125,27 @@ class Scene:
             #Snap scene to lower bound
             if self.globalSpeedList.movingDown():
                 self.globalSpeedList.adjustVerticalSpeed(0, True);
-            #self.setShiftAmt(0, self.lowerBound - self.getCurrentBackgroundCoordinates()[1]);
-
+                self.setShiftAmtY(self.lowerBound - self.getCurrentBackgroundCoordinates()[1]);
+            
         if not self.canContinueMovingLeft:
             #Snap scene to left bound
             if self.globalSpeedList.movingLeft():
                 self.globalSpeedList.adjustHorizontalSpeed(0, True);
-            #self.setShiftAmt(self.leftBound - self.getCurrentBackgroundCoordinates()[0], 0);
-
+                self.setShiftAmtX(self.leftBound - self.getCurrentBackgroundCoordinates()[0]);
+            
         if not self.canContinueMovingRight:
             #Snap scene to right bound
             if self.globalSpeedList.movingRight():
                 self.globalSpeedList.adjustHorizontalSpeed(0, True);
-            #self.setShiftAmt(self.rightBound - self.getCurrentBackgroundCoordinates()[0], 0);
-
+                self.setShiftAmtX(self.rightBound - self.getCurrentBackgroundCoordinates()[0]);
+            
         if not self.canContinueMovingUp:
             #Snap scene to upper bound
             if self.globalSpeedList.movingUp():
                 self.globalSpeedList.adjustVerticalSpeed(0, True);
-            #self.setShiftAmt(0, self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
+                self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
 
+        currentMousePos = pygame.mouse.get_pos();
+                    
         for item in self.currentObjectsInScene:
             item.update(self.globalShiftAmt, self.globalSpeedList);
