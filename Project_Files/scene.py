@@ -43,14 +43,14 @@ class Scene:
     #State
     state = MAIN_MENU;
     
-    def __init__(self, background, mainMenuObjs, projectiles, ships, acceleration, friction):
+    def __init__(self, background, menuObjs, projectiles, ships, acceleration, friction):
         #Load everything here
         #Assume ships is a set of ship objects
         #Assume projectiles is a set of projectile objects
         #Assume others is a set of supplementary objects
         #Lower Index == Objects that will be "most behind" in the scene
         self.allObjects += [background, ];
-        self.allObjects += [mainMenuObjs, ];
+        self.allObjects += [menuObjs, ];
         self.allObjects += [projectiles, ];
         self.allObjects += [ships, ];
 
@@ -69,6 +69,9 @@ class Scene:
 
     def getObjectsToRender(self):
         return self.currentObjectsInScene;
+
+    def resetObjectsInScene(self):
+        self.currentObjectsInScene = list(self.currentObjectsInScene[0]);
 
     def getCurrentBackgroundCoordinates(self):
         return self.currentObjectsInScene[0].getPos();
@@ -167,4 +170,4 @@ class Scene:
             pass;
                     
         for item in self.currentObjectsInScene:
-            item.update(self.globalShiftAmt, self.globalSpeedList, currentMousePos, keyBoardState, currentMouseState);
+            item.update(self.globalShiftAmt, self.globalSpeedList, keyBoardState, currentMousePos, currentMouseState);
