@@ -1,5 +1,3 @@
-import pygame;
-
 from supplementary import *;
 from backgroundClass import *;
 
@@ -108,7 +106,7 @@ class Scene:
     def resetShiftAmt(self):
         self.globalShiftAmt = [0, 0];
             
-    def update(self, W_pressed, A_pressed, S_pressed, D_pressed):
+    def update(self, W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed, currentMousePos, currentMouseState):
         
         self.resetShiftAmt();
         
@@ -147,11 +145,6 @@ class Scene:
                 self.globalSpeedList.adjustVerticalSpeed(0, True);
                 self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
 
-        currentMousePos = pygame.mouse.get_pos();
-        currentMouseState = pygame.mouse.get_pressed();
-
-        print(currentMousePos);
-        print(currentMouseState);
                     
         for item in self.currentObjectsInScene:
             item.update(self.globalShiftAmt, self.globalSpeedList, currentMousePos, currentMouseState);

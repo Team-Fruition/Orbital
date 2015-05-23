@@ -58,6 +58,8 @@ def gameLoop():
     A_pressed = False;
     S_pressed = False;
     D_pressed = False;
+    Q_pressed = False;
+    E_pressed = False;
     acceleration = 0.35;
     friction = 0.25;
 
@@ -86,6 +88,10 @@ def gameLoop():
                     W_pressed = True;
                 if event.key == pygame.K_s:     #Detect for S Key
                     S_pressed = True;
+                if event.key == pygame.K_q:     #Detect for Q Key
+                    Q_pressed = True;
+                if event.key == pygame.K_e:     #Detect for E key
+                    E_pressed = True;
 
             if event.type == pygame.KEYUP:      #Detect for Key release
                 if event.key == pygame.K_a or event.key == pygame.K_d:             
@@ -94,10 +100,16 @@ def gameLoop():
                 if event.key == pygame.K_w or event.key == pygame.K_s:
                     W_pressed = False;
                     S_pressed = False;
+                if event.key == pygame.K_q or event.key == pygame.K_e:
+                    Q_pressed = False;
+                    E_pressed = False;
 
+
+        currentMousePos = pygame.mouse.get_pos();
+        currentMouseState = pygame.mouse.get_pressed();
 
         #Logic
-        mainScene.update(W_pressed, A_pressed, S_pressed, D_pressed);
+        mainScene.update(W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed, currentMousePos, currentMouseState);
 
         #Render
         for item in mainScene.getObjectsToRender():
