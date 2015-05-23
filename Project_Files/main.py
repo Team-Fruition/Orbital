@@ -60,8 +60,8 @@ def gameLoop():
     D_pressed = False;
     Q_pressed = False;
     E_pressed = False;
-    acceleration = 0.35;
-    friction = 0.25;
+    acceleration = 0.3;
+    friction = 0.1;
 
     #Scene:
     mainScene = Scene(Background(windowWidth, windowHeight), [], [], [], acceleration, friction);

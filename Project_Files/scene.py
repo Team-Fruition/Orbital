@@ -120,14 +120,15 @@ class Scene:
         self.resetShiftAmt();
         
         if W_pressed:
-            self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration - self.globalFriction, False);
+            self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration, False);
         if A_pressed:
-            self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration + self.globalFriction, False);
+            self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration, False);
         if D_pressed:
-            self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration - self.globalFriction, False);
+            self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration, False);
         if S_pressed:
-            self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration + self.globalFriction, False);
+            self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration, False);
 
+        self.globalSpeedList.applyFriction(self.globalFriction);
         self._checkBounds();
         
         if not self.canContinueMovingDown:

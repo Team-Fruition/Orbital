@@ -99,3 +99,20 @@ class SpeedList:
 
     def movingDown(self):
         return self.getNetVerticalSpeed() > 0;
+
+    def applyFriction(self, friction):
+        #friction should be a +ve value
+        if self.getNetHorizontalSpeed() <= -friction:
+            self.adjustHorizontalSpeed(friction, False);
+        elif self.getNetHorizontalSpeed() >= friction:
+            self.adjustHorizontalSpeed(-friction, False);
+        else:
+            self.adjustHorizontalSpeed(0, True);
+
+        if self.getNetVerticalSpeed() <= -friction:
+            self.adjustVerticalSpeed(-friction, False);
+        elif self.getNetVerticalSpeed() >= friction:
+            self.adjustVerticalSpeed(friction, False);
+        else:
+            self.adjustVerticalSpeed(0, True);        
+            
