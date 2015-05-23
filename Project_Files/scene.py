@@ -45,7 +45,7 @@ class Scene:
     
     state = MAIN_MENU;
 
-    #Main Menu Functionality
+    #Main Menu Screen
 
     menuLoaded = False;
     menuButton = None;

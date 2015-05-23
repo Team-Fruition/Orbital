@@ -36,13 +36,13 @@ class Button:
         for index in range(0, self.NUM_BUTTON_IMAGES, 2):
             self.imgStates.append([loadImg(urlConstructor(ART_ASSETS, BUTTON), str(100 + index)[1:] + PNG_EX), loadImg(urlConstructor(ART_ASSETS, BUTTON), str(100 + index + 1)[1:] + PNG_EX)]);
 
-    def __init__(self, window_width, window_height, DISPLACE_X = 0, DISPLACE_Y = 0):
+    def __init__(self, window_width, window_height, displace_X = 0, displace_Y = 0):
         self.load();
 
         self.imgWidth = self.imgStates[0][0].get_width();
         self.imgHeight = self.imgStates[0][0].get_height();
 
-        self.renderPos = [window_width/2 - self.imgWidth/2 + DISPLACE_X, window_height/2 - self.imgHeight/2 + DISPLACE_Y];
+        self.renderPos = [window_width/2 - self.imgWidth/2 + displace_X, window_height/2 - self.imgHeight/2 + displace_Y];
 
         self.leftBound = self.renderPos[0] + self.imgWidth/4;
         self.rightBound = self.renderPos[0] + 3*self.imgWidth/4;

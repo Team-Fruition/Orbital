@@ -2,8 +2,6 @@
 
 import pygame;
 
-from supplementary import *;
-from backgroundClass import *;
 from scene import *;
 
 pygame.init();
@@ -59,7 +57,7 @@ def gameLoop():
     friction = 0.1;
 
     #Scene:
-    mainScene = Scene(Background(windowWidth, windowHeight), [Button(windowWidth, windowHeight), ], [], [], acceleration, friction);
+    mainScene = Scene(Background(windowWidth, windowHeight), [Button(windowWidth, windowHeight, displace_Y = windowWidth/4), ], [], [], acceleration, friction);
     
     #Object Properties:
 
