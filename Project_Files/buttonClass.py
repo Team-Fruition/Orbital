@@ -29,6 +29,8 @@ class Button:
     activeState = INACTIVE;
 
     clicked = False;
+    previous_Q_input = False;
+    previous_E_input = False;
 
     def load(self):
         for index in range(0, self.NUM_BUTTON_IMAGES, 2):
@@ -80,17 +82,25 @@ class Button:
 
     def changeState(self, keyBoardState):
         if keyBoardState["Q"]:
-            if self.currentState == self.PLAY:
-                self.currentState = self.HELP;
-            else:
-                self.currentState -= 1;
+            if keyBoardState["Q"] != self.previous_Q_input:
+                self.previous_Q_input = keyBoardState["Q"];
+                if self.currentState == self.PLAY:
+                    self.currentState = self.HELP;
+                else:
+                    self.currentState -= 1;
+        else:
+            self.previous_Q_input = False;
 
         if keyBoardState["E"]:
-            if self.currentState == self.HELP:
-                self.currentState = self.PLAY;
-            else:
-                self.currentState += 1;
-
+            if keyBoardState["E"] != self.previous_E_input:
+                self.previous_E_input = keyBoardState["E"];
+                if self.currentState == self.HELP:
+                    self.currentState = self.PLAY;
+                else:
+                    self.currentState += 1;
+        else:
+            self.previous_E_input = False;
+            
     def update(self, shiftAmt, speed, *args):
         keyBoardState = args[0];
         currentMousePos = args[1];

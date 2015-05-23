@@ -197,10 +197,10 @@ class Scene:
                 self.resetObjectsInScene();
             
         elif self.state == self.HELP:
-            #print("HELP");
+            print("HELP");
             pass;
         elif self.state == self.PLAY:
-            #print("PLAY");
+            print("PLAY");
             pass;
                     
         for item in self.currentObjectsInScene:
