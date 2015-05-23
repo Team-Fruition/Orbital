@@ -104,12 +104,12 @@ def gameLoop():
                     Q_pressed = False;
                     E_pressed = False;
 
-
+        keyBoardState = (W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed);
         currentMousePos = pygame.mouse.get_pos();
         currentMouseState = pygame.mouse.get_pressed();
 
         #Logic
-        mainScene.update(W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed, currentMousePos, currentMouseState);
+        mainScene.update(keyBoardState, currentMousePos, currentMouseState);
 
         #Render
         for item in mainScene.getObjectsToRender():

@@ -116,16 +116,16 @@ class Scene:
     def resetShiftAmt(self):
         self.globalShiftAmt = [0, 0];
 
-    def moveBackground(self, W_pressed, A_pressed, S_pressed, D_pressed):
+    def moveBackground(self, keyBoardState):
         self.resetShiftAmt();
         
-        if W_pressed:
+        if keyBoardState[0]:
             self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration, False);
-        if A_pressed:
+        if keyBoardState[1]:
             self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration, False);
-        if D_pressed:
+        if keyBoardState[3]:
             self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration, False);
-        if S_pressed:
+        if keyBoardState[2]:
             self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration, False);
 
         self.globalSpeedList.applyFriction(self.globalFriction);
@@ -155,9 +155,9 @@ class Scene:
                 self.globalSpeedList.adjustVerticalSpeed(0, True);
                 self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
             
-    def update(self, W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed, currentMousePos, currentMouseState):
+    def update(self, keyBoardState, currentMousePos, currentMouseState):
 
-        self.moveBackground(W_pressed, A_pressed, S_pressed, D_pressed);
+        self.moveBackground(keyBoardState);
         
         if self.state == self.MAIN_MENU:
             pass;
@@ -167,4 +167,4 @@ class Scene:
             pass;
                     
         for item in self.currentObjectsInScene:
-            item.update(self.globalShiftAmt, self.globalSpeedList, currentMousePos, currentMouseState);
+            item.update(self.globalShiftAmt, self.globalSpeedList, currentMousePos, keyBoardState, currentMouseState);
