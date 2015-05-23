@@ -49,7 +49,7 @@ class Background:
         self.centerBackgroundPos = [-self.backgroundWidth/2 + window_width/2, -self.backgroundHeight/2 + window_height/2];
         self.backgroundPos = [self.centerBackgroundPos[0], self.centerBackgroundPos[1]];
 
-    def update(self, shiftAmt, speed = None):
+    def update(self, shiftAmt, speed, *args):
         #Controls positioning
         self.adjustPos(speed);
         self.shiftPos(shiftAmt[0], shiftAmt[1]);
@@ -104,6 +104,5 @@ class Background:
         #Move Left = -ve value ##Camera going Right
         #Move Up = +ve value ##Camera going Down
         #Move Down = -ve value ##Camera going Up
-        if not speed == None:
-            self.backgroundPos[0] += -speed.getNetHorizontalSpeed();
-            self.backgroundPos[1] += -speed.getNetVerticalSpeed();
+        self.backgroundPos[0] += -speed.getNetHorizontalSpeed();
+        self.backgroundPos[1] += -speed.getNetVerticalSpeed();

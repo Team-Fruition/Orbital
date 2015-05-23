@@ -10,6 +10,8 @@ class Scene:
     currentObjectsInScene = [];
 
     BORDER = 5;
+    BACKGROUND_INDEX = 0;
+    PLAYER_SHIP = -1;
 
     #For checking camera boundaries in scene
     #Up to individual objects to check for own boundaries
@@ -146,6 +148,10 @@ class Scene:
                 self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
 
         currentMousePos = pygame.mouse.get_pos();
+        currentMouseState = pygame.mouse.get_pressed();
+
+        print(currentMousePos);
+        print(currentMouseState);
                     
         for item in self.currentObjectsInScene:
-            item.update(self.globalShiftAmt, self.globalSpeedList);
+            item.update(self.globalShiftAmt, self.globalSpeedList, currentMousePos, currentMouseState);
