@@ -115,51 +115,55 @@ class Scene:
 
     def resetShiftAmt(self):
         self.globalShiftAmt = [0, 0];
+
+    def moveBackground(self, W_pressed, A_pressed, S_pressed, D_pressed):
+        self.resetShiftAmt();
+        
+        if W_pressed:
+            self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration - self.globalFriction, False);
+        if A_pressed:
+            self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration + self.globalFriction, False);
+        if D_pressed:
+            self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration - self.globalFriction, False);
+        if S_pressed:
+            self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration + self.globalFriction, False);
+
+        self._checkBounds();
+        
+        if not self.canContinueMovingDown:
+            #Snap scene to lower bound
+            if self.globalSpeedList.movingDown():
+                self.globalSpeedList.adjustVerticalSpeed(0, True);
+                self.setShiftAmtY(self.lowerBound - self.getCurrentBackgroundCoordinates()[1]);
+            
+        if not self.canContinueMovingLeft:
+            #Snap scene to left bound
+            if self.globalSpeedList.movingLeft():
+                self.globalSpeedList.adjustHorizontalSpeed(0, True);
+                self.setShiftAmtX(self.leftBound - self.getCurrentBackgroundCoordinates()[0]);
+            
+        if not self.canContinueMovingRight:
+            #Snap scene to right bound
+            if self.globalSpeedList.movingRight():
+                self.globalSpeedList.adjustHorizontalSpeed(0, True);
+                self.setShiftAmtX(self.rightBound - self.getCurrentBackgroundCoordinates()[0]);
+            
+        if not self.canContinueMovingUp:
+            #Snap scene to upper bound
+            if self.globalSpeedList.movingUp():
+                self.globalSpeedList.adjustVerticalSpeed(0, True);
+                self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
             
     def update(self, W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed, currentMousePos, currentMouseState):
 
+        self.moveBackground(W_pressed, A_pressed, S_pressed, D_pressed);
+        
         if self.state == self.MAIN_MENU:
             pass;
         elif self.state == self.HELP:
             pass;
         elif self.state == self.PLAY:
-            self.resetShiftAmt();
-            
-            if W_pressed:
-                self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration - self.globalFriction, False);
-            if A_pressed:
-                self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration + self.globalFriction, False);
-            if D_pressed:
-                self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration - self.globalFriction, False);
-            if S_pressed:
-                self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration + self.globalFriction, False);
-
-            self._checkBounds();
-            
-            if not self.canContinueMovingDown:
-                #Snap scene to lower bound
-                if self.globalSpeedList.movingDown():
-                    self.globalSpeedList.adjustVerticalSpeed(0, True);
-                    self.setShiftAmtY(self.lowerBound - self.getCurrentBackgroundCoordinates()[1]);
-                
-            if not self.canContinueMovingLeft:
-                #Snap scene to left bound
-                if self.globalSpeedList.movingLeft():
-                    self.globalSpeedList.adjustHorizontalSpeed(0, True);
-                    self.setShiftAmtX(self.leftBound - self.getCurrentBackgroundCoordinates()[0]);
-                
-            if not self.canContinueMovingRight:
-                #Snap scene to right bound
-                if self.globalSpeedList.movingRight():
-                    self.globalSpeedList.adjustHorizontalSpeed(0, True);
-                    self.setShiftAmtX(self.rightBound - self.getCurrentBackgroundCoordinates()[0]);
-                
-            if not self.canContinueMovingUp:
-                #Snap scene to upper bound
-                if self.globalSpeedList.movingUp():
-                    self.globalSpeedList.adjustVerticalSpeed(0, True);
-                    self.setShiftAmtY(self.upperBound - self.getCurrentBackgroundCoordinates()[1]);
-
+            pass;
                     
         for item in self.currentObjectsInScene:
             item.update(self.globalShiftAmt, self.globalSpeedList, currentMousePos, currentMouseState);
