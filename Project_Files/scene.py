@@ -40,14 +40,14 @@ class Scene:
     #State
     state = MAIN_MENU;
     
-    def __init__(self, background, ships, projectiles, others, acceleration, friction):
+    def __init__(self, background, mainMenuObjs, projectiles, ships, acceleration, friction):
         #Load everything here
         #Assume ships is a set of ship objects
         #Assume projectiles is a set of projectile objects
         #Assume others is a set of supplementary objects
         #Lower Index == Objects that will be "most behind" in the scene
         self.allObjects += [background, ];
-        self.allObjects += [others, ];
+        self.allObjects += [mainMenuObjs, ];
         self.allObjects += [projectiles, ];
         self.allObjects += [ships, ];
 

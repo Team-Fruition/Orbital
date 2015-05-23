@@ -2,12 +2,6 @@ import pygame;
 
 from supplementary import *;
 
-#Constants:
-
-ART_ASSETS = "Art_Assets";
-MAIN_MENU = "MainMenu";
-JPG_EX = ".jpg";
-
 class Background:
 
     #Constants initialization

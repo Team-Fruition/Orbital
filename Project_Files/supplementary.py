@@ -1,6 +1,11 @@
 import pygame;
 import os;
 
+#Constants:
+ART_ASSETS = "Art_Assets";
+MAIN_MENU = "MainMenu";
+JPG_EX = ".jpg";
+
 def nearest(num):
     return round(num/10.0)*10.0;
 
