@@ -59,7 +59,7 @@ def gameLoop():
     friction = 0.1;
 
     #Scene:
-    mainScene = Scene(Background(windowWidth, windowHeight), [], [], [], acceleration, friction);
+    mainScene = Scene(Background(windowWidth, windowHeight), [Button(windowWidth, windowHeight), ], [], [], acceleration, friction);
     
     #Object Properties:
 

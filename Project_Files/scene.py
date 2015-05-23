@@ -1,5 +1,6 @@
 from supplementary import *;
 from backgroundClass import *;
+from buttonClass import *;
 
 class Scene:
 
@@ -13,10 +14,6 @@ class Scene:
     PROJECTILES = 2;
     SHIPS = 3;
     PLAYER_SHIP = -1;
-
-    MAIN_MENU = 0;
-    HELP = 1;
-    PLAY = 2;
 
     #For checking camera boundaries in scene
     #Up to individual objects to check for own boundaries
@@ -41,7 +38,30 @@ class Scene:
     globalFriction = 0;
 
     #State
+
+    MAIN_MENU = 0;
+    HELP = 1;
+    PLAY = 2;
+    
     state = MAIN_MENU;
+
+    #Main Menu Functionality
+
+    menuLoaded = False;
+    menuButton = None;
+    
+    def loadMenuObjects(self):
+        for item in self.allObjects[self.MAIN_MENU_OBJS]:
+            self.addObjectToScene(item);
+
+            if isinstance(item, Button):
+                self.menuButton = item;
+
+    #Help Screen
+
+    #Play Screen
+
+    #Class Functionality
     
     def __init__(self, background, menuObjs, projectiles, ships, acceleration, friction):
         #Load everything here
@@ -71,7 +91,8 @@ class Scene:
         return self.currentObjectsInScene;
 
     def resetObjectsInScene(self):
-        self.currentObjectsInScene = list(self.currentObjectsInScene[0]);
+        #Leaves Background inside no matter what
+        self.currentObjectsInScene = [self.currentObjectsInScene[0], ];
 
     def getCurrentBackgroundCoordinates(self):
         return self.currentObjectsInScene[0].getPos();
@@ -163,10 +184,23 @@ class Scene:
         self.moveBackground(keyBoardState);
         
         if self.state == self.MAIN_MENU:
-            pass;
+            if not self.menuLoaded:
+                self.loadMenuObjects();
+                self.menuLoaded = True;
+
+            if self.menuButton.playButtonClicked():
+                self.state = self.PLAY;
+                self.resetObjectsInScene();
+
+            elif self.menuButton.helpButtonClicked():
+                self.state = self.HELP;
+                self.resetObjectsInScene();
+            
         elif self.state == self.HELP:
+            #print("HELP");
             pass;
         elif self.state == self.PLAY:
+            #print("PLAY");
             pass;
                     
         for item in self.currentObjectsInScene:

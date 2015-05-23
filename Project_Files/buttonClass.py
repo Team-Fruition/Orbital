@@ -32,20 +32,41 @@ class Button:
 
     def load(self):
         for index in range(0, self.NUM_BUTTON_IMAGES, 2):
-            self.imgStates.append([loadImg(urlConstructor(ART_ASSETS, BUTTON), str(100 + index)[1:] + PNG_EX), loadImg(urlConstructor(ART_ASSETS, BUTTON), str(100 + index + 1)[1:] + PNG_EX]);
+            self.imgStates.append([loadImg(urlConstructor(ART_ASSETS, BUTTON), str(100 + index)[1:] + PNG_EX), loadImg(urlConstructor(ART_ASSETS, BUTTON), str(100 + index + 1)[1:] + PNG_EX)]);
 
     def __init__(self, window_width, window_height, DISPLACE_X = 0, DISPLACE_Y = 0):
         self.load();
 
-        self.imgWidth = self.imgStates[0].get_width();
-        self.imgHeight = self.imgStates[0].get_height();
+        self.imgWidth = self.imgStates[0][0].get_width();
+        self.imgHeight = self.imgStates[0][0].get_height();
 
         self.renderPos = [window_width/2 - self.imgWidth/2 + DISPLACE_X, window_height/2 - self.imgHeight/2 + DISPLACE_Y];
 
         self.leftBound = self.renderPos[0] + self.imgWidth/4;
         self.rightBound = self.renderPos[0] + 3*self.imgWidth/4;
-        self.topBound = self.renderPos[1] + self.imgWidth/4;
-        self.bottomBound = self.renderPos[1] + 3*self.imgWidth/4;
+        self.topBound = self.renderPos[1] + self.imgHeight/4;
+        self.bottomBound = self.renderPos[1] + 3*self.imgHeight/4;
+
+    def getCurrentState(self):
+        return self.currentState;
+
+    def getClickStatus(self):
+        return self.clicked;
+
+    def playButtonClicked(self):
+        return self.getClickStatus() and self.currentState == self.PLAY;
+
+    def helpButtonClicked(self):
+        return self.getClickStatus() and self.currentState == self.HELP;
+
+    def backButtonClicked(self):
+        return self.getClickStatus() and self.currentState == self.BACK;
+
+    def creditsButtonClicked(self):
+        return self.getClickStatus() and self.currentState == self.CREDITS;
+
+    def optionsButtonClicked(self):
+        return self.getClickStatus() and self.currentState == self.OPTIONS;
 
     def mouseWithinBounds(self, currentMousePos):
 
@@ -77,7 +98,7 @@ class Button:
 
         self.changeState(keyBoardState);
 
-        if self.mouseWithinBounds():
+        if self.mouseWithinBounds(currentMousePos):
             self.activeState = self.ACTIVE;
                                   
             if currentMouseState[0] == True:
