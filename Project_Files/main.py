@@ -54,12 +54,7 @@ def gameLoop():
     framesPerSecond = 60;
     clock = pygame.time.Clock();
 
-    W_pressed = False;
-    A_pressed = False;
-    S_pressed = False;
-    D_pressed = False;
-    Q_pressed = False;
-    E_pressed = False;
+    keyBoardState = {"W":False, "A":False, "S":False, "D":False, "Q":False, "E":False};
     acceleration = 0.3;
     friction = 0.1;
 
@@ -81,30 +76,29 @@ def gameLoop():
 
             if event.type == pygame.KEYDOWN:    #Detect for Key press
                 if event.key == pygame.K_a:     #Detect for A Key
-                    A_pressed = True;
+                    keyBoardState["A"] = True;
                 if event.key == pygame.K_d:     #Detect for D Key
-                    D_pressed = True;
+                    keyBoardState["D"] = True;
                 if event.key == pygame.K_w:     #Detect for W Key
-                    W_pressed = True;
+                    keyBoardState["W"] = True;
                 if event.key == pygame.K_s:     #Detect for S Key
-                    S_pressed = True;
+                    keyBoardState["S"] = True;
                 if event.key == pygame.K_q:     #Detect for Q Key
-                    Q_pressed = True;
+                    keyBoardState["Q"] = True;
                 if event.key == pygame.K_e:     #Detect for E key
-                    E_pressed = True;
+                    keyBoardState["E"] = True;
 
             if event.type == pygame.KEYUP:      #Detect for Key release
                 if event.key == pygame.K_a or event.key == pygame.K_d:             
-                    A_pressed = False;
-                    D_pressed = False;
+                    keyBoardState["A"] = False;
+                    keyBoardState["D"] = False;
                 if event.key == pygame.K_w or event.key == pygame.K_s:
-                    W_pressed = False;
-                    S_pressed = False;
+                    keyBoardState["W"] = False;
+                    keyBoardState["S"] = False;
                 if event.key == pygame.K_q or event.key == pygame.K_e:
-                    Q_pressed = False;
-                    E_pressed = False;
-
-        keyBoardState = (W_pressed, A_pressed, S_pressed, D_pressed, Q_pressed, E_pressed);
+                    keyBoardState["Q"] = False;
+                    keyBoardState["E"] = False;
+                    
         currentMousePos = pygame.mouse.get_pos();
         currentMouseState = pygame.mouse.get_pressed();
 

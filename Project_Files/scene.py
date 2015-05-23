@@ -119,13 +119,13 @@ class Scene:
     def moveBackground(self, keyBoardState):
         self.resetShiftAmt();
         
-        if keyBoardState[0]:
+        if keyBoardState["W"]:
             self.globalSpeedList.adjustVerticalSpeed(self.globalAcceleration, False);
-        if keyBoardState[1]:
+        if keyBoardState["A"]:
             self.globalSpeedList.adjustHorizontalSpeed(-self.globalAcceleration, False);
-        if keyBoardState[3]:
+        if keyBoardState["D"]:
             self.globalSpeedList.adjustHorizontalSpeed(self.globalAcceleration, False);
-        if keyBoardState[2]:
+        if keyBoardState["S"]:
             self.globalSpeedList.adjustVerticalSpeed(-self.globalAcceleration, False);
 
         self.globalSpeedList.applyFriction(self.globalFriction);
