@@ -9,6 +9,9 @@ class Scene:
 
     BORDER = 5;
     BACKGROUND_INDEX = 0;
+    MAIN_MENU_OBJS = 1;
+    PROJECTILES = 2;
+    SHIPS = 3;
     PLAYER_SHIP = -1;
 
     MAIN_MENU = 0;
