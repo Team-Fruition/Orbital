@@ -1,11 +1,6 @@
-import pygame;
-
 from supplementary import *;
 
 class Background:
-
-    #Constants initialization
-    BLACK = (0, 0, 0);
 
     #Variables initialization
     backgroundImgList = [];

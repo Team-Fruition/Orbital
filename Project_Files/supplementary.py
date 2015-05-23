@@ -1,10 +1,31 @@
 import pygame;
 import os;
 
-#Constants:
+#Directory Constants:
 ART_ASSETS = "Art_Assets";
+
+BUTTON = "Button";
+LOGO = "Logo";
 MAIN_MENU = "MainMenu";
+PROJECTILES = "Projectiles";
+SHIPS = "Ships";
+
+#Button Constants
+BACK_BUTTON = "BackButton";
+HELP_BUTTON = "HelpButton";
+PLAY_BUTTON = "PlayButton";
+
+#Projectile Constants
+YELLOW_PROJECTILE = "Yellow_Projectile"
+EXPLOSION = "Explosion";
+
+#Ship Constants
+ENEMY_SHIP_1 = "Enemy_Ship_1";
+PLAYER_SHIP = "Player_Ship";
+
+#Extension Constants
 JPG_EX = ".jpg";
+PNG_EX = ".png";
 
 def nearest(num):
     return round(num/10.0)*10.0;
