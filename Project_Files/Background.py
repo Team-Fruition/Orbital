@@ -103,7 +103,7 @@ class Background:
 
     ####Primary Functions
     
-    def update(self, keyBoardState, currentMousePos, currentMouseState):
+    def update(self, keyBoardState, currentMousePos, currentMouseState, *backgroundData):
 
         #Update
         self.updatePos(keyBoardState);
