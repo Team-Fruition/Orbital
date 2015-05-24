@@ -212,25 +212,25 @@ class Background:
         if not self.canContinueMovingDown:
             #Snap scene to lower bound
             if self.globalSpeedController.movingDown():
-                self.globalSpeedController.adjustVerticalSpeed(0, True);
+                self.globalSpeedController.adjustVerticalSpeed(5, True);
                 self.globalDisplacementController.setVerticalDisplacement(self.getPos()[1] - self.lowerBound);
             
         if not self.canContinueMovingLeft:
             #Snap scene to left bound
             if self.globalSpeedController.movingLeft():
-                self.globalSpeedController.adjustHorizontalSpeed(0, True);
+                self.globalSpeedController.adjustHorizontalSpeed(5, True);
                 self.globalDisplacementController.setHorizontalDisplacement(self.leftBound - self.getPos()[0]);
             
         if not self.canContinueMovingRight:
             #Snap scene to right bound
             if self.globalSpeedController.movingRight():
-                self.globalSpeedController.adjustHorizontalSpeed(0, True);
+                self.globalSpeedController.adjustHorizontalSpeed(-5, True);
                 self.globalDisplacementController.setHorizontalDisplacement(self.rightBound - self.getPos()[0]);
             
         if not self.canContinueMovingUp:
             #Snap scene to upper bound
             if self.globalSpeedController.movingUp():
-                self.globalSpeedController.adjustVerticalSpeed(0, True);
+                self.globalSpeedController.adjustVerticalSpeed(-5, True);
                 self.globalDisplacementController.setVerticalDisplacement(self.getPos()[1] - self.upperBound);        
     
     def moveBackground(self):
