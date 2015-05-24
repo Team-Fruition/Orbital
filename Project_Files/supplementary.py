@@ -10,11 +10,6 @@ MAIN_MENU = "MainMenu";
 PROJECTILES = "Projectiles";
 SHIPS = "Ships";
 
-#Button Constants
-BACK_BUTTON = "BackButton";
-HELP_BUTTON = "HelpButton";
-PLAY_BUTTON = "PlayButton";
-
 #Projectile Constants
 YELLOW_PROJECTILE = "Yellow_Projectile"
 EXPLOSION = "Explosion";
