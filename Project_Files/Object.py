@@ -6,48 +6,14 @@ from DisplacementController import *;
 
 class Object:
     
-    ####Properties
-
-    ##Main
-
-    name = "";
-
-    ##Graphical
-    spriteWidth = 0;
-    spriteHeight = 0;
-
-    #Holds all Sprites used for this object
-    spriteImgList = [];
-
-    #Counter for current index in spriteImgList
-    spriteIndex = 0;    
-
-    ##Positional
-
-    #Controls position to render 
-    #Spawns right in the center of the spawnArea by default.
-    #__init__() displaceX and displaceY shifts starting/spawn position accordingly from center
-    objectPos = [0, 0];
-
-    #In-Game property
-    spawnAreaTopLeft = [0, 0];
-    spawnAreaBottomRight = [0, 0];
-
-    boundaryRatio = 1;
-    
-    leftBound = 0;
-    rightBound = 0;
-    upperBound = 0;
-    lowerBound = 0;
-    
     ####Initialization Methods
 
     ##Graphical
 
-    def fillImgList(self, url, name, indexLen, numFrames, ex):
+    def fillImgList(self, url, fileName, indexLen, numFrames, ex):
         indexingVariable = 10 ** (indexLen);
         for index in range(0, numFrames):
-            self.spriteImgList.append(loadImg(url, name + str(indexingVariable + index)[1:] + ex));
+            self.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
 
     def determineWidthAndHeight(self):
         self.spriteWidth = self.spriteImgList[0].get_width();
@@ -84,9 +50,45 @@ class Object:
     ##Init
 
     def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, objectName,
-                 url , name, indexLen, numFrames, ex = PNG_EX, spawnX = 0, spawnY = 0):
+                 url , fileName, indexLen, numFrames, ex = PNG_EX, spawnX = 0, spawnY = 0):
+
+        ####Properties
+
+        ##Main
+
         self.name = objectName;
-        self.fillImgList(url, name, indexLen, numFrames, ex);
+        
+        ##Graphical
+        self.spriteWidth = 0;
+        self.spriteHeight = 0;
+
+        #Holds all Sprites used for this object
+        self.spriteImgList = [];
+
+        #Counter for current index in spriteImgList
+        self.spriteIndex = 0;    
+
+        ##Positional
+
+        #Controls position to render 
+        #Spawns right in the center of the spawnArea by default.
+        #__init__() displaceX and displaceY shifts starting/spawn position accordingly from center
+        self.objectPos = [0, 0];
+
+        #In-Game property
+        self.spawnAreaTopLeft = [0, 0];
+        self.spawnAreaBottomRight = [0, 0];
+
+        self.boundaryRatio = 1;
+        
+        self.leftBound = 0;
+        self.rightBound = 0;
+        self.upperBound = 0;
+        self.lowerBound = 0;
+        
+        ####Initialization Procedures
+        
+        self.fillImgList(url, fileName, indexLen, numFrames, ex);
         self.determineWidthAndHeight();
         self.determineSpawnArea(spawnWidth, spawnHeight, spawnX, spawnY);
         self.determineSpawnPos(displaceX, displaceY);
@@ -108,8 +110,14 @@ class Object:
     ####Secondary Functions
 
     def checkIfMouseWithinBounds(self, currentMousePos):
-        if self.leftBound <= currentMousePos[0] <= self.rightBound and self.topBound <= currentMousePos[1] <= self.bottomBound:
-            return true;
+        if self.leftBound <= currentMousePos[0] <= self.rightBound and self.upperBound <= currentMousePos[1] <= self.lowerBound:
+            return True;
+
+    def checkIfMouseLeftClicked(self, currentMouseState):
+        return currentMouseState[0] == 1;
+
+    def checkIfMouseRightClicked(self, currentMouseState):
+        return currentMouseState[1] == 1;
 
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         pass;
@@ -124,15 +132,46 @@ class Logo(Object):
     def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY, logoObjName):
 
         boundaryRatio = 1;
-        spawnX = 0;
-        spawnY = 0;
         url = urlConstructor(ART_ASSETS, LOGO);
-        name = LOGO;
+        fileName = LOGO;
         indexLen = 3;
         numFrames = 1;
-        ex = PNG_EX;
         
         super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, logoObjName,
-                         url, name, indexLen, numFrames, ex, spawnX, spawnY);
+                         url, fileName, indexLen, numFrames);
 
-#Logo(1024, 1024, 0, -200, "Test");
+
+class Button(Object):
+
+    INACTIVE = 0;
+    ACTIVE = 1;
+
+    def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY, buttonObjName,
+                 fileName):
+
+        boundaryRatio = 0.7;
+        spawnX = 0;
+        spawnY = 0;
+        url = urlConstructor(ART_ASSETS, BUTTON);
+        indexLen = 2;
+        numFrames = 2;
+
+        self.clicked = False;
+
+        super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, buttonObjName,
+                         url, fileName, indexLen, numFrames);
+
+        self.spriteIndex = self.INACTIVE;
+
+    def determineIfClicked(self, currentMousePos, currentMouseState):
+        return self.checkIfMouseWithinBounds(currentMousePos) and self.checkIfMouseLeftClicked(currentMouseState);
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement):
+        self.updateSprite(keyBoardState, currentMousePos, currentMouseState);
+        self.clicked = self.determineIfClicked(currentMousePos, currentMouseState);
+
+    def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
+        if self.checkIfMouseWithinBounds(currentMousePos):
+            self.spriteIndex = self.ACTIVE;
+        else:
+            self.spriteIndex = self.INACTIVE;

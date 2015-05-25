@@ -10,8 +10,21 @@ MAIN_MENU = "MainMenu";
 PROJECTILES = "Projectiles";
 SHIPS = "Ships";
 
+#State Constants
+START = "Start";
+INSTRUCTIONS = "Instructions";
+GAME = "Game";
+GAMEOVER = "GameOver";
+
+#Button Constants
+BACK = "Back";
+CREDITS = "Credits";
+HELP = "Help";
+OPTIONS = "Options";
+PLAY = "Play";
+
 #Projectile Constants
-YELLOW_PROJECTILE = "Yellow_Projectile"
+YELLOW_PROJECTILE = "Yellow_Projectile";
 EXPLOSION = "Explosion";
 
 #Ship Constants
@@ -36,3 +49,4 @@ def urlConstructor(*folders):
 
 def loadImg(rootURL, filename):
     return pygame.image.load(os.path.join(rootURL, filename));
+

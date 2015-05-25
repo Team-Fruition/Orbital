@@ -5,8 +5,10 @@ from SceneManager import *;
 pygame.init();
 
 #Define and initialize surface to show to the user:
-windowWidth = 1024;
-windowHeight = 1024;
+windowWidth = 800;
+windowHeight = 800;
+
+pygameFlags = pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF;
 gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
 
 #Define icon:

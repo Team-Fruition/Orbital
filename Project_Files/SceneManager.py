@@ -4,16 +4,10 @@ from Scene import *;
 
 class SceneManager:
 
-    allScenes = [];
-
-    #Scene Indexes
-    MAIN_MENU = 0;
-    HELP = 1;
-    GAME = 2;
-    GAMEOVER = 3;
+    allScenes = dict();
 
     #Variables
-    currentScene = MAIN_MENU;
+    currentScene = START;
 
     def __init__(self, windowWidth, windowHeight, acceleration, friction):
 
@@ -21,12 +15,12 @@ class SceneManager:
         background = Background(windowWidth, windowHeight, acceleration, friction);
         
         #Load Scenes here
-        self.addScene(MainMenu(windowWidth, windowHeight, background));
         
-        pass;
+        mainMenu = MainMenu(windowWidth, windowHeight, background);
+        self.addScene(START, mainMenu);
 
-    def addScene(self, scene):
-        self.allScenes.append(scene);
+    def addScene(self, state, scene):
+        self.allScenes[state] = scene;
 
     def changeState(self, newScene):
         self.currentScene = newScene;        
