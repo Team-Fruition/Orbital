@@ -5,17 +5,20 @@ from DisplacementController import *;
 class Background:
 
     ####Constants
+    
     BORDER = 16;
 
     ####Properties
     
-    ##Main 
+    ##Main
     
-    backgroundImgList = [];
     backgroundWidth = 0;
     backgroundHeight = 0;
 
-    ##Graphical 
+    ##Graphical
+
+    #Holds all Sprites used for this object
+    backgroundImgList = [];
 
     #Controls if backgroundSpriteCount increases or decreases
     backgroundLoopBackwards = False;

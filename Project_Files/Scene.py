@@ -23,3 +23,6 @@ class Scene:
 
         for item in self.currentObjectsInScene[1:]:
             item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+
+    def changeScene(self):
+        pass;
