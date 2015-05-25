@@ -34,4 +34,8 @@ class SceneManager:
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         self.getCurrentScene().update(keyBoardState, currentMousePos, currentMouseState);
 
-    #Add Button Logic Here
+        if self.getCurrentScene().changeScene() == PLAY:
+            print("Play Button Clicked");
+
+        elif self.getCurrentScene().changeScene() == HELP:
+            print("Help Button Clicked");

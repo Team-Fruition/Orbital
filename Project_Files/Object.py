@@ -119,6 +119,9 @@ class Object:
     def checkIfMouseRightClicked(self, currentMouseState):
         return currentMouseState[1] == 1;
 
+    def getName(self):
+        return self.name;
+
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         pass;
 

@@ -10,11 +10,16 @@ class Scene:
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
         self.currentObjectsInScene = [];
+        self.currentButtonsInScene = [];
         self.background = background;
 
         self.addObjectToScene(background);
 
     def addObjectToScene(self, obj):
+
+        if isinstance(obj, Button):
+            self.currentButtonsInScene.append(obj);
+        
         self.currentObjectsInScene.append(obj);
 
     def getAllObjectsInScene(self):
@@ -40,9 +45,9 @@ class MainMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-        self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250, "Logo"));
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, "Play", PLAY));
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, "Help", HELP));
+        self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250, LOGO));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, PLAY, PLAY));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP, HELP));
 
     def update(self, keyBoardState, currentMousePos, currentMouseState):
 
@@ -53,3 +58,9 @@ class MainMenu(Scene):
 
         for item in self.currentObjectsInScene[1:]:
             item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);    
+
+    def changeScene(self):
+        for button in self.currentButtonsInScene:
+            if button.clicked == True:
+                return button.getName();
+        
