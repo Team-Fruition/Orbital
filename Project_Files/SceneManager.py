@@ -21,7 +21,7 @@ class SceneManager:
         background = Background(windowWidth, windowHeight, acceleration, friction);
         
         #Load Scenes here
-        self.addScene(Scene(background));
+        self.addScene(MainMenu(windowWidth, windowHeight, background));
         
         pass;
 

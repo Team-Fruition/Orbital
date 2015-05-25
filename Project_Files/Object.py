@@ -2,6 +2,8 @@ from supplementary import *;
 from SpeedController import *;
 from DisplacementController import *;
 
+####Base Class
+
 class Object:
     
     ####Properties
@@ -43,9 +45,9 @@ class Object:
     ##Graphical
 
     def fillImgList(self, url, name, indexLen, numFrames, ex):
-        indexingVariable = 1 * (indexLen + 1);
+        indexingVariable = 10 ** (indexLen);
         for index in range(0, numFrames):
-            self.spriteImgList.append(loadImg(url, name + indexingVariable[1:] + numFrames + ex));
+            self.spriteImgList.append(loadImg(url, name + str(indexingVariable + index)[1:] + ex));
 
     def determineWidthAndHeight(self):
         self.spriteWidth = self.spriteImgList[0].get_width();
@@ -104,8 +106,32 @@ class Object:
 
     ####Secondary Functions
 
+    def checkIfMouseWithinBounds(self, currentMousePos):
+        if self.leftBound <= currentMousePos[0] <= self.rightBound and self.topBound <= currentMousePos[1] <= self.bottomBound:
+            return true;
+
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         pass;
 
     def updatePos(self, globalSpeed, globalDisplacement):
         pass;
+
+####Sub-Classes
+
+class Logo(Object):
+
+    def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY, logoObjName):
+
+        boundaryRatio = 1;
+        spawnX = 0;
+        spawnY = 0;
+        url = urlConstructor(ART_ASSETS, LOGO);
+        name = LOGO;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        
+        super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, logoObjName,
+                         url, name, indexLen, numFrames, ex, spawnX, spawnY);
+
+#Logo(1024, 1024, 0, -200, "Test");

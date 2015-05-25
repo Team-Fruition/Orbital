@@ -1,10 +1,19 @@
+from Object import *;
+
+####Base Class
+
 class Scene:
 
     background = None;
 
+    windowWidth = 0;
+    windowHeight = 0;
+
     currentObjectsInScene = [];
 
-    def __init__(self, background):
+    def __init__(self, windowWidth, windowHeight, background):
+        self.windowWidth = windowWidth;
+        self.windowHeight = windowHeight;
         self.background = background;
         self.addObjectToScene(background);
 
@@ -26,3 +35,12 @@ class Scene:
 
     def changeScene(self):
         pass;
+
+####Sub-Classes
+
+class MainMenu(Scene):
+
+    def __init__(self, background, windowWidth, windowHeight):
+        super().__init__(background, windowWidth, windowHeight);
+
+    

@@ -40,7 +40,9 @@ def gameLoop():
 
         #Event Detection and Handling
 
-        for event in pygame.event.get():        #Get events in real time        
+        for event in pygame.event.get():        #Get events in real time
+
+            #DEBUG: Print individual event info
             #print(event);
             
             if event.type == pygame.QUIT:       #Detect for Quit Event 
@@ -87,6 +89,9 @@ def gameLoop():
 
         #Control FPS:
         clock.tick(framesPerSecond);
+
+        #DEBUG: Print FPS Information
+        #print(clock.get_fps());
 
     pygame.quit();
     quit();
