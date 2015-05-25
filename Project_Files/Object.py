@@ -55,6 +55,10 @@ class Object:
 
     ##In-Game property
 
+    def determineSpawnArea(self, spawnWidth, spawnHeight, spawnX, spawnY):
+        self.spawnAreaTopLeft = [spawnX, spawnY];
+        self.spawnAreaBottomRight = [spawnWidth, spawnHeight];        
+
     def determineSpawnPos(self, displaceX, displaceY):
 
         spawnCenterX = (self.spawnAreaTopLeft[0] + self.spawnAreaBottomRight[0])/2;
@@ -64,11 +68,7 @@ class Object:
 
         self.objectPos = [spawnCenterX - self.spriteWidth/2 + displaceX,
                           spawnCenterY - self.spriteHeight/2 + displaceY];
-
-    def determineSpawnArea(self, spawnWidth, spawnHeight, spawnX, spawnY):
-        self.spawnAreaTopLeft = [spawnX, spawnY];
-        self.spawnAreaBottomRight = [spawnWidth, spawnHeight];
-
+        
     #Assumes boundaryRatio == percentage area of hitbox when compared to spriteArea
     #boundaryRatio = 1 == hitbox of object = spriteArea
     #boundaryRatio = 0.5 == hitbox of object = direct center
@@ -87,6 +87,7 @@ class Object:
                  url , name, indexLen, numFrames, ex = PNG_EX, spawnX = 0, spawnY = 0):
         self.name = objectName;
         self.fillImgList(url, name, indexLen, numFrames, ex);
+        self.determineWidthAndHeight();
         self.determineSpawnArea(spawnWidth, spawnHeight, spawnX, spawnY);
         self.determineSpawnPos(displaceX, displaceY);
         self.setBoundaryRatio(boundaryRatio);

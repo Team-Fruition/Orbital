@@ -40,7 +40,9 @@ class Scene:
 
 class MainMenu(Scene):
 
-    def __init__(self, background, windowWidth, windowHeight):
-        super().__init__(background, windowWidth, windowHeight);
+    def __init__(self, windowWidth, windowHeight, background):
+        super().__init__(windowWidth, windowHeight, background);
+
+        self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250, "Logo"));
 
     
