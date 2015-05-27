@@ -9,6 +9,7 @@ LOGO = "Logo";
 MAIN_MENU = "MainMenu";
 PROJECTILES = "Projectiles";
 SHIPS = "Ships";
+FONTS = "Fonts"
 
 #State Constants
 START = "Start";
@@ -31,9 +32,13 @@ EXPLOSION = "Explosion";
 ENEMY_SHIP_1 = "Enemy_Ship_1";
 PLAYER_SHIP = "Player_Ship";
 
+#Font Constants
+STYLE = "ARDESTINE";
+
 #Extension Constants
 JPG_EX = ".jpg";
 PNG_EX = ".png";
+TTF_EX = ".ttf";
 
 def nearest(num):
     return round(num/10.0)*10.0;
@@ -47,6 +52,11 @@ def urlConstructor(*folders):
     return currentURL;
     
 
-def loadImg(rootURL, filename):
-    return pygame.image.load(os.path.join(rootURL, filename));
+def loadImg(rootURL, fileName):
+    return pygame.image.load(os.path.join(rootURL, fileName));
 
+def loadFont(rootURL, fontSize):
+    pygame.font.init();
+    return pygame.font.Font(rootURL, fontSize);
+
+gameFont = loadFont(urlConstructor(ART_ASSETS, FONTS, STYLE + TTF_EX), 25);
