@@ -54,9 +54,3 @@ def urlConstructor(*folders):
 
 def loadImg(rootURL, fileName):
     return pygame.image.load(os.path.join(rootURL, fileName));
-
-def loadFont(rootURL, fontSize):
-    pygame.font.init();
-    return pygame.font.Font(rootURL, fontSize);
-
-gameFont = loadFont(urlConstructor(ART_ASSETS, FONTS, STYLE + TTF_EX), 25);

@@ -50,7 +50,7 @@ class Object:
     ##Init
 
     def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, objectName,
-                 url , fileName, indexLen, numFrames, ex = PNG_EX, spawnX = 0, spawnY = 0):
+                 url, fileName, indexLen, numFrames, ex = PNG_EX, spawnX = 0, spawnY = 0):
 
         ####Properties
 
@@ -181,3 +181,36 @@ class Button(Object):
             self.spriteIndex = self.ACTIVE;
         else:
             self.spriteIndex = self.INACTIVE;
+
+class Text(Object):
+
+    #Color Constant
+    TEXTCOLOR = (255, 255, 255);
+
+    def loadFont(rootURL, fontSize):
+        pygame.font.init();
+        return pygame.font.Font(rootURL, fontSize);    
+
+    #Font Variable
+    gameFont = loadFont(urlConstructor(ART_ASSETS, FONTS, STYLE + TTF_EX), 25);
+
+    def renderFont(self, string):
+        self.spriteImgList.append(self.gameFont.render(string, True, self.TEXTCOLOR));
+        
+    def fillImgList(self, url, text, indexLen, numFrames, ex):
+        self.renderFont(text);
+
+    def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY, textContent):
+
+        boundaryRatio = 1;
+        spawnX = 0;
+        spawnY = 0;
+        url = None;
+        indexLen = None;
+        numFrames = None;
+        ex = None;
+        objectName = None;
+
+        super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, objectName,
+                         url, textContent, indexLen, numFrames, ex, spawnX, spawnY);
+
