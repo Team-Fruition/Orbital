@@ -36,7 +36,11 @@ class Scene:
             item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
     def changeScene(self):
-        pass;
+        for button in self.currentButtonsInScene:
+            if button.clicked == True:
+                return button.getName();
+        else:
+            return None;
 
 ####Sub-Classes
 
@@ -53,14 +57,31 @@ class MainMenu(Scene):
 
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
         
-        globalSpeed = self.background.getGlobalSpeed();
-        globalDisplacement = self.background.getGlobalDisplacement();
+        #globalSpeed = self.background.getGlobalSpeed();
+        #globalDisplacement = self.background.getGlobalDisplacement();
+
+        globalSpeed = [0, 0];
+        globalDisplacement = [0, 0];
 
         for item in self.currentObjectsInScene[1:]:
             item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);    
 
-    def changeScene(self):
-        for button in self.currentButtonsInScene:
-            if button.clicked == True:
-                return button.getName();
+
+class HelpMenu(Scene):
+
+    def __init__(self, windowWidth, windowHeight, background):
+        super().__init__(windowWidth, windowHeight, background);
+
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK, BACK));
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState):
         
+        self.background.update(keyBoardState, currentMousePos, currentMouseState);
+
+        globalSpeed = [0, 0];
+        globalDisplacement = [0, 0];
+
+        for item in self.currentObjectsInScene[1:]:
+            item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+
+    

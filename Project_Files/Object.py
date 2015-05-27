@@ -167,11 +167,14 @@ class Button(Object):
         self.spriteIndex = self.INACTIVE;
 
     def determineIfClicked(self, currentMousePos, currentMouseState):
-        return self.checkIfMouseWithinBounds(currentMousePos) and self.checkIfMouseLeftClicked(currentMouseState);
+        if self.checkIfMouseWithinBounds(currentMousePos) and self.checkIfMouseLeftClicked(currentMouseState):
+            self.clicked = True;
+        else:
+            self.clicked = False;
 
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement):
         self.updateSprite(keyBoardState, currentMousePos, currentMouseState);
-        self.clicked = self.determineIfClicked(currentMousePos, currentMouseState);
+        self.determineIfClicked(currentMousePos, currentMouseState);
 
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         if self.checkIfMouseWithinBounds(currentMousePos):

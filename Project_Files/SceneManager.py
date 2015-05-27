@@ -19,6 +19,9 @@ class SceneManager:
         mainMenu = MainMenu(windowWidth, windowHeight, background);
         self.addScene(START, mainMenu);
 
+        helpScreen = HelpMenu(windowWidth, windowHeight, background);
+        self.addScene(INSTRUCTIONS, helpScreen);
+
     def addScene(self, state, scene):
         self.allScenes[state] = scene;
 
@@ -31,11 +34,21 @@ class SceneManager:
     def getObjectsToRender(self):
         return self.getCurrentScene().getAllObjectsInScene();
 
+    #Screen Logic
+    def determineSceneChange(self):
+        #Main Menu Button Logic
+        if self.currentScene == START:
+            if self.getCurrentScene().changeScene() == PLAY:
+                print("Play Button Clicked");
+            if self.getCurrentScene().changeScene() == HELP:
+                self.changeState(INSTRUCTIONS);
+
+        #Help Screen Button Logic
+        elif self.currentScene == INSTRUCTIONS:
+            if self.getCurrentScene().changeScene() == BACK:
+                self.changeState(START);
+        
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         self.getCurrentScene().update(keyBoardState, currentMousePos, currentMouseState);
 
-        if self.getCurrentScene().changeScene() == PLAY:
-            print("Play Button Clicked");
-
-        elif self.getCurrentScene().changeScene() == HELP:
-            print("Help Button Clicked");
+        self.determineSceneChange();
