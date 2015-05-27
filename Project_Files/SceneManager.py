@@ -40,10 +40,11 @@ class SceneManager:
         if self.currentScene == START:
             if self.getCurrentScene().changeScene() == PLAY:
                 print("Play Button Clicked");
-            if self.getCurrentScene().changeScene() == HELP:
+            elif self.getCurrentScene().changeScene() == HELP:
                 self.changeState(INSTRUCTIONS);
 
         #Help Screen Button Logic
+        #Keep below as an elif check
         elif self.currentScene == INSTRUCTIONS:
             if self.getCurrentScene().changeScene() == BACK:
                 self.changeState(START);
