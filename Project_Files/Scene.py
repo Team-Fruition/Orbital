@@ -56,9 +56,6 @@ class MainMenu(Scene):
     def update(self, keyBoardState, currentMousePos, currentMouseState):
 
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
-        
-        #globalSpeed = self.background.getGlobalSpeed();
-        #globalDisplacement = self.background.getGlobalDisplacement();
 
         globalSpeed = [0, 0];
         globalDisplacement = [0, 0];

@@ -68,7 +68,7 @@ class Background:
     
     def fillImgList(self):
         url = urlConstructor(ART_ASSETS, MAIN_MENU);
-        for index in range(0, 18):
+        for index in range(0, 6):
             self.backgroundImgList.append(loadImg(url, MAIN_MENU + str(1000 + index)[1:] + JPG_EX));
 
     ##Main
@@ -126,7 +126,7 @@ class Background:
     ##Graphical
     
     def refreshBackgroundSprite(self):
-        if self.backgroundDelay >= 5:
+        if self.backgroundDelay >= 10:
             if self.backgroundLoopBackwards == False:
                 self.backgroundSpriteCount += 1;
                 if self.backgroundSpriteCount >= len(self.backgroundImgList):
