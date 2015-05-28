@@ -248,10 +248,10 @@ class Player(Object):
         return Player.spriteImgList[self.spriteIndex];
 
     def determineHorizontalDisplacement(self, currentMousePos):
-        return currentMousePos[0] - self.objectPos[0];
+        return currentMousePos[0] - (self.objectPos[0] + self.spriteWidth/2);
 
     def determineVerticalDisplacement(self, currentMousePos):
-        return currentMousePos[1] - self.objectPos[1];
+        return currentMousePos[1] - (self.objectPos[1] + self.spriteHeight/2);
 
     def approximateRotation(self, degrees):
         self.spriteIndex = int(degrees/360 * 60);
