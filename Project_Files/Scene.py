@@ -95,4 +95,14 @@ class HelpMenu(Scene):
         for item in self.currentObjectsInScene[1:]:
             item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
+class Game(Scene):
+
+    def __init__(self, windowWidth, windowHeight, background):
+
+        super().__init__(windowWidth, windowHeight, background);
+
+        self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 50, windowHeight/2 - 25, "SCORE"));
+
+    def changeScene(self):
+        pass;
     

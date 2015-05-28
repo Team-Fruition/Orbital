@@ -12,14 +12,16 @@ class SceneManager:
     def __init__(self, windowWidth, windowHeight, acceleration, friction):
 
         #Load Background
-        background = Background(windowWidth, windowHeight, acceleration, friction);
+        self.windowWidth = windowWidth;
+        self.windowHeight = windowHeight;
+        self.background = Background(windowWidth, windowHeight, acceleration, friction);
         
         #Load Scenes here
         
-        mainMenu = MainMenu(windowWidth, windowHeight, background);
+        mainMenu = MainMenu(windowWidth, windowHeight, self.background);
         self.addScene(START, mainMenu);
 
-        helpScreen = HelpMenu(windowWidth, windowHeight, background);
+        helpScreen = HelpMenu(windowWidth, windowHeight, self.background);
         self.addScene(INSTRUCTIONS, helpScreen);
 
     def addScene(self, state, scene):
@@ -39,7 +41,8 @@ class SceneManager:
         #Main Menu Button Logic
         if self.currentScene == START:
             if self.getCurrentScene().changeScene() == PLAY:
-                print("Play Button Clicked");
+                self.addScene(GAME, Game(self.windowWidth, self.windowHeight, self.background));
+                self.changeState(GAME);
             elif self.getCurrentScene().changeScene() == HELP:
                 self.changeState(INSTRUCTIONS);
 
@@ -48,6 +51,10 @@ class SceneManager:
         elif self.currentScene == INSTRUCTIONS:
             if self.getCurrentScene().changeScene() == BACK:
                 self.changeState(START);
+
+        #Game Screen Logic
+        elif self.currentScene == GAME:
+            pass;
         
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         self.getCurrentScene().update(keyBoardState, currentMousePos, currentMouseState);

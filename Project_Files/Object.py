@@ -214,3 +214,4 @@ class Text(Object):
         super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, objectName,
                          url, textContent, indexLen, numFrames, ex, spawnX, spawnY);
 
+    
