@@ -49,5 +49,11 @@
 	We are aiming for the Project Gemini level achievement.
 </p>
 
+<h4>
+	Presentation Video
+</h4>
+
+[Video Link](https://www.youtube.com/watch?v=osQjStOAci0&feature=youtu.be&t=22m19s)
+
 
 > Written with [StackEdit](https://stackedit.io/).
