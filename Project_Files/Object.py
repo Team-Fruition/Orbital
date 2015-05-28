@@ -1,3 +1,5 @@
+import math;
+
 from supplementary import *;
 from SpeedController import *;
 from DisplacementController import *;
@@ -214,4 +216,72 @@ class Text(Object):
         super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, objectName,
                          url, textContent, indexLen, numFrames, ex, spawnX, spawnY);
 
-    
+class Player(Object):
+
+    spriteImgList = [];
+
+    def fillImgList(self, url, fileName, indexLen, numFrames, ex):
+        indexingVariable = 10 ** (indexLen);
+        for index in range(0, numFrames):
+            Player.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
+
+    def determineWidthAndHeight(self):
+        self.spriteWidth = Player.spriteImgList[0].get_width();
+        self.spriteHeight = Player.spriteImgList[0].get_height();
+
+    def __init__(self, spawnWidth, spawnHeight, displaceX, displaceY):
+
+        boundaryRatio = 0.7;
+        objectName = "Player";
+        url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
+        fileName = "";
+        indexLen = 4;
+        numFrames = 60;
+
+        super().__init__(spawnWidth, spawnHeight, displaceX, displaceY, boundaryRatio, objectName,
+                         url, fileName, indexLen, numFrames);
+
+        #Determines orientation of player ship
+        self.spriteIndex = 15;
+
+    def getSprite(self):
+        return Player.spriteImgList[self.spriteIndex];
+
+    def determineHorizontalDisplacement(self, currentMousePos):
+        return currentMousePos[0] - self.objectPos[0];
+
+    def determineVerticalDisplacement(self, currentMousePos):
+        return currentMousePos[1] - self.objectPos[1];
+
+    def approximateRotation(self, degrees):
+        self.spriteIndex = int(degrees/360 * 60);
+
+    def determineRotation(self, currentMousePos):
+        xDis = self.determineHorizontalDisplacement(currentMousePos);
+        yDis = -self.determineVerticalDisplacement(currentMousePos);
+        hyp = math.hypot(xDis, yDis);
+
+        if xDis > 0 and yDis > 0:
+            self.approximateRotation(math.degrees(math.asin(yDis/hyp)));
+        elif xDis < 0 and yDis > 0:
+            self.approximateRotation(180 - math.degrees(math.asin(yDis/hyp)));
+        elif xDis < 0 and yDis < 0:
+            self.approximateRotation(180 + math.degrees(math.atan(yDis/xDis)));
+        elif xDis > 0 and yDis < 0:
+            self.approximateRotation(360 - math.degrees(math.acos(xDis/hyp)));
+        elif xDis == 0 and yDis > 0:
+            self.spriteIndex = 15;
+        elif xDis == 0 and yDis < 0:
+            self.spriteIndex = 45;
+        elif xDis > 0 and yDis == 0:
+            self.spriteIndex = 0;
+        elif xDis < 0 and yDis == 0:
+            self.spriteIndex = 30;
+        elif xDis == 0 and yDis == 0:
+            return;
+        
+    def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
+        self.determineRotation(currentMousePos);
+        
+    def updatePos(self, globalSpeed, globalDisplacement):
+        pass;

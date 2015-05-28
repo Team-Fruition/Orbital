@@ -101,8 +101,9 @@ class Game(Scene):
 
         super().__init__(windowWidth, windowHeight, background);
 
-        self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 50, windowHeight/2 - 25, "SCORE: "));
-
+        self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
+        self.addObjectToScene(Player(windowWidth, windowHeight, 0, 0));
+        
     def changeScene(self):
         pass;
     
