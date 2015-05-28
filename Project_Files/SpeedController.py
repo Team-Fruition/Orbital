@@ -7,8 +7,7 @@ class SpeedController:
     #Attempt to Move Right == +ve amt for adjustHorizontalSpeed()
     #Attempt to Move Up == +ve amt for adjustVerticalSpeed()
     #Attempt to Move Down == -ve amt for adjustVerticalSpeed()
-    speed = [0, 0];
-
+    
     def __init__(self):
         self.speed = [0, 0];
 

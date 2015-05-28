@@ -8,8 +8,7 @@ class DisplacementController:
     #Attempt to Move Right == +ve amt for setHorizontalDisplacement()
     #Attempt to Move Up == +ve amt for setVerticalDisplacement()
     #Attempt to Move Down == -ve amt for setVerticalDisplacement()
-    displacement = [0, 0];
-
+    
     def __init__(self):
         self.displacement = [0, 0];
 
