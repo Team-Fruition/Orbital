@@ -254,7 +254,7 @@ class Player(Object):
         return currentMousePos[1] - (self.objectPos[1] + self.spriteHeight/2);
 
     def approximateRotation(self, degrees):
-        self.spriteIndex = int(degrees/360 * 60);
+        self.spriteIndex = min(59, int(degrees/360 * 60));
 
     def determineRotation(self, currentMousePos):
         xDis = self.determineHorizontalDisplacement(currentMousePos);
@@ -279,9 +279,18 @@ class Player(Object):
             self.spriteIndex = 30;
         elif xDis == 0 and yDis == 0:
             return;
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement):
+        self.updateSprite(keyBoardState, currentMousePos, currentMouseState);        
+        self.updatePos(currentMousePos, globalSpeed, globalDisplacement);
         
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         self.determineRotation(currentMousePos);
         
-    def updatePos(self, globalSpeed, globalDisplacement):
-        pass;
+    def updatePos(self, currentMousePos, globalSpeed, globalDisplacement):
+
+        xDis = self.determineHorizontalDisplacement(currentMousePos)/16;
+        yDis = self.determineVerticalDisplacement(currentMousePos)/16;
+        
+        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
+        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
