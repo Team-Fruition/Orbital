@@ -49,9 +49,9 @@ class MainMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-        self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250, LOGO));
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, PLAY, PLAY));
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP, HELP));
+        self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, PLAY));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP));
 
     def update(self, keyBoardState, currentMousePos, currentMouseState):
 
@@ -83,7 +83,7 @@ class HelpMenu(Scene):
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, -55, "Right-Click to fire your secondary weapon."));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, -90, "Q and E cycles through available secondary weapons."));
         
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK, BACK));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK));
 
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         
@@ -102,7 +102,7 @@ class Game(Scene):
         super().__init__(windowWidth, windowHeight, background);
 
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
-        self.addObjectToScene(Player(windowWidth, windowHeight, 0, 0));
+        #self.addObjectToScene(Player(windowWidth, windowHeight, 0, 0));
         
     def changeScene(self):
         pass;
