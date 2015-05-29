@@ -1,4 +1,4 @@
-from Object import *;
+from UIClass import *;
 
 ####Base Class
 
