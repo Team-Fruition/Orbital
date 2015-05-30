@@ -1,4 +1,5 @@
 from UIClass import *;
+from GameObjectClass import *;
 
 ####Base Class
 
@@ -102,7 +103,7 @@ class Game(Scene):
         super().__init__(windowWidth, windowHeight, background);
 
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
-        #self.addObjectToScene(Player(windowWidth, windowHeight, 0, 0));
+        self.addObjectToScene(Player(windowWidth/2, windowHeight/2));
         
     def changeScene(self):
         pass;
