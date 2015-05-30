@@ -149,4 +149,10 @@ class Player(ShipBase):
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
     
         
-        
+class EnemyShip1(ShipBase):
+
+    def __init__(self, startX, startY):
+
+        url = urlConstructor(ART_ASSETS, SHIPS, ENEMY_SHIP_1);
+
+        super().__init__(url, startX, startY);
