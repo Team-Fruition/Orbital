@@ -8,29 +8,6 @@ from DisplacementController import *;
 
 class GameObject:
 
-    ####Object ID Methods
-
-    numObj = 0;
-
-    @classmethod
-    def getID(cls):
-        return cls.numObj;
-
-    @classmethod
-    def incrementID(cls):
-        cls.numObj += 1;
-
-    @classmethod
-    def getClassName(cls):
-        return cls.__name__;
-    
-    def setObjID(self):
-        self.ID = str(self.getClassName()) + str(self.getID());
-        self.incrementID();
-
-    def getObjID(self):
-        return self.ID;
-
     ####Static Variables
     
     spriteImgList = None;
@@ -76,7 +53,6 @@ class GameObject:
         self.determineWidthAndHeight();
         self.setBoundaryRatio(boundaryRatio);
         self.setPosition(startX, startY);
-        self.setObjID();
 
     ####Primary Functions
 
@@ -105,6 +81,11 @@ class GameObject:
         self.upperBound = self.objectPos[1] + (1 - self.boundaryRatio) * self.getSpriteHeight();
         self.lowerBound = self.objectPos[1] + self.boundaryRatio * self.getSpriteHeight();
 
+    def getIdentifier(self):
+        return self.identifier;
+
+    def setIdentifier(self, identifier):
+        self.identifier = identifier;
 
 class ShipBase(GameObject):
 
@@ -182,7 +163,9 @@ class Player(ShipBase):
         
         self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
-    
+
+    def getIdentifier(self):
+        return "Player";
         
 class EnemyShip1(ShipBase):
 

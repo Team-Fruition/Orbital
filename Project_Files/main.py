@@ -85,7 +85,7 @@ def gameLoop():
         
         #Render Loop Here
         for item in currentObjectsInCurrentScene:
-            gameDisplay.blit(item.getSprite(), item.getPos());
+            gameDisplay.blit(item[1].getSprite(), item[1].getPos());
 
         pygame.display.update();
 

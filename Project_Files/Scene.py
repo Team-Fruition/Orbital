@@ -1,3 +1,5 @@
+from collections import OrderedDict;
+
 from UIClass import *;
 from GameObjectClass import *;
 
@@ -5,43 +7,77 @@ from GameObjectClass import *;
 
 class Scene:
 
+    ####Object ID Methods
+    numText = -1;
+    numButtons = -1;
+    numShips = -1;
+    numBullets = -1;
+
+    @classmethod
+    def getTextID(cls):
+        cls.numText += 1;
+        return cls.numText;
+
+    @classmethod
+    def getButtonID(cls):
+        cls.numButtons += 1;
+        return cls.numButtons;
+
+    @classmethod
+    def getShipsID(cls):
+        cls.numShips += 1;
+        return cls.numShips;
+
+    @classmethod
+    def getBulletID(cls):
+        cls.numBullets += 1;
+        return cls.numBullets;
+
+    def setObjIdentifier(self, obj):
+        className = obj.__class__.__name__;
+        
+        if isinstance(obj, ShipBase) and not isinstance(obj, Player):
+            obj.setIdentifier(className + str(self.getShipsID()));
+        elif isinstance(obj, Text):
+            obj.setIdentifier(className + str(self.getTextID()));
+        elif isinstance(obj, Button):
+            obj.setIdentifier(className + str(self.getButtonID()));
+
+    ####Initialization Methods
+
     background = None;
 
     def __init__(self, windowWidth, windowHeight, background):
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
-        self.currentObjectsInScene = [];
-        self.currentButtonsInScene = [];
+        self.currentObjectsInScene = OrderedDict();
         self.background = background;
 
         self.addObjectToScene(background);
 
     def addObjectToScene(self, obj):
-
-        if isinstance(obj, Button):
-            self.currentButtonsInScene.append(obj);
-        
-        self.currentObjectsInScene.append(obj);
+        self.setObjIdentifier(obj);
+        self.currentObjectsInScene[obj.getIdentifier()] = obj;
 
     def getAllObjectsInScene(self):
-        return self.currentObjectsInScene;
+        return self.currentObjectsInScene.items();      
     
     def update(self, keyBoardState, currentMousePos, currentMouseState):
 
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
         
-        globalSpeed = self.background.getGlobalSpeed();
-        globalDisplacement = self.background.getGlobalDisplacement();
+        globalSpeed = [0, 0];
+        globalDisplacement = [0, 0];
 
-        for item in self.currentObjectsInScene[1:]:
-            item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        for item in tuple(self.getAllObjectsInScene())[1:]:
+            item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
     def changeScene(self):
-        for button in self.currentButtonsInScene:
-            if button.clicked == True:
-                return button.getName();
-        else:
-            return None;
+        for counter in range(0, self.numButtons + 1):
+            buttonObj = self.currentObjectsInScene[str(Button.__name__) + str(counter)];
+            if buttonObj.clicked == True:
+                return buttonObj.getName();
+                
 
 ####Sub-Classes
 
@@ -52,17 +88,7 @@ class MainMenu(Scene):
 
         self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250));
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, PLAY));
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP));
-
-    def update(self, keyBoardState, currentMousePos, currentMouseState):
-
-        self.background.update(keyBoardState, currentMousePos, currentMouseState);
-
-        globalSpeed = [0, 0];
-        globalDisplacement = [0, 0];
-
-        for item in self.currentObjectsInScene[1:]:
-            item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);    
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP));    
 
 
 class HelpMenu(Scene):
@@ -86,16 +112,6 @@ class HelpMenu(Scene):
         
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK));
 
-    def update(self, keyBoardState, currentMousePos, currentMouseState):
-        
-        self.background.update(keyBoardState, currentMousePos, currentMouseState);
-
-        globalSpeed = [0, 0];
-        globalDisplacement = [0, 0];
-
-        for item in self.currentObjectsInScene[1:]:
-            item.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
-
 class Game(Scene):
 
     def __init__(self, windowWidth, windowHeight, background):
@@ -105,13 +121,16 @@ class Game(Scene):
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
         self.addObjectToScene(Player(windowWidth/2, windowHeight/2));
 
-    def addObjectToScene(self, obj):
+    def update(self, keyBoardState, currentMousePos, currentMouseState):
 
-        if isinstance(obj, Player):
-            self.player = obj;
+        self.background.update(keyBoardState, currentMousePos, currentMouseState);
+        
+        globalSpeed = self.background.getGlobalSpeed();
+        globalDisplacement = self.background.getGlobalDisplacement();
 
-        self.currentObjectsInScene.append(obj);
+        for item in tuple(self.getAllObjectsInScene())[1:]:
+            item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
         
     def changeScene(self):
-        return self.player.destroy();
+        pass;
     
