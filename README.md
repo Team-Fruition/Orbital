@@ -58,6 +58,12 @@
 >  4. Pause State
 
 <h4>
+	Future Extensions
+</h4>
+
+>  1. Converting the whole Pygame app into a Kivy app.
+
+<h4>
 	To Run 
 </h4>
 
