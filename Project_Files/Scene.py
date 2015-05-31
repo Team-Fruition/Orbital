@@ -8,10 +8,13 @@ from GameObjectClass import *;
 class Scene:
 
     ####Object ID Methods
-    numText = -1;
-    numButtons = -1;
-    numShips = -1;
-    numBullets = -1;
+
+    STARTING_INDEX = 0;
+    
+    numText = STARTING_INDEX - 1;
+    numButtons = STARTING_INDEX - 1;
+    numShips = STARTING_INDEX - 1;
+    numBullets = STARTING_INDEX - 1;
 
     @classmethod
     def getTextID(cls):
@@ -73,7 +76,7 @@ class Scene:
             item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
     def changeScene(self):
-        for counter in range(0, self.numButtons + 1):
+        for counter in range(self.STARTING_INDEX, self.numButtons + 1):
             buttonObj = self.currentObjectsInScene[str(Button.__name__) + str(counter)];
             if buttonObj.clicked == True:
                 return buttonObj.getName();
