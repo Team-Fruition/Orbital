@@ -6,15 +6,15 @@ class Object:
 
     ####Object ID Methods
 
-    IDNum = 0;
+    numObj = 0;
 
     @classmethod
     def getID(cls):
-        return cls.IDNum;
+        return cls.numObj;
 
     @classmethod
     def incrementID(cls):
-        cls.IDNum += 1;
+        cls.numObj += 1;
 
     @classmethod
     def getClassName(cls):
