@@ -3,7 +3,7 @@ from supplementary import *;
 ####Base Classes
 
 class Object:
-
+        
     ####Initialization Methods
 
     ##Positional
@@ -13,13 +13,13 @@ class Object:
 
     ##Init
 
-    def __init__(self, startX, startY, objectID):
+    def __init__(self, startX, startY, name):
 
         ####Properties
 
         ##General
-
-        self.name = objectID;
+        
+        self.name = name;
 
         ##Positional
 
@@ -42,6 +42,12 @@ class Object:
 
     def getName(self):
         return self.name;
+
+    def getIdentifier(self):
+        return self.identifier;
+
+    def setIdentifier(self, identifier):
+        self.identifier = identifier;
 
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         pass;
@@ -72,9 +78,9 @@ class StaticImmovableElement(Object):
 
     ##Init
 
-    def __init__(self, startX, startY, objectID, url, fileName, indexLen, numFrames, ex):
+    def __init__(self, startX, startY, name, url, fileName, indexLen, numFrames, ex):
 
-        super().__init__(startX, startY, objectID);
+        super().__init__(startX, startY, name);
 
         self.fillImgList(url, fileName, indexLen, numFrames, ex);
         self.determineWidthAndHeight();
@@ -111,8 +117,8 @@ class InteractiveImmovableElement(StaticImmovableElement):
 
     ##Init
     
-    def __init__(self, startX, startY, boundaryRatio, objectID, url, fileName, indexLen, numFrames, ex):
-        super().__init__(startX, startY, objectID, url, fileName, indexLen, numFrames, ex);
+    def __init__(self, startX, startY, boundaryRatio, name, url, fileName, indexLen, numFrames, ex):
+        super().__init__(startX, startY, name, url, fileName, indexLen, numFrames, ex);
         
         self.setBoundaryRatio(boundaryRatio);
 
@@ -151,6 +157,7 @@ class Text(StaticImmovableElement):
         self.determineWidthAndHeight();
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
 
+        
 class Logo(StaticImmovableElement):
 
     ####Initialization Functions
@@ -168,6 +175,9 @@ class Logo(StaticImmovableElement):
 
         super().__init__(startX, startY, objectID, url, fileName, indexLen, numFrames, ex);
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
+
+    def getIdentifier(self):
+        return "Logo";
 
 class Button(InteractiveImmovableElement):
 

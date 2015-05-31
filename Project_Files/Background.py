@@ -257,3 +257,5 @@ class Background:
     def getGlobalDisplacement(self):
         return self.globalDisplacementController;
     
+    def getIdentifier(self):
+        return "Background";
