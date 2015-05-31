@@ -20,6 +20,7 @@ class Object:
         ##General
         
         self.name = name;
+        self.delete = False;
 
         ##Positional
 
@@ -54,6 +55,9 @@ class Object:
 
     def updatePos(self, globalSpeed, globalDisplacement):
         pass;
+
+    def destroyObj(self):
+        self.delete = True;
 
 
 class StaticImmovableElement(Object):
@@ -156,7 +160,7 @@ class Text(StaticImmovableElement):
         self.fillImgList(textContent);
         self.determineWidthAndHeight();
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
-
+        self.delete = False;
         
 class Logo(StaticImmovableElement):
 

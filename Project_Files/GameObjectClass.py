@@ -53,7 +53,8 @@ class GameObject:
         self.determineWidthAndHeight();
         self.setBoundaryRatio(boundaryRatio);
         self.setPosition(startX, startY);
-
+        self.delete = False;
+        
     ####Primary Functions
 
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement):
@@ -86,6 +87,9 @@ class GameObject:
 
     def setIdentifier(self, identifier):
         self.identifier = identifier;
+
+    def destroyObj(self):
+        self.delete = True;
 
 class ShipBase(GameObject):
 

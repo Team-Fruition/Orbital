@@ -62,6 +62,9 @@ class Scene:
         self.setObjIdentifier(obj);
         self.currentObjectsInScene[obj.getIdentifier()] = obj;
 
+    def removeObjectFromScene(self, obj):
+        del self.currentObjectsInScene[obj.getIdentifier()];
+
     def getAllObjectsInScene(self):
         return self.currentObjectsInScene.items();      
     
@@ -74,6 +77,8 @@ class Scene:
 
         for item in tuple(self.getAllObjectsInScene())[1:]:
             item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+            if item[1].delete == True:
+                self.removeObjectFromScene(item[1]);
 
     def changeScene(self):
         for counter in range(self.STARTING_INDEX, self.numButtons + 1):
@@ -133,6 +138,8 @@ class Game(Scene):
 
         for item in tuple(self.getAllObjectsInScene())[1:]:
             item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+            if item[1].delete == True:
+                self.removeObjectFromScene(item[1]);
         
     def changeScene(self):
         pass;
