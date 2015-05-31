@@ -45,13 +45,17 @@
 	Things Done
 </h4>
 
-> <li> Main Menu Implementation </li>  <li> Help Screen Implementation </li>
+>  1. Main Menu State
+>  2. Help Screen State
 
 <h4>
 	Things Not Done
 </h4>
 
-> <li> Game State </li> <li> Game Over State </li>
+>  1. Audio Implementation (now it's really simulating the silence of space)
+>  2. Game State
+>  3. Game Over State 
+>  4. Pause State
 
 <h4>
 	To Run 
