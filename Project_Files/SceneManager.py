@@ -38,6 +38,7 @@ class SceneManager:
 
     #Screen Logic
     def determineSceneChange(self):
+        
         #Main Menu Button Logic
         if self.currentScene == START:
             if self.getCurrentScene().changeScene() == PLAY:
@@ -54,7 +55,8 @@ class SceneManager:
 
         #Game Screen Logic
         elif self.currentScene == GAME:
-            pass;
+            if self.getCurrentScene().changeScene() == True:
+                self.changeState(START);
         
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         self.getCurrentScene().update(keyBoardState, currentMousePos, currentMouseState);

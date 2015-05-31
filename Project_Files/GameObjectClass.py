@@ -6,7 +6,7 @@ from DisplacementController import *;
 
 ####Base Classes
 
-class ShipBase:
+class GameObject:
 
     ####Static Variables
     
@@ -48,16 +48,8 @@ class ShipBase:
     def setPosition(self, startX, startY):
         self.objectPos = [startX, startY];
 
-    def __init__(self, url, startX, startY):
-
-        fileName = "";
-        indexLen = 4;
-        numFrames = 60;
-        ex = PNG_EX;
-        boundaryRatio = 0.75;
-        
+    def __init__(self, url, fileName, indexLen, numFrames, ex, startX, startY, boundaryRatio):
         self.fillImgList(url, fileName, indexLen, numFrames, ex);
-        self.spriteIndex = 15;
         self.determineWidthAndHeight();
         self.setBoundaryRatio(boundaryRatio);
         self.setPosition(startX, startY);
@@ -90,6 +82,24 @@ class ShipBase:
         self.lowerBound = self.objectPos[1] + self.boundaryRatio * self.getSpriteHeight();
 
 
+class ShipBase(GameObject):
+
+    def __init__(self, url, startX, startY, hitPoints):
+
+        fileName = "";
+        indexLen = 4;
+        numFrames = 60;
+        ex = PNG_EX;
+        boundaryRatio = 0.75;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, startX, startY, boundaryRatio);
+        
+        self.spriteIndex = 15;
+        self.hitPoints = hitPoints;
+
+    def destroy(self):
+        return self.hitPoints <= 0;
+
 ####Instance Classes
 
 class Player(ShipBase):
@@ -97,8 +107,9 @@ class Player(ShipBase):
     def __init__(self, startX, startY):
 
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
+        hitPoints = 1000;
 
-        super().__init__(url, startX, startY);
+        super().__init__(url, startX, startY, hitPoints);
 
     ####Secondary Functions
 
