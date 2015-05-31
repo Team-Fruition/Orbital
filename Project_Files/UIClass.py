@@ -4,6 +4,29 @@ from supplementary import *;
 
 class Object:
 
+    ####Object ID Methods
+
+    IDNum = 0;
+
+    @classmethod
+    def getID(cls):
+        return cls.IDNum;
+
+    @classmethod
+    def incrementID(cls):
+        cls.IDNum += 1;
+
+    @classmethod
+    def getClassName(cls):
+        return cls.__name__;
+    
+    def setObjID(self):
+        self.ID = str(self.getClassName()) + str(self.getID());
+        self.incrementID();
+
+    def getObjID(self):
+        return self.ID;
+        
     ####Initialization Methods
 
     ##Positional
@@ -19,6 +42,7 @@ class Object:
 
         ##General
 
+        self.setObjID();
         self.name = objectID;
 
         ##Positional
@@ -150,6 +174,7 @@ class Text(StaticImmovableElement):
         self.fillImgList(textContent);
         self.determineWidthAndHeight();
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
+        self.setObjID();
 
 class Logo(StaticImmovableElement):
 
