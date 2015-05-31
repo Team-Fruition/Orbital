@@ -102,9 +102,6 @@ class Game(Scene):
 
         super().__init__(windowWidth, windowHeight, background);
 
-        self.currentShipsInScene = [];
-        self.currentBulletsInScene = [];
-
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
         self.addObjectToScene(Player(windowWidth/2, windowHeight/2));
 
@@ -112,9 +109,6 @@ class Game(Scene):
 
         if isinstance(obj, Player):
             self.player = obj;
-
-        if isinstance(obj, ShipBase):
-            self.currentShipsInScene.append(obj);
 
         self.currentObjectsInScene.append(obj);
         
