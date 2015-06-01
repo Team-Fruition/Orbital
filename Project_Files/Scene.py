@@ -1,50 +1,10 @@
 from collections import OrderedDict;
 
-from UIClass import *;
-from GameObjectClass import *;
+from ObjectStorage import *;
 
 ####Base Class
 
 class Scene:
-
-    ####Object ID Methods
-
-    STARTING_INDEX = 0;
-    
-    numText = STARTING_INDEX - 1;
-    numButtons = STARTING_INDEX - 1;
-    numShips = STARTING_INDEX - 1;
-    numBullets = STARTING_INDEX - 1;
-
-    @classmethod
-    def getTextID(cls):
-        cls.numText += 1;
-        return cls.numText;
-
-    @classmethod
-    def getButtonID(cls):
-        cls.numButtons += 1;
-        return cls.numButtons;
-
-    @classmethod
-    def getShipsID(cls):
-        cls.numShips += 1;
-        return cls.numShips;
-
-    @classmethod
-    def getBulletID(cls):
-        cls.numBullets += 1;
-        return cls.numBullets;
-
-    def setObjIdentifier(self, obj):
-        className = obj.__class__.__name__;
-        
-        if isinstance(obj, ShipBase) and not isinstance(obj, Player):
-            obj.setIdentifier(className + str(self.getShipsID()));
-        elif isinstance(obj, Text):
-            obj.setIdentifier(className + str(self.getTextID()));
-        elif isinstance(obj, Button):
-            obj.setIdentifier(className + str(self.getButtonID()));
 
     ####Initialization Methods
 
@@ -53,38 +13,27 @@ class Scene:
     def __init__(self, windowWidth, windowHeight, background):
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
-        self.currentObjectsInScene = OrderedDict();
+        self.currentObjectsInScene = ObjectStorage(background);
         self.background = background;
 
         self.addObjectToScene(background);
 
     def addObjectToScene(self, obj):
-        self.setObjIdentifier(obj);
-        self.currentObjectsInScene[obj.getIdentifier()] = obj;
-
-    def removeObjectFromScene(self, obj):
-        del self.currentObjectsInScene[obj.getIdentifier()];
+        self.currentObjectsInScene.addObjectToScene(obj);
 
     def getAllObjectsInScene(self):
-        return self.currentObjectsInScene.items();      
+        return self.currentObjectsInScene.getStorage().items();      
     
     def update(self, keyBoardState, currentMousePos, currentMouseState):
-
-        self.background.update(keyBoardState, currentMousePos, currentMouseState);
-        
-        globalSpeed = [0, 0];
-        globalDisplacement = [0, 0];
-
-        for item in tuple(self.getAllObjectsInScene())[1:]:
-            item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
-            if item[1].delete == True:
-                self.removeObjectFromScene(item[1]);
+        self.currentObjectsInScene.updateAllObjects(keyBoardState, currentMousePos, currentMouseState);
 
     def changeScene(self):
-        for counter in range(self.STARTING_INDEX, self.numButtons + 1):
-            buttonObj = self.currentObjectsInScene[str(Button.__name__) + str(counter)];
-            if buttonObj.clicked == True:
-                return buttonObj.getName();
+        buttonDict = self.currentObjectsInScene.getClassDictionary(Button);
+
+        for buttonEntry in buttonDict.items():
+            button = buttonEntry[1];
+            if button.clicked:
+                return button.getName();
                 
 
 ####Sub-Classes
@@ -128,18 +77,6 @@ class Game(Scene):
 
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
         self.addObjectToScene(Player(windowWidth/2, windowHeight/2));
-
-    def update(self, keyBoardState, currentMousePos, currentMouseState):
-
-        self.background.update(keyBoardState, currentMousePos, currentMouseState);
-        
-        globalSpeed = self.background.getGlobalSpeed();
-        globalDisplacement = self.background.getGlobalDisplacement();
-
-        for item in tuple(self.getAllObjectsInScene())[1:]:
-            item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
-            if item[1].delete == True:
-                self.removeObjectFromScene(item[1]);
         
     def changeScene(self):
         pass;

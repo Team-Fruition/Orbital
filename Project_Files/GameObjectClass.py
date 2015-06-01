@@ -8,6 +8,29 @@ from DisplacementController import *;
 
 class GameObject:
 
+    ####Object ID Methods
+
+    numObj = 0;
+
+    @classmethod
+    def getObjNum(cls):
+        return cls.numObj;
+
+    @classmethod
+    def incrementObjNum(cls):
+        cls.numObj += 1;
+
+    @classmethod
+    def getClassName(cls):
+        return cls.__name__;
+    
+    def setObjID(self):
+        self.ID = str(self.getClassName()) + str(self.getObjNum());
+        self.incrementObjNum();
+
+    def getObjID(self):
+        return self.ID;
+
     ####Static Variables
     
     spriteImgList = None;
@@ -53,7 +76,10 @@ class GameObject:
         self.determineWidthAndHeight();
         self.setBoundaryRatio(boundaryRatio);
         self.setPosition(startX, startY);
+
+        self.setObjID();
         self.delete = False;
+        self.fire = False;
         
     ####Primary Functions
 
@@ -109,7 +135,15 @@ class ShipBase(GameObject):
     def destroy(self):
         return self.hitPoints <= 0;
 
+    def fire(self):
+        pass;
+
 ####Instance Classes
+
+##Class Constants
+PLAYER = "Player"
+ENEMY = "Enemy"
+BULLET = "Bullet"
 
 class Player(ShipBase):
 
@@ -168,8 +202,12 @@ class Player(ShipBase):
         self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
 
+    def fire(self, currentMouseState):
+        if currentMouseState[0] == 1:
+            pass;
+
     def getIdentifier(self):
-        return "Player";
+        return PLAYER;
         
 class EnemyShip1(ShipBase):
 

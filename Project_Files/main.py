@@ -84,13 +84,14 @@ def gameLoop():
         currentObjectsInCurrentScene = sceneManager.getObjectsToRender();
         
         #Render Loop Here
-        for item in currentObjectsInCurrentScene:
-            gameDisplay.blit(item[1].getSprite(), item[1].getPos());
+        for classDict in currentObjectsInCurrentScene:
+            for item in tuple(classDict[1].items()):
+                gameDisplay.blit(item[1].getSprite(), item[1].getPos());
 
         pygame.display.update();
 
         #Control FPS:
-        clock.tick(framesPerSecond);
+        #clock.tick(framesPerSecond);
 
         #DEBUG: Print FPS Information
         #print(clock.get_fps());

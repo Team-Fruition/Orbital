@@ -3,7 +3,30 @@ from supplementary import *;
 ####Base Classes
 
 class Object:
-        
+
+    ####Object ID Methods
+
+    numObj = 0;
+
+    @classmethod
+    def getObjNum(cls):
+        return cls.numObj;
+
+    @classmethod
+    def incrementObjNum(cls):
+        cls.numObj += 1;
+
+    @classmethod
+    def getClassName(cls):
+        return cls.__name__;
+    
+    def setObjID(self):
+        self.ID = str(self.getClassName()) + str(self.getObjNum());
+        self.incrementObjNum();
+
+    def getObjID(self):
+        return self.ID;
+    
     ####Initialization Methods
 
     ##Positional
@@ -18,7 +41,8 @@ class Object:
         ####Properties
 
         ##General
-        
+
+        self.setObjID();
         self.name = name;
         self.delete = False;
 
@@ -137,6 +161,11 @@ class InteractiveImmovableElement(StaticImmovableElement):
 
 ####"Instance" Classes
 
+##Class Constants
+TEXT = "Text"
+LOGO = "Logo"
+BUTTON = "Button"
+
 class Text(StaticImmovableElement):
 
     ####Constants
@@ -160,6 +189,8 @@ class Text(StaticImmovableElement):
         self.fillImgList(textContent);
         self.determineWidthAndHeight();
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
+
+        self.setObjID();
         self.delete = False;
         
 class Logo(StaticImmovableElement):
@@ -181,7 +212,7 @@ class Logo(StaticImmovableElement):
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
 
     def getIdentifier(self):
-        return "Logo";
+        return LOGO;
 
 class Button(InteractiveImmovableElement):
 
