@@ -13,7 +13,8 @@
 > different take on the bullet hell genre. <p />
 > 
 > <p> 	For those that have heard of games like Solomon's Boneyard and
-> Amorphous+, this game will be of a similar nature. </p>
+> Amorphous+, this game will have similar mechanics, with a controllable camera instead of having the usual 
+> linearly scrolling backdrop featuring in most arcade bullet hell variants. </p>
 
 <hr />
 
@@ -49,7 +50,7 @@
 >  2. Help Screen State
 
 <h4>
-	Things Not Done
+	Things Not Done (should hopefully be implemented by end June)
 </h4>
 
 >  1. Audio Implementation (now it's really simulating the silence of space)
@@ -58,7 +59,7 @@
 >  4. Pause State
 
 <h4>
-	Future Extensions
+	Possible Future Extensions
 </h4>
 
 >  1. Converting the whole Pygame app into a Kivy app.

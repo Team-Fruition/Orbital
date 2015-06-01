@@ -25,7 +25,7 @@ class GameObject:
         return cls.__name__;
     
     def setObjID(self):
-        self.ID = str(self.getClassName()) + str(self.getObjNum());
+        self.ID = str(self.getClassName()).join(str(self.getObjNum()));
         self.incrementObjNum();
 
     def getObjID(self):

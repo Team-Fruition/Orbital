@@ -47,7 +47,9 @@ class ObjectStorage:
         globalSpeed = self.background.getGlobalSpeed();
         globalDisplacement = self.background.getGlobalDisplacement();
 
-        for classDict in tuple(self.getStorage().items())[1:]:
+        listOfObjects = tuple(self.getStorage().items());
+
+        for classDict in listOfObjects[1:]:
             for item in tuple(classDict[1].items()):
                 item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
