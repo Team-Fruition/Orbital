@@ -259,6 +259,3 @@ class Background:
 
     def getObjID(self):
         return "Background";
-    
-    def getIdentifier(self):
-        return "Background";

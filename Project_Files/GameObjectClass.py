@@ -108,12 +108,6 @@ class GameObject:
         self.upperBound = self.objectPos[1] + (1 - self.boundaryRatio) * self.getSpriteHeight();
         self.lowerBound = self.objectPos[1] + self.boundaryRatio * self.getSpriteHeight();
 
-    def getIdentifier(self):
-        return self.identifier;
-
-    def setIdentifier(self, identifier):
-        self.identifier = identifier;
-
     def destroyObj(self):
         self.delete = True;
 
@@ -196,8 +190,8 @@ class Player(ShipBase):
 
     def updatePos(self, currentMousePos, globalSpeed, globalDisplacement):
 
-        xDis = self.determineHorizontalDisplacement(currentMousePos)/16;
-        yDis = self.determineVerticalDisplacement(currentMousePos)/16;
+        xDis = self.determineHorizontalDisplacement(currentMousePos)/32;
+        yDis = self.determineVerticalDisplacement(currentMousePos)/32;
         
         self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
@@ -205,9 +199,6 @@ class Player(ShipBase):
     def fire(self, currentMouseState):
         if currentMouseState[0] == 1:
             pass;
-
-    def getIdentifier(self):
-        return PLAYER;
         
 class EnemyShip1(ShipBase):
 

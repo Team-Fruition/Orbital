@@ -68,12 +68,6 @@ class Object:
     def getName(self):
         return self.name;
 
-    def getIdentifier(self):
-        return self.identifier;
-
-    def setIdentifier(self, identifier):
-        self.identifier = identifier;
-
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         pass;
 
