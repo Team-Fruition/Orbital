@@ -97,6 +97,14 @@
 >  3. Installing Python modules via PIP: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
 >  4. SourceTree client for GitHub: [Link](https://www.sourcetreeapp.com/)
 
+<h4>
+	Game Environments Researched
+</h4>
+
+>  1. GameMaker
+>  2. Phaser
+>  3. Pygame (Currently Using)
+>  4. Unity (May switch over early June if using vanilla Pygame proves too much of a challenge)
 
 <hr />
 
