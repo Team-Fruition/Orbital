@@ -19,18 +19,21 @@ class ObjectStorage:
     def getStorage(self):
         return self.currentObjectsInScene;
 
+    def determineObjClass(self, obj):
+        pass;
+
     def addObjectToScene(self, obj):
-        currentKeys = self.getStorage().keys();
+        
+        storage = self.getStorage();
+
         objClass = obj.__class__.__name__;
         objID = obj.getObjID();
         
-        for key in currentKeys:
-            if key == objClass:
-                self.currentObjectsInScene[key][objID] = obj;
-                return;
-        else:
-            self.currentObjectsInScene[objClass] = OrderedDict();
-            self.currentObjectsInScene[objClass][objID] = obj;
+        if objClass not in storage:
+             self.currentObjectsInScene[objClass] = OrderedDict();
+             
+        self.currentObjectsInScene[objClass][objID] = obj;
+
 
     def removeObjectFromScene(self, obj):
         objClass = obj.__class__.__name__;
@@ -47,10 +50,10 @@ class ObjectStorage:
         globalSpeed = self.background.getGlobalSpeed();
         globalDisplacement = self.background.getGlobalDisplacement();
 
-        listOfObjects = tuple(self.getStorage().items());
-
-        for classDict in listOfObjects[1:]:
-            for item in tuple(classDict[1].items()):
+        tupleOfObjects = tuple(self.getStorage().items());
+        for classDict in tupleOfObjects[1:]:
+            tupleOfClassObjects = tuple(classDict[1].items());
+            for item in tupleOfClassObjects:
                 item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
         
