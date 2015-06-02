@@ -4,6 +4,10 @@ from supplementary import *;
 from DisplacementController import *;
 from SpeedController import *;
 
+####Function Executables
+
+rectGenerator = pygame.Rect;
+
 ####Base Classes
 
 class Object(pygame.sprite.Sprite):
@@ -63,6 +67,10 @@ class Object(pygame.sprite.Sprite):
     def setPos(self, x, y):
         self.objectPos = [x, y];
 
+    def initSpeedAndDisplacementController(self):
+        self.localSpeed = SpeedController();
+        self.localDisplacement = DisplacementController();
+
     def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio):
         super().__init__();
 
@@ -70,9 +78,12 @@ class Object(pygame.sprite.Sprite):
         self.setStartingFrame();
 
         self.determineWidthAndHeight();
-        self.setPos(x, y);
         self.setBoundaryRatio(boundaryRatio);
+        self.setPos(x, y);
         self.updateBoundary();
+
+        self.initSpeedAndDisplacementController();
+        
         self.setObjID();
 
     ####Primary Functions
@@ -126,15 +137,20 @@ class Object(pygame.sprite.Sprite):
         boundaryWidth = rightBound - leftBoundPos;
         boundaryHeight = lowerBound - upperBoundPos;
 
-        self.rect = pygame.Rect(leftBoundPos, upperBoundPos, boundaryWidth, boundaryHeight);
+        self.rect = rectGenerator(leftBoundPos, upperBoundPos, boundaryWidth, boundaryHeight);
 
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         #Modify self.spriteIndex
         pass;
 
+    def speedAdjust(self, x, y):
+        self.localSpeed.adjustHorizontalSpeed(x);
+        self.localSpeed.adjustVerticalSpeed(y);
+
     def updatePos(self, globalSpeed, globalDisplacement):
-        #Modify self.rect.x and self.rect.y
-        pass;
+        #Modify objectPos
+        self.objectPos[0] += self.globalSpeed.getNetHorizontalSpeed() + self.globalDisplacement.getHorizontalDisplacement() + self.localSpeed.getNetHorizontalSpeed() + self.localDisplacement.getHorizontalDisplacement();
+        self.objectPos[1] += self.globalSpeed.getNetVerticalSpeed() + self.globalDisplacement.getVerticalDisplacement() + self.localSpeed.getNetHorizontalSpeed() + self.localDisplacement.getHorizontalDisplacement();  
 
 ####Instance Classes
 
