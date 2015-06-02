@@ -150,7 +150,7 @@ class Object(pygame.sprite.Sprite):
     def updatePos(self, globalSpeed, globalDisplacement):
         #Modify objectPos
         self.objectPos[0] += self.globalSpeed.getNetHorizontalSpeed() + self.globalDisplacement.getHorizontalDisplacement() + self.localSpeed.getNetHorizontalSpeed() + self.localDisplacement.getHorizontalDisplacement();
-        self.objectPos[1] += self.globalSpeed.getNetVerticalSpeed() + self.globalDisplacement.getVerticalDisplacement() + self.localSpeed.getNetHorizontalSpeed() + self.localDisplacement.getHorizontalDisplacement();  
+        self.objectPos[1] += self.globalSpeed.getNetVerticalSpeed() + self.globalDisplacement.getVerticalDisplacement() + self.localSpeed.getNetVerticalSpeed() + self.localDisplacement.getVerticalDisplacement();  
 
 ####Instance Classes
 
