@@ -1,7 +1,9 @@
 from collections import OrderedDict;
 
-from UIClass import *;
-from GameObjectClass import *;
+##from UIClass import *;
+##from GameObjectClass import *;
+
+from Object import *;
 
 class ObjectStorage:
 

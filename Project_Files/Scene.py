@@ -1,5 +1,3 @@
-from collections import OrderedDict;
-
 from ObjectStorage import *;
 
 ####Base Class
@@ -28,6 +26,9 @@ class Scene:
         self.currentObjectsInScene.updateAllObjects(keyBoardState, currentMousePos, currentMouseState);
 
     def changeScene(self):
+
+        return;
+        
         buttonDict = self.currentObjectsInScene.getClassDictionary(Button);
 
         for buttonEntry in buttonDict.items():
@@ -43,6 +44,8 @@ class MainMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
+        return;
+
         self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250));
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, PLAY));
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP));    
@@ -52,6 +55,8 @@ class HelpMenu(Scene):
 
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
+
+        return;
 
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "Welcome to Space Arena!"));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "The objective of this game is to eliminate"));
@@ -74,6 +79,8 @@ class Game(Scene):
     def __init__(self, windowWidth, windowHeight, background):
 
         super().__init__(windowWidth, windowHeight, background);
+
+        return;
 
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
         self.addObjectToScene(Player(windowWidth/2, windowHeight/2));

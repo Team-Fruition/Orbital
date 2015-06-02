@@ -1,5 +1,5 @@
 from supplementary import *;
-from Background import *;
+from Object import Background;
 from Scene import *;
 
 class SceneManager:

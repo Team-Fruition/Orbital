@@ -30,8 +30,8 @@ def gameLoop():
     clock = pygame.time.Clock();
 
     keyBoardState = {"W":False, "A":False, "S":False, "D":False, "Q":False, "E":False};
-    acceleration = 0.1;
-    friction = 0.02;
+    acceleration = 0.3;
+    friction = 0.1;
 
     #Initialize SceneManager Here:
 
@@ -78,7 +78,7 @@ def gameLoop():
         currentMousePos = pygame.mouse.get_pos();
         currentMouseState = pygame.mouse.get_pressed();
 
-        #Update
+        #Update all objects in current Scene
         sceneManager.update(keyBoardState, currentMousePos, currentMouseState);
 
         currentObjectsInCurrentScene = sceneManager.getObjectsToRender();
@@ -91,7 +91,7 @@ def gameLoop():
         pygame.display.update();
 
         #Control FPS:
-        #clock.tick(framesPerSecond);
+        clock.tick(framesPerSecond);
 
         #DEBUG: Print FPS Information
         #print(clock.get_fps());
