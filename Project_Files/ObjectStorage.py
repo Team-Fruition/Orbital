@@ -1,7 +1,10 @@
+import pygame;
+
 from collections import OrderedDict;
 
-##from UIClass import *;
-##from GameObjectClass import *;
+####Class Variables
+
+Group = pygame.sprite.OrderedUpdates;
 
 from Object import *;
 
@@ -11,40 +14,58 @@ class ObjectStorage:
     
     ####Initialization Methods
 
+    def initializeGroups(self):
+        
+        self.objectsToRender = Group();
+        self.objectsToUpdate = Group();
+
+        self.button = Group();
+        self.ships = Group();
+        self.bullets = Group();
+
     def __init__(self, background):
-        self.currentObjectsInScene = OrderedDict();
+        self.initializeGroups();
         self.background = background;
-        self.addObjectToScene(background);
+        self.objectsToRender.add(background);
 
     ####Operations
 
-    def getStorage(self):
-        return self.currentObjectsInScene;
+    def getAllObjects(self):
+        return self.objectsToRender.sprites();
 
     def determineObjClass(self, obj):
         pass;
 
     def addObjectToScene(self, obj):
-        
-        storage = self.getStorage();
+        self.objectsToRender.add(obj);
+        self.objectsToUpdate.add(obj);
 
-        objClass = obj.__class__.__name__;
-        objID = obj.getObjID();
-        
-        if objClass not in storage:
-             self.currentObjectsInScene[objClass] = OrderedDict();
-             
-        self.currentObjectsInScene[objClass][objID] = obj;
+    def addButton(self, button):
+        self.button.add(button);
+        self.addObjectToScene(button);
 
+    def getButtons(self):
+        return self.button.sprites();
+
+    def addShip(self, ship):
+        self.ships.add(ship);
+        self.addObjToScene(ship);
+
+    def getShips(self):
+        return self.ships.sprites();
+
+    def addBullet(self, bullet):
+        self.bullets.add(bullet);
+        self.addObjectToScene(bullet);
 
     def removeObjectFromScene(self, obj):
-        objClass = obj.__class__.__name__;
-        objID = obj.getObjID();
-
-        del self.currentObjectsInScene[objClass][objID];
+        obj.kill();
 
     def getClassDictionary(self, cls):
-        return self.currentObjectsInScene[cls.__name__];
+        pass;
+
+    def spawnShip(self):
+        pass;
 
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
@@ -52,10 +73,7 @@ class ObjectStorage:
         globalSpeed = self.background.getGlobalSpeed();
         globalDisplacement = self.background.getGlobalDisplacement();
 
-        tupleOfObjects = tuple(self.getStorage().items());
-        for classDict in tupleOfObjects[1:]:
-            tupleOfClassObjects = tuple(classDict[1].items());
-            for item in tupleOfClassObjects:
-                item[1].update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
-            
+        self.objectsToUpdate.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+
+           
         

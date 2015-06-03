@@ -84,9 +84,8 @@ def gameLoop():
         currentObjectsInCurrentScene = sceneManager.getObjectsToRender();
         
         #Render Loop Here
-        for classDict in currentObjectsInCurrentScene:
-            for item in tuple(classDict[1].items()):
-                gameDisplay.blit(item[1].getSprite(), item[1].getPos());
+        for item in currentObjectsInCurrentScene:
+            gameDisplay.blit(item.getSprite(), item.getPos());
 
         pygame.display.update();
 

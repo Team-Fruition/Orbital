@@ -1,4 +1,5 @@
 from ObjectStorage import *;
+from Object import *;
 
 ####Base Class
 
@@ -14,24 +15,27 @@ class Scene:
         self.currentObjectsInScene = ObjectStorage(background);
         self.background = background;
 
-        self.addObjectToScene(background);
-
     def addObjectToScene(self, obj):
-        self.currentObjectsInScene.addObjectToScene(obj);
+        if isinstance(obj, Bullet):
+            self.currentObjectsInScene.addBullet(obj);
+        elif isinstance(obj, Ship):
+            self.currentObjectsInScene.addShip(obj);
+        elif isinstance(obj, Button):
+            self.currentObjectsInScene.addButton(obj);
+        else:
+            self.currentObjectsInScene.addObjectToScene(obj);
 
     def getAllObjectsInScene(self):
-        return self.currentObjectsInScene.getStorage().items();      
+        return self.currentObjectsInScene.getAllObjects();      
     
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         self.currentObjectsInScene.updateAllObjects(keyBoardState, currentMousePos, currentMouseState);
 
     def changeScene(self):
-        
-        buttonDict = self.currentObjectsInScene.getClassDictionary(Button);
+        buttons = self.currentObjectsInScene.getButtons();
 
-        for buttonEntry in buttonDict.items():
-            button = buttonEntry[1];
-            if button.clicked:
+        for button in buttons:
+            if button.clicked == True:
                 return button.getName();
                 
 

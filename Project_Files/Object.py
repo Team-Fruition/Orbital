@@ -7,6 +7,7 @@ from SpeedController import *;
 ####Function Executables
 
 rectGenerator = pygame.Rect;
+collideWithOtherGroup = pygame.sprite.spritecollide;
 
 ####Base Classes
 
@@ -67,7 +68,7 @@ class GameObject(pygame.sprite.Sprite):
         self.objectPos = [x, y];
 
     def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio):
-        super().__init__();
+        super(GameObject, self).__init__();
 
         self.fillImgList(url, fileName, indexLen, numFrames, ex);
         self.setStartingFrame();
@@ -115,6 +116,11 @@ class GameObject(pygame.sprite.Sprite):
         #Modify self.objectPos
         pass;
 
+    def collide(self, otherGroup):
+        #Checks if this sprite collides with another sprite in otherGroup
+        if collideWithOtherGroup(self, otherGroup, False):
+            pass;
+
 class UIElement(GameObject):
 
     ####Initialization Methods
@@ -156,9 +162,17 @@ class UIElement(GameObject):
 
 ####Instance Classes
 
+##Game Objects
+        
+class Ship(GameObject):
+    pass;
+
+class Bullet(GameObject):
+    pass;
+
 ##UI Elements
 
-##Button
+#Button
 
 class Button(UIElement):
 
@@ -228,7 +242,7 @@ class Button(UIElement):
     def getName(self):
         return self.name;
 
-##Logo
+#Logo
         
 class Logo(UIElement):
 
@@ -248,7 +262,7 @@ class Logo(UIElement):
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
                          windowWidth, windowHeight, displaceX, displaceY);
     
-##Text
+#Text
 
 class Text(UIElement):
 
@@ -270,6 +284,7 @@ class Text(UIElement):
         self.spriteImgList.append(self.gameFont.render(textContent, True, self.TEXTCOLOR));
         
     def __init__(self, windowWidth, windowHeight, displaceX, displaceY, textContent):
+        pygame.sprite.Sprite.__init__(self);
         self.fillImgList(textContent);
         self.determineWidthAndHeight();
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
@@ -281,7 +296,7 @@ class Text(UIElement):
     def getSpriteList(self):
         return self.spriteImgList;
 
-##Background
+#Background
 
 class Background(GameObject):
 
