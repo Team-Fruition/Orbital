@@ -82,6 +82,7 @@ class GameObject(pygame.sprite.Sprite):
         self.setObjID();
 
     ####Primary Functions
+        
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
         pass;
     
@@ -143,6 +144,7 @@ class UIElement(GameObject):
         self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
 
     ####Secondary Functions
+        
     def getSpriteList(self):
         return self.spriteImgList;
     
@@ -385,6 +387,7 @@ class Logo(UIElement):
 class Text(UIElement):
 
     ####Constants
+    
     TEXTCOLOR = (255, 255, 255);      
 
     ####Initialization Methods
@@ -419,10 +422,12 @@ class Text(UIElement):
 class Background(GameObject):
 
     ####Static Constants
+    
     BORDER = 16;
     BOUNCE_VALUE = 5;
 
     ####Static Variables
+    
     spriteRefreshDelay = 5;
     spriteLoopBackwards = False;
     
