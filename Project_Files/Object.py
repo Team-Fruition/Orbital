@@ -10,7 +10,7 @@ rectGenerator = pygame.Rect;
 
 ####Base Classes
 
-class Object(pygame.sprite.Sprite):
+class GameObject(pygame.sprite.Sprite):
 
     ####Object ID Methods
 
@@ -40,7 +40,6 @@ class Object(pygame.sprite.Sprite):
     spriteImgList = None;
     spriteWidth = None;
     spriteHeight = None;
-    numObj = 0;
 
     ####Initialization Methods
     
@@ -50,7 +49,7 @@ class Object(pygame.sprite.Sprite):
             cls.spriteImgList = [];
             indexingVariable = 10 ** (indexLen);
             for index in range(0, numFrames):
-                cls.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex).convert());
+                cls.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
 
     @classmethod
     def determineWidthAndHeight(cls):
@@ -58,18 +57,14 @@ class Object(pygame.sprite.Sprite):
             cls.spriteWidth = cls.spriteImgList[0].get_width();
             cls.spriteHeight = cls.spriteImgList[0].get_height();
 
-    def setStartingFrame(self, frame=0):
-        self.spriteIndex = frame;
-
     def setBoundaryRatio(self, boundaryRatio):
         self.boundaryRatio = min(1, max(0.5, boundaryRatio));
 
+    def setStartingFrame(self, frame=0):
+        self.spriteIndex = frame;
+
     def setPos(self, x, y):
         self.objectPos = [x, y];
-
-    def initSpeedAndDisplacementController(self):
-        self.localSpeed = SpeedController();
-        self.localDisplacement = DisplacementController();
 
     def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio):
         super().__init__();
@@ -77,22 +72,17 @@ class Object(pygame.sprite.Sprite):
         self.fillImgList(url, fileName, indexLen, numFrames, ex);
         self.setStartingFrame();
 
-        self.determineWidthAndHeight();
         self.setBoundaryRatio(boundaryRatio);
-        self.setPos(x, y);
-        self.updateBoundary();
 
-        self.initSpeedAndDisplacementController();
+        self.determineWidthAndHeight();
+        self.setPos(x, y);
         
         self.setObjID();
 
     ####Primary Functions
-
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
-        self.updateSprite(keyBoardState, currentMousePos, currentMouseState);
-        self.updatePos(globalSpeed, globalDisplacement);
-        self.updateBoundary();
-
+        pass;
+    
     def getSprite(self):
         return self.getSpriteList()[self.spriteIndex];
 
@@ -111,7 +101,49 @@ class Object(pygame.sprite.Sprite):
 
     @classmethod
     def getSpriteHeight(cls):
-        return cls.spriteHeight;
+        return cls.spriteHeight;  
+
+    def updateBoundary(self):
+        #Modify self.rect
+        pass;
+
+    def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
+        #Modify self.spriteIndex
+        pass;
+
+    def updatePos(self, globalSpeed, globalDisplacement):
+        #Modify self.objectPos
+        pass;
+
+class UIElement(GameObject):
+
+    ####Initialization Methods
+
+    def fillImgList(self, url, fileName, indexLen, numFrames, ex):
+        self.spriteImgList = [];
+        indexingVariable = 10 ** (indexLen);
+        for index in range(0, numFrames):
+            self.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
+
+    def determineWidthAndHeight(self):
+        self.spriteWidth = self.spriteImgList[0].get_width();
+        self.spriteHeight = self.spriteImgList[0].get_height();
+
+    def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                 windowWidth, windowHeight, displaceX, displaceY):
+        
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+        self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
+
+    ####Secondary Functions
+    def getSpriteList(self):
+        return self.spriteImgList;
+    
+    def getSpriteWidth(self):
+        return self.spriteWidth;
+
+    def getSpriteHeight(self):
+        return self.spriteHeight;
 
     def centralizeAndDisplace(self, windowWidth, windowHeight, displaceX, displaceY):
         screenCenterX = windowWidth/2;
@@ -120,15 +152,28 @@ class Object(pygame.sprite.Sprite):
         displaceY *= -1;
 
         self.objectPos = [screenCenterX - self.spriteWidth/2 + displaceX,
-                          screenCenterY - self.spriteHeight/2 + displaceY];        
+                          screenCenterY - self.spriteHeight/2 + displaceY];      
+
+####Instance Classes
+
+##UI Elements
+
+##Button
+
+class Button(UIElement):
+
+    ####Constants
+    INACTIVE = 0;
+    ACTIVE = 1;
+
+    ####Initialization Methods
 
     def updateBoundary(self):
-
         objectPos = self.getPos();
         boundaryRatio = self.boundaryRatio;
         spriteWidth = self.getSpriteWidth();
         spriteHeight = self.getSpriteHeight();
-        
+
         leftBoundPos = objectPos[0] + (1 - boundaryRatio) * spriteWidth;
         rightBound = objectPos[0] + boundaryRatio * spriteWidth;
         upperBoundPos = objectPos[1] + (1 - boundaryRatio) * spriteHeight;
@@ -137,24 +182,108 @@ class Object(pygame.sprite.Sprite):
         boundaryWidth = rightBound - leftBoundPos;
         boundaryHeight = lowerBound - upperBoundPos;
 
-        self.rect = rectGenerator(leftBoundPos, upperBoundPos, boundaryWidth, boundaryHeight);
+        self.rect = rectGenerator(leftBoundPos, upperBoundPos, boundaryWidth, boundaryHeight);       
 
-    def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
-        #Modify self.spriteIndex
-        pass;
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY, buttonConstant):
+        
+        url = urlConstructor(ART_ASSETS, BUTTON);
+        fileName = buttonConstant;
+        indexLen = 2;
+        numFrames = 2;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 0.7;
 
-    def speedAdjust(self, x, y):
-        self.localSpeed.adjustHorizontalSpeed(x);
-        self.localSpeed.adjustVerticalSpeed(y);
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
 
-    def updatePos(self, globalSpeed, globalDisplacement):
-        #Modify objectPos
-        self.objectPos[0] += self.globalSpeed.getNetHorizontalSpeed() + self.globalDisplacement.getHorizontalDisplacement() + self.localSpeed.getNetHorizontalSpeed() + self.localDisplacement.getHorizontalDisplacement();
-        self.objectPos[1] += self.globalSpeed.getNetVerticalSpeed() + self.globalDisplacement.getVerticalDisplacement() + self.localSpeed.getNetVerticalSpeed() + self.localDisplacement.getVerticalDisplacement();  
+        self.name = buttonConstant;
+        self.clicked = False;
 
-####Instance Classes
+    ####Primary Functions
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        self.updateSprite(currentMousePos);
+        self.determineIfClicked(currentMousePos, currentMouseState);
+    
+    ####Secondary Functions
 
-class Background(Object):
+    def checkIfMouseWithinBounds(self, currentMousePos):
+        return self.rect.collidepoint(currentMousePos) == 1;
+
+    def checkIfMouseLeftClicked(self, currentMouseState):
+        return currentMouseState[0] == 1;
+
+    def updateSprite(self, currentMousePos):
+        if self.checkIfMouseWithinBounds(currentMousePos):
+            self.spriteIndex = self.ACTIVE;
+        else:
+            self.spriteIndex = self.INACTIVE;
+
+    def determineIfClicked(self, currentMousePos, currentMouseState):
+        self.clicked = (self.checkIfMouseWithinBounds(currentMousePos)
+                        and self.checkIfMouseLeftClicked(currentMouseState));
+
+    def getName(self):
+        return self.name;
+
+##Logo
+        
+class Logo(UIElement):
+
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+        
+        url = urlConstructor(ART_ASSETS, LOGO);
+        fileName = LOGO;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+    
+##Text
+
+class Text(UIElement):
+
+    ####Constants
+    TEXTCOLOR = (255, 255, 255);      
+
+    ####Initialization Methods
+
+    def loadFont(rootURL, fontSize):
+        pygame.font.init();
+        return pygame.font.Font(rootURL, fontSize);
+
+    gameFont = loadFont(urlConstructor(ART_ASSETS, FONTS, STYLE + TTF_EX), 25);
+
+    def fillImgList(self, textContent):
+        self.spriteImgList = [];
+        self.setStartingFrame();
+        self.listLen = 1;
+        self.spriteImgList.append(self.gameFont.render(textContent, True, self.TEXTCOLOR));
+        
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY, textContent):
+        self.fillImgList(textContent);
+        self.determineWidthAndHeight();
+        self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
+
+        self.setObjID();
+
+    ####Secondary Functions
+
+    def getSpriteList(self):
+        return self.spriteImgList;
+
+##Background
+
+class Background(GameObject):
 
     ####Static Constants
     BORDER = 16;
@@ -165,6 +294,14 @@ class Background(Object):
     spriteLoopBackwards = False;
     
     ####Initialization Methods
+
+    @classmethod
+    def fillImgList(cls, url, fileName, indexLen, numFrames, ex):
+        if cls.spriteImgList == None:
+            cls.spriteImgList = [];
+            indexingVariable = 10 ** (indexLen);
+            for index in range(0, numFrames):
+                cls.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex).convert());
 
     def determineCameraBoundaries(self):
         self.leftBound = 0 - self.BORDER;
@@ -199,13 +336,13 @@ class Background(Object):
         self.initializeControllers();
         self.setAccelerationAndFriction(acceleration, friction);
 
-    ####Primary Methods
+    ####Primary Functions
         
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
         self.updateSprite();
         self.updatePos(keyBoardState);
     
-    ####Secondary Methods
+    ####Secondary Functions
 
     ##Graphical
     def updateSprite(self):

@@ -26,8 +26,6 @@ class Scene:
         self.currentObjectsInScene.updateAllObjects(keyBoardState, currentMousePos, currentMouseState);
 
     def changeScene(self):
-
-        return;
         
         buttonDict = self.currentObjectsInScene.getClassDictionary(Button);
 
@@ -44,19 +42,16 @@ class MainMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-        return;
-
         self.addObjectToScene(Logo(windowWidth, windowHeight, 0, 250));
+        
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, 50, PLAY));
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP));    
-
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -50, HELP));
 
 class HelpMenu(Scene):
 
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-        return;
 
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "Welcome to Space Arena!"));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "The objective of this game is to eliminate"));
@@ -71,7 +66,7 @@ class HelpMenu(Scene):
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, -20, "Left-Click to fire your main weapon."));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, -55, "Right-Click to fire your secondary weapon."));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, -90, "Q and E cycles through available secondary weapons."));
-        
+
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK));
 
 class Game(Scene):
