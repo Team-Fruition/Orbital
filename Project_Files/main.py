@@ -93,7 +93,7 @@ def gameLoop():
         clock.tick(framesPerSecond);
 
         #DEBUG: Print FPS Information
-        #print(clock.get_fps());
+        print(clock.get_fps());
 
     pygame.quit();
     quit();

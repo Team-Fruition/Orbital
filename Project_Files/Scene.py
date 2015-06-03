@@ -78,12 +78,13 @@ class Game(Scene):
     def __init__(self, windowWidth, windowHeight, background):
 
         super().__init__(windowWidth, windowHeight, background);
-
-        return;
-
+        
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
-        self.addObjectToScene(Player(windowWidth/2, windowHeight/2));
+
+        self.player = Player(windowWidth/2, windowHeight/2);
+        self.addObjectToScene(self.player);
         
     def changeScene(self):
-        pass;
+        if self.player not in self.currentObjectsInScene.getShips():
+            return GAMEOVER;
     

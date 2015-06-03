@@ -1,4 +1,5 @@
 import pygame;
+import math;
 
 from supplementary import *;
 from DisplacementController import *;
@@ -104,16 +105,16 @@ class GameObject(pygame.sprite.Sprite):
     def getSpriteHeight(cls):
         return cls.spriteHeight;  
 
-    def updateBoundary(self):
-        #Modify self.rect
-        pass;
-
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         #Modify self.spriteIndex
         pass;
 
     def updatePos(self, globalSpeed, globalDisplacement):
         #Modify self.objectPos
+        pass;
+
+    def updateBoundary(self):
+        #Modify self.rect
         pass;
 
     def collide(self, otherGroup):
@@ -160,27 +161,131 @@ class UIElement(GameObject):
         self.objectPos = [screenCenterX - self.spriteWidth/2 + displaceX,
                           screenCenterY - self.spriteHeight/2 + displaceY];      
 
-####Instance Classes
-
-##Game Objects
-        
 class Ship(GameObject):
 
-    def __init__(self, url, x, y, hitpoints, weapon = None):
+    ####Initialization Methods
+
+    def __init__(self, url, x, y, hitPoints, weapon = None):
 
         fileName = "";
         indexLen = 4;
         numFrames = 60;
         ex = PNG_EX;
+        boundaryRatio = 0.7;
 
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+
+        self.setStartingFrame(15);
+        self.hitPoints = hitPoints;
+        self.weapon = weapon;
+
+    ####Primary Functions
         
-        
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        pass;
+
+    ####Secondary Functions
+    
+    def approximateRotation(self, degrees):
+        self.spriteIndex = min(59, int(degrees/360 * 60));    
+    
+    def determineHorizontalDisplacement(self, XYcoordinates):
+        return XYcoordinates[0] - (self.objectPos[0] + self.getSpriteWidth()/2);
+
+    def determineVerticalDisplacement(self, XYcoordinates):
+        return XYcoordinates[1] - (self.objectPos[1] + self.getSpriteHeight()/2);
+
+    def updateSprite(self, coordinates):
+        xDis = self.determineHorizontalDisplacement(coordinates);
+        yDis = -self.determineVerticalDisplacement(coordinates);
+        hyp = math.hypot(xDis, yDis);
+
+        if xDis > 0 and yDis > 0:
+            self.approximateRotation(math.degrees(math.asin(yDis/hyp)));
+        elif xDis < 0 and yDis > 0:
+            self.approximateRotation(180 - math.degrees(math.asin(yDis/hyp)));
+        elif xDis < 0 and yDis < 0:
+            self.approximateRotation(180 + math.degrees(math.atan(yDis/xDis)));
+        elif xDis > 0 and yDis < 0:
+            self.approximateRotation(360 - math.degrees(math.acos(xDis/hyp)));
+        elif xDis == 0 and yDis > 0:
+            self.spriteIndex = 15;
+        elif xDis == 0 and yDis < 0:
+            self.spriteIndex = 45;
+        elif xDis > 0 and yDis == 0:
+            self.spriteIndex = 0;
+        elif xDis < 0 and yDis == 0:
+            self.spriteIndex = 30;
+        elif xDis == 0 and yDis == 0:
+            return;
+
+    def updatePos(self, globalSpeed, globalDisplacement):
+        pass;
+
+    def updateBoundary(self):
+        objectPos = self.getPos();
+        boundaryRatio = self.boundaryRatio;
+        spriteWidth = self.getSpriteWidth();
+        spriteHeight = self.getSpriteHeight();
+
+        leftBoundPos = objectPos[0] + (1 - boundaryRatio) * spriteWidth;
+        rightBound = objectPos[0] + boundaryRatio * spriteWidth;
+        upperBoundPos = objectPos[1] + (1 - boundaryRatio) * spriteHeight;
+        lowerBound = objectPos[1] + boundaryRatio * spriteHeight;
+
+        boundaryWidth = rightBound - leftBoundPos;
+        boundaryHeight = lowerBound - upperBoundPos;
+
+        self.rect = rectGenerator(leftBoundPos, upperBoundPos, boundaryWidth, boundaryHeight);           
+
+    def fire(self):
+        pass;
+
+    def determineRemove(self):
+        return self.hitpoints <= 0;
+    
 
 class Weapon:
     pass;
 
 class Bullet(GameObject):
     pass;
+
+
+####Instance Classes
+
+##Game Objects
+
+#Player
+
+class Player(Ship):
+
+    ####Initialization Methods
+
+    def __init__(self, x, y):
+
+        url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
+        hitPoints = 1000;
+        weapon = None;
+
+        super().__init__(url, x, y, hitPoints, weapon);
+
+    ####Primary Functions
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        self.updateSprite(currentMousePos);
+        self.updatePos(currentMousePos, globalSpeed, globalDisplacement);
+        self.updateBoundary();
+
+    ####Secondary Functions
+
+    def updatePos(self, currentMousePos, globalSpeed, globalDisplacement):
+
+        xDis = self.determineHorizontalDisplacement(currentMousePos)/16;
+        yDis = self.determineVerticalDisplacement(currentMousePos)/16;
+        
+        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
+        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
 
 ##UI Elements
 

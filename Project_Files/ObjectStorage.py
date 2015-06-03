@@ -55,7 +55,7 @@ class ObjectStorage:
 
     def addShip(self, ship):
         self.ships.add(ship);
-        self.addObjToScene(ship);
+        self.addObjectToScene(ship);
 
     def getShips(self):
         return self.ships.sprites();

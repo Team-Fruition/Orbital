@@ -55,7 +55,7 @@ class SceneManager:
 
         #Game Screen Logic
         elif self.currentScene == GAME:
-            if self.getCurrentScene().changeScene() == True:
+            if self.getCurrentScene().changeScene() == GAMEOVER:
                 self.changeState(START);
         
     def update(self, keyBoardState, currentMousePos, currentMouseState):
