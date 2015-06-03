@@ -334,6 +334,7 @@ class Button(UIElement):
         self.clicked = False;
 
     ####Primary Functions
+        
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
         self.updateSprite(currentMousePos);
         self.determineIfClicked(currentMousePos, currentMouseState);
