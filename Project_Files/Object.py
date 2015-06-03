@@ -165,6 +165,18 @@ class UIElement(GameObject):
 ##Game Objects
         
 class Ship(GameObject):
+
+    def __init__(self, url, x, y, hitpoints, weapon = None):
+
+        fileName = "";
+        indexLen = 4;
+        numFrames = 60;
+        ex = PNG_EX;
+
+        
+        
+
+class Weapon:
     pass;
 
 class Bullet(GameObject):
@@ -316,7 +328,7 @@ class Background(GameObject):
             cls.spriteImgList = [];
             indexingVariable = 10 ** (indexLen);
             for index in range(0, numFrames):
-                cls.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex).convert());
+                cls.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
 
     def determineCameraBoundaries(self):
         self.leftBound = 0 - self.BORDER;

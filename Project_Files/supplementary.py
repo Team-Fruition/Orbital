@@ -1,6 +1,9 @@
 import pygame;
 import os;
 
+#Color Constants
+WHITE = (255, 255, 255);
+
 #Directory Constants:
 ART_ASSETS = "Art_Assets";
 
@@ -55,4 +58,7 @@ def urlConstructor(*folders):
     
 
 def loadImg(rootURL, fileName):
-    return pygame.image.load(os.path.join(rootURL, fileName));
+    img = pygame.image.load(os.path.join(rootURL, fileName));
+    img = img.convert_alpha();
+    img.set_colorkey(WHITE);
+    return img;
