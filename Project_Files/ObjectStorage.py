@@ -36,16 +36,22 @@ class ObjectStorage:
     def determineObjClass(self, obj):
         pass;
 
+    ##Generic Object Add
+
     def addObjectToScene(self, obj):
         self.objectsToRender.add(obj);
         self.objectsToUpdate.add(obj);
 
+    ##Button Object Add
+    
     def addButton(self, button):
         self.button.add(button);
         self.addObjectToScene(button);
 
     def getButtons(self):
         return self.button.sprites();
+
+    ##Ship Object Add
 
     def addShip(self, ship):
         self.ships.add(ship);
@@ -54,9 +60,14 @@ class ObjectStorage:
     def getShips(self):
         return self.ships.sprites();
 
+    ##Bullet Object Add
+
     def addBullet(self, bullet):
         self.bullets.add(bullet);
         self.addObjectToScene(bullet);
+
+    def getBullets(self):
+        return self.bullet.sprites();
 
     def removeObjectFromScene(self, obj):
         obj.kill();
