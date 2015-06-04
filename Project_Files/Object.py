@@ -108,7 +108,15 @@ class GameObject(pygame.sprite.Sprite):
 
     @classmethod
     def getSpriteHeight(cls):
-        return cls.spriteHeight;  
+        return cls.spriteHeight;
+
+    def setSpeed(self, x, y):
+        self.localSpeed.adjustHorizontalSpeed(x, True);
+        self.localSpeed.adjustVerticalSpeed(y, True);
+
+    def adjustSpeed(self, x, y):
+        self.localSpeed.adjustHorizontalSpeed(x, False);
+        self.localSpeed.adjustVerticalSpeed(y, False);
 
     def updateSprite(self, keyBoardState, currentMousePos, currentMouseState):
         #Modify self.spriteIndex
@@ -129,7 +137,7 @@ class Ship(GameObject):
 
     ####Initialization Methods
 
-    def __init__(self, url, x, y, hitPoints, weapon = None):
+    def __init__(self, url, x, y, hitPoints, priWeapon = None, altWeapon = None):
 
         fileName = "";
         indexLen = 4;
@@ -142,7 +150,8 @@ class Ship(GameObject):
         self.setStartingFrame(15);
         
         self.hitPoints = hitPoints;
-        self.weapon = weapon;
+        self.priWeapon = priWeapon;
+        self.altWeapon = altWeapon;
         
         self.firePrimary = False;
         self.fireSecondary = False;
@@ -156,7 +165,7 @@ class Ship(GameObject):
     ####Secondary Functions
     
     def approximateRotation(self, degrees):
-        return min(59, int(degrees/360 * 60));    
+        return min(59, int(degrees/360 * 60));
     
     def determineHorizontalDisplacement(self, XYcoordinates):
         return XYcoordinates[0] - (self.objectPos[0] + self.getSpriteWidth()/2);
@@ -194,6 +203,12 @@ class Ship(GameObject):
     def fireAlternate(self):
         self.fireSecondary = False;
 
+    def getPrimaryWeapon(self):
+        return self.priWeapon;
+
+    def getSecondaryWeapon(self):
+        return self.altWeapon;
+
     def damage(self, value):
         if self.hitpoints > value:
             self.hitpoints -= value;
@@ -201,11 +216,24 @@ class Ship(GameObject):
             self.dead = True;
             self.kill();
 
+class Weapon:
+
+    ####Initialization Methods
+
+    def __init__(self, ship):
+        
+        self.ship = ship;
+
+    ####Secondary Functions
+
+    def fire(self):
+        return [];
+
 class Bullet(GameObject):
 
     ####Initialization Methods
 
-    def __init__(self, url, x, y):
+    def __init__(self, url, x, y, direction):
 
         indexLen = 4;
         numFrames = 1;
@@ -213,13 +241,31 @@ class Bullet(GameObject):
         boundaryRatio = 0.7;
 
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+        
+        self.updateDirection(direction);
 
-class Weapon:
+    ####Primary Functions
+        
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        self.determineSpeedVector();
+        self.updatePos();
 
-    ####Initialization Methods
+    ####Secondary Functions
 
-    def __init__(self, ship):
-        self.ship = ship;
+    def updateDirection(self, direction):
+        self.direction = direction;
+
+    def determineSpeedVector(self):
+        #Assumes self.direction is in degrees
+        #Modify self.localSpeed here
+        pass;
+
+    def updatePos(self, globalSpeed, globalDisplacement):
+        #Modify self.objectPos
+        self.objectPos[0] += (-globalSpeed.getNetHorizontalSpeed() + self.localSpeed.getNetHorizontalSpeed()
+                              + globalDisplacement.getHorizontalDisplacement() + self.localDisplacement.getHorizontalDisplacement());
+        self.objectPos[1] += (-globalSpeed.getNetVerticalSpeed() + self.localSpeed.getNetVerticalSpeed()
+                              + globalDisplacement.getVerticalDisplacement() + self.localDisplacement.getVerticalDisplacement());
 
 class UIElement(GameObject):
 
@@ -275,9 +321,15 @@ class Player(Ship):
 
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
         hitPoints = 1000;
-        weapon = None;
+        priWeapon = None;
+        altWeapon = None;
 
-        super().__init__(url, x, y, hitPoints, weapon);
+        super().__init__(url, x, y, hitPoints, priWeapon, altWeapon);
+
+        self.weaponList = [altWeapon, ];
+        self.weaponListIndex = 0;
+        self.previousQInput = False;
+        self.previousEInput = False;
 
     ####Primary Functions
 
@@ -285,6 +337,7 @@ class Player(Ship):
         self.updateSprite(currentMousePos);
         self.updatePos(currentMousePos, globalSpeed, globalDisplacement);
         self.updateBoundary();
+        self.checkIfSwapWeapons(keyBoardState);
         self.fireMain(currentMouseState);
         self.fireAlternate(currentMouseState);
         
@@ -298,6 +351,35 @@ class Player(Ship):
         self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
 
+    def checkIfSwapWeapons(self, keyBoardState):
+
+        if keyBoardState["Q"] == True:
+            if self.previousQInput == False:
+                print("Test1");
+                self.previousQInput = True;
+                if self.weaponListIndex == 0:
+                    self.weaponListIndex = len(self.weaponList) - 1;
+                else:
+                    self.weaponListIndex -= 1;
+        else:
+            self.previousQInput = False;
+            
+        if keyBoardState["E"] == True:
+            if self.previousEInput == False:
+                print("Test2");
+                self.previousEInput = True;
+                if self.weaponListIndex == len(self.weaponList) - 1:
+                    self.weaponListIndex = 0;
+                else:
+                    self.weaponListIndex += 1;
+        else:
+            self.previousEInput = False;
+
+        if keyBoardState["Q"] == False and keyBoardState["E"] == False:
+            return;
+
+        self.altWeapon = self.weaponList[self.weaponListIndex];
+
     def fireMain(self, currentMouseState):
         if currentMouseState[0] == 1:
             self.firePrimary = True;
@@ -309,6 +391,9 @@ class Player(Ship):
             self.fireSecondary = True;
         else:
             self.fireSecondary = False;
+
+    def getSecondaryWeapon(self):
+        return self.weaponList[self.weaponListIndex];
             
 ##UI Elements
 

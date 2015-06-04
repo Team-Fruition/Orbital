@@ -1,6 +1,7 @@
 import pygame;
 
 from collections import OrderedDict;
+from Object import *;
 
 ####Function Executables
 
@@ -10,8 +11,6 @@ collideGroups = pygame.sprite.groupcollide;
 ####Class Variables
 
 Group = pygame.sprite.OrderedUpdates;
-
-from Object import *;
 
 class ObjectStorage:
 
@@ -92,9 +91,9 @@ class ObjectStorage:
             ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
             if ship.firePrimary == True:
-                pass;
+                pass; #self.bullets.add(ship.priWeapon.fire);
             if ship.fireSecondary == True:
-                pass;
+                pass; #self.bullets.add(self.altWeapon.fire);
 
         self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
         
