@@ -186,12 +186,7 @@ class Ship(GameObject):
         elif xDis < 0 and yDis == 0:
             self.spriteIndex = 30;
         elif xDis == 0 and yDis == 0:
-            return;
-
-    def updatePos(self):
-        #Modify self.objectPos
-        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
-        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();        
+            return;      
 
     def fireMain(self):
         self.firePrimary = False;
