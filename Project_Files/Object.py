@@ -317,6 +317,12 @@ class Player(Ship):
 
     ####Initialization Methods
 
+    def initializeMultipleWeaponCapability(self, startingWeapon):
+        self.weaponList = [startingWeapon, ];
+        self.weaponListIndex = 0;
+        self.previousQInput = False;
+        self.previousEInput = False;
+        
     def __init__(self, x, y):
 
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
@@ -326,10 +332,7 @@ class Player(Ship):
 
         super().__init__(url, x, y, hitPoints, priWeapon, altWeapon);
 
-        self.weaponList = [altWeapon, ];
-        self.weaponListIndex = 0;
-        self.previousQInput = False;
-        self.previousEInput = False;
+        self.initializeMultipleWeaponCapability(altWeapon);
 
     ####Primary Functions
 
@@ -355,7 +358,6 @@ class Player(Ship):
 
         if keyBoardState["Q"] == True:
             if self.previousQInput == False:
-                print("Test1");
                 self.previousQInput = True;
                 if self.weaponListIndex == 0:
                     self.weaponListIndex = len(self.weaponList) - 1;
@@ -366,7 +368,6 @@ class Player(Ship):
             
         if keyBoardState["E"] == True:
             if self.previousEInput == False:
-                print("Test2");
                 self.previousEInput = True;
                 if self.weaponListIndex == len(self.weaponList) - 1:
                     self.weaponListIndex = 0;
