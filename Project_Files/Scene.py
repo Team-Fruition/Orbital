@@ -56,7 +56,6 @@ class HelpMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "Welcome to Space Arena!"));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "The objective of this game is to eliminate"));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 230, "the enemies trying to attack your ship."));
@@ -81,10 +80,10 @@ class Game(Scene):
         
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
 
-        self.player = Player(windowWidth/2, windowHeight/2);
+        self.player = Player(windowWidth/2, windowHeight + 30);
         self.addObjectToScene(self.player);
         
     def changeScene(self):
-        if self.player not in self.currentObjectsInScene.getShips():
+        if self.player.dead:
             return GAMEOVER;
     

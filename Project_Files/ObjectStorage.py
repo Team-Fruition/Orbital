@@ -2,6 +2,11 @@ import pygame;
 
 from collections import OrderedDict;
 
+####Function Executables
+
+collideRectRatio = pygame.sprite.collide_rect_ratio;
+collideGroups = pygame.sprite.groupcollide;
+
 ####Class Variables
 
 Group = pygame.sprite.OrderedUpdates;
@@ -33,9 +38,6 @@ class ObjectStorage:
     def getAllObjects(self):
         return self.objectsToRender.sprites();
 
-    def determineObjClass(self, obj):
-        pass;
-
     ##Generic Object Add
 
     def addObjectToScene(self, obj):
@@ -55,7 +57,7 @@ class ObjectStorage:
 
     def addShip(self, ship):
         self.ships.add(ship);
-        self.addObjectToScene(ship);
+        self.objectsToRender.add(ship);
 
     def getShips(self):
         return self.ships.sprites();
@@ -64,16 +66,13 @@ class ObjectStorage:
 
     def addBullet(self, bullet):
         self.bullets.add(bullet);
-        self.addObjectToScene(bullet);
+        self.objectsToRender.add(bullet);
 
     def getBullets(self):
         return self.bullet.sprites();
 
     def removeObjectFromScene(self, obj):
         obj.kill();
-
-    def getClassDictionary(self, cls):
-        pass;
 
     def spawnShip(self):
         pass;
@@ -86,5 +85,22 @@ class ObjectStorage:
 
         self.objectsToUpdate.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
-           
+        #Do Ship and Bullet updates here
+        shipsList = self.getShips();
+
+        for ship in shipsList:
+            ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+            
+            if ship.firePrimary == True:
+                pass;
+            if ship.fireSecondary == True:
+                pass;
+
+        self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        
+        #Do Collision Checking Here
+        objects = collideGroups(self.ships, self.bullets, False, True, collided = collideRectRatio(0.7));
+
+        for ship, bullet in objects:
+            ship.damage(bullet.damage);
         

@@ -8,7 +8,6 @@ from SpeedController import *;
 ####Function Executables
 
 rectGenerator = pygame.Rect;
-collideWithOtherGroup = pygame.sprite.spritecollide;
 
 ####Base Classes
 
@@ -68,6 +67,10 @@ class GameObject(pygame.sprite.Sprite):
     def setPos(self, x, y):
         self.objectPos = [x, y];
 
+    def initSpeedAndDisplacementControllers(self):
+        self.localSpeed = SpeedController();
+        self.localDisplacement = DisplacementController();
+
     def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio):
         super(GameObject, self).__init__();
 
@@ -112,16 +115,12 @@ class GameObject(pygame.sprite.Sprite):
 
     def updatePos(self, globalSpeed, globalDisplacement):
         #Modify self.objectPos
-        pass;
+        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
+        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();
 
     def updateBoundary(self):
         #Modify self.rect
-        pass;
-
-    def collide(self, otherGroup):
-        #Checks if this sprite collides with another sprite in otherGroup
-        if collideWithOtherGroup(self, otherGroup, False):
-            pass;
+        self.rect = rectGenerator(tuple(self.objectPos), (self.getSpriteWidth(), self.getSpriteHeight()));
 
 class UIElement(GameObject):
 
@@ -178,8 +177,14 @@ class Ship(GameObject):
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
 
         self.setStartingFrame(15);
+        self.initSpeedAndDisplacementControllers();
+        
         self.hitPoints = hitPoints;
         self.weapon = weapon;
+        
+        self.firePrimary = False;
+        self.fireSecondary = False;
+        self.dead = False;
 
     ####Primary Functions
         
@@ -189,7 +194,7 @@ class Ship(GameObject):
     ####Secondary Functions
     
     def approximateRotation(self, degrees):
-        self.spriteIndex = min(59, int(degrees/360 * 60));    
+        return min(59, int(degrees/360 * 60));    
     
     def determineHorizontalDisplacement(self, XYcoordinates):
         return XYcoordinates[0] - (self.objectPos[0] + self.getSpriteWidth()/2);
@@ -203,13 +208,13 @@ class Ship(GameObject):
         hyp = math.hypot(xDis, yDis);
 
         if xDis > 0 and yDis > 0:
-            self.approximateRotation(math.degrees(math.asin(yDis/hyp)));
+            self.spriteIndex = self.approximateRotation(math.degrees(math.asin(yDis/hyp)));
         elif xDis < 0 and yDis > 0:
-            self.approximateRotation(180 - math.degrees(math.asin(yDis/hyp)));
+            self.spriteIndex = self.approximateRotation(180 - math.degrees(math.asin(yDis/hyp)));
         elif xDis < 0 and yDis < 0:
-            self.approximateRotation(180 + math.degrees(math.atan(yDis/xDis)));
+            self.spriteIndex = self.approximateRotation(180 + math.degrees(math.atan(yDis/xDis)));
         elif xDis > 0 and yDis < 0:
-            self.approximateRotation(360 - math.degrees(math.acos(xDis/hyp)));
+            self.spriteIndex = self.approximateRotation(360 - math.degrees(math.acos(xDis/hyp)));
         elif xDis == 0 and yDis > 0:
             self.spriteIndex = 15;
         elif xDis == 0 and yDis < 0:
@@ -221,38 +226,43 @@ class Ship(GameObject):
         elif xDis == 0 and yDis == 0:
             return;
 
-    def updatePos(self, globalSpeed, globalDisplacement):
-        pass;
+    def updatePos(self):
+        #Modify self.objectPos
+        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
+        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();        
 
-    def updateBoundary(self):
-        objectPos = self.getPos();
-        boundaryRatio = self.boundaryRatio;
-        spriteWidth = self.getSpriteWidth();
-        spriteHeight = self.getSpriteHeight();
+    def fireMain(self):
+        self.firePrimary = False;
 
-        leftBoundPos = objectPos[0] + (1 - boundaryRatio) * spriteWidth;
-        rightBound = objectPos[0] + boundaryRatio * spriteWidth;
-        upperBoundPos = objectPos[1] + (1 - boundaryRatio) * spriteHeight;
-        lowerBound = objectPos[1] + boundaryRatio * spriteHeight;
+    def fireAlternate(self):
+        self.fireSecondary = False;
 
-        boundaryWidth = rightBound - leftBoundPos;
-        boundaryHeight = lowerBound - upperBoundPos;
-
-        self.rect = rectGenerator(leftBoundPos, upperBoundPos, boundaryWidth, boundaryHeight);           
-
-    def fire(self):
-        pass;
-
-    def determineRemove(self):
-        return self.hitpoints <= 0;
-    
-
-class Weapon:
-    pass;
+    def damage(self, value):
+        if self.hitpoints > value:
+            self.hitpoints -= value;
+        else:
+            self.dead = True;
+            self.kill();
 
 class Bullet(GameObject):
-    pass;
 
+    ####Initialization Methods
+
+    def __init__(self, url, x, y):
+
+        indexLen = 4;
+        numFrames = 1;
+        ex = PNG_EX;
+        boundaryRatio = 0.7;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+
+class Weapon:
+
+    ####Initialization Methods
+
+    def __init__(self, ship):
+        self.ship = ship;
 
 ####Instance Classes
 
@@ -278,7 +288,9 @@ class Player(Ship):
         self.updateSprite(currentMousePos);
         self.updatePos(currentMousePos, globalSpeed, globalDisplacement);
         self.updateBoundary();
-
+        self.fireMain(currentMouseState);
+        self.fireAlternate(currentMouseState);
+        
     ####Secondary Functions
 
     def updatePos(self, currentMousePos, globalSpeed, globalDisplacement):
@@ -289,6 +301,18 @@ class Player(Ship):
         self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
 
+    def fireMain(self, currentMouseState):
+        if currentMouseState[0] == 1:
+            self.firePrimary = True;
+        else:
+            self.firePrimary = False;
+
+    def fireAlternate(self, currentMouseState):
+        if currentMouseState[2] == 1:
+            self.fireSecondary = True;
+        else:
+            self.fireSecondary = False;
+            
 ##UI Elements
 
 #Button
