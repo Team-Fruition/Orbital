@@ -81,6 +81,7 @@ class GameObject(pygame.sprite.Sprite):
 
         self.determineWidthAndHeight();
         self.setPos(x, y);
+        self.initSpeedAndDisplacementControllers();
         
         self.setObjID();
 
@@ -115,52 +116,14 @@ class GameObject(pygame.sprite.Sprite):
 
     def updatePos(self, globalSpeed, globalDisplacement):
         #Modify self.objectPos
-        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
-        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();
+        self.objectPos[0] += (-globalSpeed.getNetHorizontalSpeed() + self.localSpeed.getNetHorizontalSpeed()
+                              + globalDisplacement.getHorizontalDisplacement() + self.localDisplacement.getHorizontalDisplacement());
+        self.objectPos[1] += (-globalSpeed.getNetVerticalSpeed() + self.localSpeed.getNetVerticalSpeed()
+                              + globalDisplacement.getVerticalDisplacement() + self.localDisplacement.getVerticalDisplacement());
 
     def updateBoundary(self):
         #Modify self.rect
-        self.rect = rectGenerator(tuple(self.objectPos), (self.getSpriteWidth(), self.getSpriteHeight()));
-
-class UIElement(GameObject):
-
-    ####Initialization Methods
-
-    def fillImgList(self, url, fileName, indexLen, numFrames, ex):
-        self.spriteImgList = [];
-        indexingVariable = 10 ** (indexLen);
-        for index in range(0, numFrames):
-            self.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
-
-    def determineWidthAndHeight(self):
-        self.spriteWidth = self.spriteImgList[0].get_width();
-        self.spriteHeight = self.spriteImgList[0].get_height();
-
-    def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
-                 windowWidth, windowHeight, displaceX, displaceY):
-        
-        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
-        self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
-
-    ####Secondary Functions
-        
-    def getSpriteList(self):
-        return self.spriteImgList;
-    
-    def getSpriteWidth(self):
-        return self.spriteWidth;
-
-    def getSpriteHeight(self):
-        return self.spriteHeight;
-
-    def centralizeAndDisplace(self, windowWidth, windowHeight, displaceX, displaceY):
-        screenCenterX = windowWidth/2;
-        screenCenterY = windowHeight/2;
-
-        displaceY *= -1;
-
-        self.objectPos = [screenCenterX - self.spriteWidth/2 + displaceX,
-                          screenCenterY - self.spriteHeight/2 + displaceY];      
+        self.rect = rectGenerator(tuple(self.objectPos), (self.getSpriteWidth(), self.getSpriteHeight()));    
 
 class Ship(GameObject):
 
@@ -177,7 +140,6 @@ class Ship(GameObject):
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
 
         self.setStartingFrame(15);
-        self.initSpeedAndDisplacementControllers();
         
         self.hitPoints = hitPoints;
         self.weapon = weapon;
@@ -263,6 +225,46 @@ class Weapon:
 
     def __init__(self, ship):
         self.ship = ship;
+
+class UIElement(GameObject):
+
+    ####Initialization Methods
+
+    def fillImgList(self, url, fileName, indexLen, numFrames, ex):
+        self.spriteImgList = [];
+        indexingVariable = 10 ** (indexLen);
+        for index in range(0, numFrames):
+            self.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));
+
+    def determineWidthAndHeight(self):
+        self.spriteWidth = self.spriteImgList[0].get_width();
+        self.spriteHeight = self.spriteImgList[0].get_height();
+
+    def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                 windowWidth, windowHeight, displaceX, displaceY):
+        
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+        self.centralizeAndDisplace(windowWidth, windowHeight, displaceX, displaceY);
+
+    ####Secondary Functions
+        
+    def getSpriteList(self):
+        return self.spriteImgList;
+    
+    def getSpriteWidth(self):
+        return self.spriteWidth;
+
+    def getSpriteHeight(self):
+        return self.spriteHeight;
+
+    def centralizeAndDisplace(self, windowWidth, windowHeight, displaceX, displaceY):
+        screenCenterX = windowWidth/2;
+        screenCenterY = windowHeight/2;
+
+        displaceY *= -1;
+
+        self.objectPos = [screenCenterX - self.spriteWidth/2 + displaceX,
+                          screenCenterY - self.spriteHeight/2 + displaceY];  
 
 ####Instance Classes
 
