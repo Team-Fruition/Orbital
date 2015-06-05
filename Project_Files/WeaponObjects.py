@@ -32,7 +32,7 @@ class BasicWeapon(Weapon):
         super().__init__(firer);
         self.initializeBulletLoadout(YellowProjectile);
 
-        self.counterMax = 15;
+        self.counterMax = 75;
         self.counter = 45;
 
     def fire(self):
