@@ -1,7 +1,10 @@
 import pygame;
 
-from collections import OrderedDict;
 from Object import *;
+from UIObjects import *;
+from ShipObjects import *;
+from WeaponObjects import *;
+from BulletObjects import *;
 
 ####Function Executables
 
