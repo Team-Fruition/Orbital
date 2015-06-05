@@ -220,16 +220,20 @@ class Weapon:
 
     ####Initialization Methods
 
-    def initializeBulletLoadout(self):
-        self.bulletLoadout = [];
+    def initializeBulletLoadout(self, *args):
+        self.bulletLoadout = args;
 
-    def __init__(self, ship):
-        self.ship = ship;
+    def __init__(self, firer):
+        self.firer = firer;
+        self.initializeBulletLoadout(list());
 
     ####Secondary Functions
 
     def fire(self):
         return self.bulletLoadout;
+
+    def update(self):
+        pass;
 
 class Bullet(GameObject):
 
@@ -238,28 +242,41 @@ class Bullet(GameObject):
 
     ####Initialization Methods
 
-    def __init__(self, url, firer, x, y, speedMult, direction):
+    def centralizeBulletFromGivenPoint(self, x, y):
+        self.setPos(x - self.spriteWidth/2, y - self.spriteHeight/2);
+        
+    def __init__(self, url, firer, damage, x, y, speedMult, direction):
 
+        fileName = "";
         indexLen = 4;
         numFrames = 1;
         ex = PNG_EX;
         boundaryRatio = 0.7;
 
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+        self.centralizeBulletFromGivenPoint(x, y);
+        self.updateBoundary();
+        
         self.updateFirer(firer);
+        self.updateDamage(damage);
         self.updateSpeed(speedMult);        
         self.updateDirection(direction);
+
+        self.determineSpeedVector();
 
     ####Primary Functions
         
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
-        self.determineSpeedVector();
-        self.updatePos();
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.updateBoundary();
 
     ####Secondary Functions
 
-    def updateFirer(self, ship):
-        self.ship = ship;
+    def updateFirer(self, firer):
+        self.firer = firer;
+
+    def updateDamage(self, damage):
+        self.damage = damage;
 
     def updateSpeed(self, speedMult):
         self.speedMult = speedMult;
@@ -269,33 +286,11 @@ class Bullet(GameObject):
 
     def determineSpeedVector(self):
         #Modify self.localSpeed here
-        if self.direction > 0 and self.direction < 90:
-            speedx = 1 * self.speedMult;
-            speedy = math.tan(self.direction) * speedx;
-        elif self.direction > 90 and self.direction < 180:
-            speedx = 1 * self.speedMult;
-            speedy = math.tan(self.direction) * speedx;
-            speedx *= -1;
-            speedy *= -1;
-        elif self.direction > 180 and self.direction < 270:
-            speedx = 1 * self.speedMult;
-            speedy = math.tan(self.direction) * speedx;
-            self.speedx *= -1;
-        elif self.direction > 270 and self.direction <= 354:
-            speedx = 1 * self.speedMult;
-            speedy = math.tan(self.direction) * speedx;
-        elif self.direction == 360 or self.direction == 0:
-            speedx = 1 * self.speedMult;            
-            speedy = 0;
-        elif self.direction == 90:
-            speedx = 0;
-            speedy = 1 * self.speedMult;
-        elif self.direction == 180:
-            speedx = -1 * self.speedMult;
-            speedy = 0;
-        elif self.direction == 270:
-            speedx = 0;
-            speedy = -1 * self.speedMult;
+
+        radDirection = math.radians(self.direction);
+        
+        speedx = 1 * self.speedMult * math.cos(radDirection);
+        speedy = 1 * self.speedMult * math.sin(radDirection);
 
         self.localSpeed.adjustHorizontalSpeed(speedx, True);
         self.localSpeed.adjustVerticalSpeed(speedy, True);
@@ -367,7 +362,7 @@ class Player(Ship):
 
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
         hitPoints = 1000;
-        priWeapon = None;
+        priWeapon = BasicWeapon(self);
         altWeapon = None;
 
         super().__init__(url, x, y, hitPoints, priWeapon, altWeapon);
@@ -383,6 +378,7 @@ class Player(Ship):
         self.checkIfSwapWeapons(keyBoardState);
         self.fireMain(currentMouseState);
         self.fireAlternate(currentMouseState);
+        self.getPrimaryWeapon().update();
         
     ####Secondary Functions
 
@@ -438,7 +434,53 @@ class Player(Ship):
 
 #Yellow Projectile
 
-         
+class BasicWeapon(Weapon):
+
+    ####Initialization Methods
+
+    def __init__(self, firer):
+        super().__init__(firer);
+        self.initializeBulletLoadout(YellowProjectile);
+
+        self.counterMax = 15;
+        self.counter = 45;
+
+    def fire(self):
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6;
+
+            bulletList = list();
+
+            for item in self.bulletLoadout:
+                bulletList.append(item(firer, x, y, direction));
+                               
+            return bulletList;
+        
+        return list();
+
+    def update(self):
+        if self.counter == self.counterMax:
+            return;
+        else:
+            self.counter += 1;
+
+class YellowProjectile(Bullet):
+
+    ####Initialization Methods
+
+    def __init__(self, firer, x, y, direction):
+
+        url = urlConstructor(ART_ASSETS, PROJECTILES, YELLOW_PROJECTILE);
+        damage = 30;
+        speedMult = 10;
+
+        super().__init__(url, firer, damage, x, y, speedMult, direction);
+        
 ##UI Elements
 
 #Button

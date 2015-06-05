@@ -91,16 +91,19 @@ class ObjectStorage:
             ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
             if ship.firePrimary == True:
-                pass; #self.bullets.add(ship.priWeapon.fire);
+                bulletList = ship.priWeapon.fire();
+                self.addBullet(bulletList);                    
             if ship.fireSecondary == True:
-                pass; #self.bullets.add(self.altWeapon.fire);
+                pass; 
 
         self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
         
         #Do Collision Checking Here
-        objects = collideGroups(self.ships, self.bullets, False, True, collided = collideRectRatio(0.7));
+        objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
 
-        for ship, bullet in objects:
-            if bullet.firer != ship:
-                ship.damage(bullet.damage);
+        for ship, bullets in objects.items():
+            for bullet in bullets:
+                if bullet.firer != ship:
+                    ship.damage(bullet.damage);
+                    bullet.kill();
         
