@@ -101,5 +101,6 @@ class ObjectStorage:
         objects = collideGroups(self.ships, self.bullets, False, True, collided = collideRectRatio(0.7));
 
         for ship, bullet in objects:
-            ship.damage(bullet.damage);
+            if bullet.firer != ship:
+                ship.damage(bullet.damage);
         

@@ -220,20 +220,25 @@ class Weapon:
 
     ####Initialization Methods
 
+    def initializeBulletLoadout(self):
+        self.bulletLoadout = [];
+
     def __init__(self, ship):
-        
         self.ship = ship;
 
     ####Secondary Functions
 
     def fire(self):
-        return [];
+        return self.bulletLoadout;
 
 class Bullet(GameObject):
 
+    ####Assumptions
+    #self.direction is in degrees (i.e. ship.spriteIndex * 60 is passed in as the argument to bullet.updateDirection()
+
     ####Initialization Methods
 
-    def __init__(self, url, x, y, direction):
+    def __init__(self, url, firer, x, y, speedMult, direction):
 
         indexLen = 4;
         numFrames = 1;
@@ -241,7 +246,8 @@ class Bullet(GameObject):
         boundaryRatio = 0.7;
 
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
-        
+        self.updateFirer(firer);
+        self.updateSpeed(speedMult);        
         self.updateDirection(direction);
 
     ####Primary Functions
@@ -252,13 +258,47 @@ class Bullet(GameObject):
 
     ####Secondary Functions
 
+    def updateFirer(self, ship):
+        self.ship = ship;
+
+    def updateSpeed(self, speedMult):
+        self.speedMult = speedMult;
+
     def updateDirection(self, direction):
         self.direction = direction;
 
     def determineSpeedVector(self):
-        #Assumes self.direction is in degrees
         #Modify self.localSpeed here
-        pass;
+        if self.direction > 0 and self.direction < 90:
+            speedx = 1 * self.speedMult;
+            speedy = math.tan(self.direction) * speedx;
+        elif self.direction > 90 and self.direction < 180:
+            speedx = 1 * self.speedMult;
+            speedy = math.tan(self.direction) * speedx;
+            speedx *= -1;
+            speedy *= -1;
+        elif self.direction > 180 and self.direction < 270:
+            speedx = 1 * self.speedMult;
+            speedy = math.tan(self.direction) * speedx;
+            self.speedx *= -1;
+        elif self.direction > 270 and self.direction <= 354:
+            speedx = 1 * self.speedMult;
+            speedy = math.tan(self.direction) * speedx;
+        elif self.direction == 360 or self.direction == 0:
+            speedx = 1 * self.speedMult;            
+            speedy = 0;
+        elif self.direction == 90:
+            speedx = 0;
+            speedy = 1 * self.speedMult;
+        elif self.direction == 180:
+            speedx = -1 * self.speedMult;
+            speedy = 0;
+        elif self.direction == 270:
+            speedx = 0;
+            speedy = -1 * self.speedMult;
+
+        self.localSpeed.adjustHorizontalSpeed(speedx, True);
+        self.localSpeed.adjustVerticalSpeed(speedy, True);
 
     def updatePos(self, globalSpeed, globalDisplacement):
         #Modify self.objectPos
@@ -395,7 +435,10 @@ class Player(Ship):
 
     def getSecondaryWeapon(self):
         return self.weaponList[self.weaponListIndex];
-            
+
+#Yellow Projectile
+
+         
 ##UI Elements
 
 #Button

@@ -48,14 +48,11 @@ def nearest(num):
 
 def urlConstructor(*folders):
     currentURL = os.getcwd();
-
-##    for folder in folders:
-##        currentURL = os.path.join(currentURL, folder);
-
     currentURL = os.path.join(currentURL, *folders);
-
     return currentURL;
     
+def loadVanillaImg(rootURL, fileName):
+    return pygame.image.load(os.path.join(rootURL, fileName));
 
 def loadImg(rootURL, fileName):
     img = pygame.image.load(os.path.join(rootURL, fileName));
