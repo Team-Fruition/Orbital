@@ -32,7 +32,7 @@ class BasicWeapon(Weapon):
         super().__init__(firer);
         self.initializeBulletLoadout(YellowProjectile);
 
-        self.counterMax = 75;
+        self.counterMax = 60;
         self.counter = 45;
 
     def fire(self):
@@ -44,10 +44,13 @@ class BasicWeapon(Weapon):
             y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
             direction = self.firer.spriteIndex * 6;
 
+            xOffSet = 10 * math.sin(math.radians(direction));
+            yOffSet = 10 * math.cos(math.radians(direction));
+
             bulletList = list();
 
-            for item in self.bulletLoadout:
-                bulletList.append(item(firer, x, y, direction));
+            bulletList.append(self.bulletLoadout[0](firer, x - xOffSet, y - yOffSet, direction));
+            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
                                
             return bulletList;
         

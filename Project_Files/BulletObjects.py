@@ -23,6 +23,9 @@ class Bullet(GameObject):
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
         self.centralizeBulletFromGivenPoint(x, y);
         self.updateBoundary();
+
+        self.killCounter = 0;
+        self.killCounterMax = 150;
         
         self.updateFirer(firer);
         self.updateDamage(damage);
@@ -36,8 +39,15 @@ class Bullet(GameObject):
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
         self.updatePos(globalSpeed, globalDisplacement);
         self.updateBoundary();
+        self.updateKillCounter();
 
     ####Secondary Functions
+
+    def updateKillCounter(self):
+        if self.killCounter >= self.killCounterMax:
+            self.kill();
+        else:
+            self.killCounter += 1;
 
     def updateFirer(self, firer):
         self.firer = firer;
