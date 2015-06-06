@@ -70,7 +70,7 @@ class HailStorm(Weapon):
     ####Initialization Methods
 
     def __init__(self, firer):
-        super().__init__(firer, 7, 45);
+        super().__init__(firer, 100, 125);
         self.initializeBulletLoadout(HailStormProjectile);
 
         self.alternateGunPort = False;
@@ -95,12 +95,9 @@ class HailStorm(Weapon):
 
             bulletList = list();
 
-            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-
+            for num in range(0, 15):
+                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
+            
             return bulletList;
 
         return list();

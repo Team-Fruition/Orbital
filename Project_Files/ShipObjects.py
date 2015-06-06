@@ -67,6 +67,10 @@ class Ship(GameObject):
         elif xDis == 0 and yDis == 0:
             return;      
 
+    def updateWeapons(self):
+        self.getPrimaryWeapon().update();
+        self.getSecondaryWeapon().update();
+
     def fireMain(self):
         self.firePrimary = False;
 
@@ -120,8 +124,7 @@ class Player(Ship):
         self.checkIfSwapWeapons(keyBoardState);
         self.fireMain(currentMouseState);
         self.fireAlternate(currentMouseState);
-        self.getPrimaryWeapon().update();
-        self.getSecondaryWeapon().update();
+        self.updateWeapons();
         
     ####Secondary Functions
 
@@ -132,7 +135,7 @@ class Player(Ship):
         
         self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
         self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
-
+    
     def checkIfSwapWeapons(self, keyBoardState):
 
         if keyBoardState["Q"] == True:
