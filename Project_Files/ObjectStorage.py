@@ -21,8 +21,7 @@ class ObjectStorage:
     
     ####Initialization Methods
 
-    def initializeGroups(self):
-        
+    def initializeGroups(self):        
         self.objectsToRender = Group();
         self.objectsToUpdate = Group();
 
@@ -73,6 +72,9 @@ class ObjectStorage:
     def getBullets(self):
         return self.bullet.sprites();
 
+    def removeBullet(self, bullet):
+        bullet.kill();
+
     def removeObjectFromScene(self, obj):
         obj.kill();
 
@@ -94,10 +96,11 @@ class ObjectStorage:
             ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
             if ship.firePrimary == True:
-                bulletList = ship.priWeapon.fire();
+                bulletList = ship.getPrimaryWeapon().fire();
                 self.addBullet(bulletList);                    
             if ship.fireSecondary == True:
-                pass; 
+                bulletList = ship.getSecondaryWeapon().fire();
+                self.addBullet(bulletList);
 
         self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
         

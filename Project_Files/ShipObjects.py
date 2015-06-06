@@ -105,7 +105,7 @@ class Player(Ship):
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
         hitPoints = 1000;
         priWeapon = BasicWeapon(self);
-        altWeapon = None;
+        altWeapon = HailStorm(self);
 
         super().__init__(url, x, y, hitPoints, priWeapon, altWeapon);
 
@@ -121,6 +121,7 @@ class Player(Ship):
         self.fireMain(currentMouseState);
         self.fireAlternate(currentMouseState);
         self.getPrimaryWeapon().update();
+        self.getSecondaryWeapon().update();
         
     ####Secondary Functions
 

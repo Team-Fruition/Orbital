@@ -27,10 +27,10 @@ class Bullet(GameObject):
         self.killCounter = 0;
         self.killCounterMax = 150;
         
-        self.updateFirer(firer);
-        self.updateDamage(damage);
-        self.updateSpeed(speedMult);        
-        self.updateDirection(direction);
+        self.firer = firer;
+        self.damage = damage;
+        self.speedMult = speedMult;
+        self.direction = direction;
 
         self.determineSpeedVector();
 
@@ -95,3 +95,39 @@ class YellowProjectile(Bullet):
 
         super().__init__(url, firer, damage, x, y, speedMult, direction);
         
+class HailStormProjectile(Bullet):
+
+    ####Initialization Methods
+
+    def __init__(self, firer, x, y, direction):
+
+        url = urlConstructor(ART_ASSETS, PROJECTILES, YELLOW_PROJECTILE);
+        damage = 2;
+        speedMult = random.randrange(10, 15);
+
+        self.speedUp = False;
+        self.originalDirection = direction;
+        direction += random.randrange(-45, 45);
+
+        super().__init__(url, firer, damage, x, y, speedMult, direction);
+
+    ####Primary Functions
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        self.updateSpeed();
+        self.determineSpeedVector();
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.updateBoundary();
+        self.updateKillCounter();
+
+    ####Secondary Functions
+
+    def updateSpeed(self):
+        if self.speedUp:
+            self.speedMult += 0.3;
+        else:
+            self.speedMult -= 1;
+            if self.speedMult <= 0:
+                self.speedUp = True;
+                self.updateDirection(self.originalDirection);
+    
