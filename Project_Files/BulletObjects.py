@@ -101,7 +101,7 @@ class HailStormProjectile(Bullet):
 
     def __init__(self, firer, x, y, direction):
 
-        url = urlConstructor(ART_ASSETS, PROJECTILES, YELLOW_PROJECTILE);
+        url = urlConstructor(ART_ASSETS, PROJECTILES, BLUE_PROJECTILE);
         damage = 7;
         speedMult = random.randrange(10, 20);
 

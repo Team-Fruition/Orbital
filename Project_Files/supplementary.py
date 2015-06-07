@@ -29,6 +29,7 @@ PLAY = "Play";
 
 #Projectile Constants
 YELLOW_PROJECTILE = "Yellow_Projectile";
+BLUE_PROJECTILE = "Blue_Projectile";
 EXPLOSION = "Explosion";
 
 #Ship Constants
