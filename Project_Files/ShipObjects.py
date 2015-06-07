@@ -86,9 +86,10 @@ class Ship(GameObject):
     def damage(self, value):
         if self.hitpoints > value:
             self.hitpoints -= value;
+            return [];
         else:
             self.dead = True;
-            self.kill();
+            return self.kill();
 
 ####Instance Classes
 
