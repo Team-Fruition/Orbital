@@ -115,8 +115,8 @@ class ObjectStorage:
 
     def determineSpawnPoint(self):
 
-        XBOUNDS = 100;
-        YBOUNDS = 100;
+        XBOUNDS = 128;
+        YBOUNDS = 128;
         
         possibleValueX = [random.randrange(-XBOUNDS, 0), random.randrange(self.windowWidth, self.windowWidth + XBOUNDS)];
         possibleValueY = [random.randrange(-YBOUNDS, 0), random.randrange(self.windowHeight, self.windowHeight + YBOUNDS)];
