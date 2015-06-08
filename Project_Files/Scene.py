@@ -16,14 +16,7 @@ class Scene:
         self.background = background;
 
     def addObjectToScene(self, obj):
-        if isinstance(obj, Bullet):
-            self.currentObjectsInScene.addBullet(obj);
-        elif isinstance(obj, Ship):
-            self.currentObjectsInScene.addShip(obj);
-        elif isinstance(obj, Button):
-            self.currentObjectsInScene.addButton(obj);
-        else:
-            self.currentObjectsInScene.addObjectToScene(obj);
+        self.currentObjectsInScene.determineAndAddObject(obj);
 
     def getAllObjectsInScene(self):
         return self.currentObjectsInScene.getAllObjects();      

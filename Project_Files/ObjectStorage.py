@@ -14,7 +14,7 @@ collideGroups = pygame.sprite.groupcollide;
 
 ####Class Variables
 
-Group = pygame.sprite.OrderedUpdates;
+Group = pygame.sprite.Group;
 
 class ObjectStorage:
 
@@ -25,9 +25,9 @@ class ObjectStorage:
     ####Initialization Methods
 
     def initializeGroups(self):        
-        self.objectsToRender = Group();
         self.objectsToUpdate = Group();
 
+        self.UIObject = Group();
         self.button = Group();
         self.ships = Group();
         self.bullets = Group();
@@ -45,19 +45,27 @@ class ObjectStorage:
         self.background = background;
         self.backgroundSpriteWidth = self.background.spriteWidth;
         self.backgroundSpriteHeight = self.background.spriteHeight;
-        self.objectsToRender.add(background);
 
         self.gameMode = False;
 
     ####Operations
 
     def getAllObjects(self):
-        return self.objectsToRender.sprites();
+        return [self.background, ] + self.bullets.sprites() + self.ships.sprites() + self.UIObject.sprites();
 
     ##Generic Object Add
 
+    def determineAndAddObject(self, obj):
+        if isinstance(obj, Bullet):
+            self.addBullet(obj);
+        elif isinstance(obj, Ship):
+            self.addShip(obj);
+        elif isinstance(obj, UIElement):
+            self.addUIObject(obj);
+        else:
+            pass;
+
     def addObjectToScene(self, obj):
-        self.objectsToRender.add(obj);
         self.objectsToUpdate.add(obj);
 
     ##Button Object Add
@@ -66,14 +74,23 @@ class ObjectStorage:
         self.button.add(button);
         self.addObjectToScene(button);
 
+    ##UI Object Add
+
     def getButtons(self):
         return self.button.sprites();
+
+    def addUIObject(self, UIobj):
+        self.UIObject.add(UIobj);
+
+        if isinstance(UIobj, Button):
+            self.button.add(UIobj);
+
+        self.addObjectToScene(UIobj);
 
     ##Ship Object Add
 
     def addShip(self, ship):
         self.ships.add(ship);
-        self.objectsToRender.add(ship);
 
     def getShips(self):
         return self.ships.sprites();
@@ -82,7 +99,6 @@ class ObjectStorage:
 
     def addBullet(self, bullet):
         self.bullets.add(bullet);
-        self.objectsToRender.add(bullet);
 
     def getBullets(self):
         return self.bullet.sprites();
