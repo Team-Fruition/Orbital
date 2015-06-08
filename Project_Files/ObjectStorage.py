@@ -1,4 +1,5 @@
 import pygame;
+import random;
 
 from Object import *;
 from UIObjects import *;
@@ -18,6 +19,8 @@ Group = pygame.sprite.OrderedUpdates;
 class ObjectStorage:
 
     background = None;
+    backgroundSpriteWidth = 0;
+    backgroundSpriteHeight = 0;
     
     ####Initialization Methods
 
@@ -28,11 +31,24 @@ class ObjectStorage:
         self.button = Group();
         self.ships = Group();
         self.bullets = Group();
+        self.enemies = Group();
+
+    def initializeEnemies(self):
+        self.enemyList = [EnemyShip1, ];
+        self.spawnCounter = 0;
+        self.spawnShip = 50;
+        self.maxEnemySpawn = 10;
 
     def __init__(self, background):
         self.initializeGroups();
+        self.initializeEnemies();
+        
         self.background = background;
+        self.backgroundSpriteWidth = self.background.spriteWidth;
+        self.backgroundSpriteHeight = self.background.spriteHeight;
         self.objectsToRender.add(background);
+
+        self.gameMode = False;
 
     ####Operations
 
@@ -78,9 +94,21 @@ class ObjectStorage:
     def removeObjectFromScene(self, obj):
         obj.kill();
 
-    def spawnShip(self):
-        pass;
+    ##Enemy Object
 
+    def obtainRandomEnemyShip(self):
+        return self.enemyList[random.randrange(0, len(self.enemyList))];
+
+    def addEnemy(self):
+        if self.spawnCounter >= self.spawnShip and len(self.ships.sprites()) <= self.maxEnemySpawn:
+            self.spawnCounter = 0;
+            self.spawnShip = random.randrange(50, 100);
+            self.addShip(self.obtainRandomEnemyShip()(random.randrange(0, 850), random.randrange(0, 850)));
+        else:
+            self.spawnCounter += 1;
+
+    ##Main Update Function
+            
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
         
@@ -89,27 +117,33 @@ class ObjectStorage:
 
         self.objectsToUpdate.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
-        #Do Ship and Bullet updates here
-        shipsList = self.getShips();
+        if self.gameMode:
+            #Do Ship and Bullet updates here
+            shipsList = self.getShips();
 
-        for ship in shipsList:
-            ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+            for ship in shipsList:
+                ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+                
+                if ship.firePrimary == True:
+                    bulletList = ship.getPrimaryWeapon().fire();
+                    self.addBullet(bulletList);                    
+                if ship.fireSecondary == True:
+                    bulletList = ship.getSecondaryWeapon().fire();
+                    self.addBullet(bulletList);
+
+                if not self.background.rect.collidepoint(ship.objectPos):
+                    ship.kill();
+
+            self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
-            if ship.firePrimary == True:
-                bulletList = ship.getPrimaryWeapon().fire();
-                self.addBullet(bulletList);                    
-            if ship.fireSecondary == True:
-                bulletList = ship.getSecondaryWeapon().fire();
-                self.addBullet(bulletList);
+            #Do Collision Checking Here
+            objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
 
-        self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
-        
-        #Do Collision Checking Here
-        objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
+            for ship, bullets in objects.items():
+                for bullet in bullets:
+                    if bullet.firerType != ship.shipType:
+                        ship.damage(bullet.damage);
+                        bullet.kill();
 
-        for ship, bullets in objects.items():
-            for bullet in bullets:
-                if bullet.firer != ship:
-                    ship.damage(bullet.damage);
-                    bullet.kill();
+            self.addEnemy();
         

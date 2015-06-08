@@ -77,7 +77,8 @@ class Game(Scene):
     def __init__(self, windowWidth, windowHeight, background):
 
         super().__init__(windowWidth, windowHeight, background);
-        
+        self.currentObjectsInScene.gameMode = True;
+                
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
 
         self.player = Player(windowWidth/2, windowHeight + 30);

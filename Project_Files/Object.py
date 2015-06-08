@@ -202,10 +202,12 @@ class Background(GameObject):
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
         self.updateSprite();
         self.updatePos(keyBoardState);
+        self.updateBoundary();
     
     ####Secondary Functions
 
     ##Graphical
+        
     def updateSprite(self):
         if self.spriteRefreshDelay >= 10:
             if self.spriteLoopBackwards == False:
@@ -312,3 +314,7 @@ class Background(GameObject):
         self.checkBoundaries();
         self.snapCheck();
         self.moveBackground();
+
+    def updateBoundary(self):
+        #Modify self.rect
+        self.rect = rectGenerator(tuple(self.objectPos), (self.getSpriteWidth(), self.getSpriteHeight())).inflate(100, 100);

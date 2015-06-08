@@ -1,5 +1,13 @@
+import math;
+import random;
+
 from Object import *;
 from WeaponObjects import *;
+
+####Constants
+
+TEAM_PLAYER = "Player";
+TEAM_ENEMY = "Enemy";
 
 ####Base Classes
 
@@ -7,7 +15,27 @@ class Ship(GameObject):
 
     ####Initialization Methods
 
-    def __init__(self, url, x, y, hitPoints, priWeapon = None, altWeapon = None):
+    def initializeWeapons(self, priWeapon, altWeapon):
+        if priWeapon != None:
+            self.priWeapon = priWeapon(self);
+        else:
+            self.priWeapon = None;
+
+        if altWeapon != None:
+            self.altWeapon = altWeapon(self);
+        else:
+            self.altWeapon = None;
+
+    def initializeObjectGameVariables(self, hitPoints, priWeapon, altWeapon, killScore):
+        self.hitPoints = hitPoints;
+        self.initializeWeapons(priWeapon, altWeapon);
+        self.killScore = killScore;
+        
+        self.firePrimary = False;
+        self.fireSecondary = False;
+        self.dead = False;
+
+    def __init__(self, url, shipType, x, y, hitPoints, priWeapon = None, altWeapon = None, killScore = 0):
 
         fileName = "";
         indexLen = 4;
@@ -17,20 +45,17 @@ class Ship(GameObject):
 
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
 
+        self.shipType = shipType;
+
         self.setStartingFrame(15);
         
-        self.hitPoints = hitPoints;
-        self.priWeapon = priWeapon;
-        self.altWeapon = altWeapon;
-        
-        self.firePrimary = False;
-        self.fireSecondary = False;
-        self.dead = False;
+        self.initializeObjectGameVariables(hitPoints, priWeapon, altWeapon, killScore);
 
     ####Primary Functions
         
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
-        pass;
+        self.updateBoundary();
+        self.updateWeapons();
 
     ####Secondary Functions
     
@@ -68,14 +93,18 @@ class Ship(GameObject):
             return;      
 
     def updateWeapons(self):
-        self.getPrimaryWeapon().update();
-        self.getSecondaryWeapon().update();
+        if self.getPrimaryWeapon() != None:
+            self.getPrimaryWeapon().update();            
+        if self.getSecondaryWeapon() != None:
+            self.getSecondaryWeapon().update();
 
     def fireMain(self):
-        self.firePrimary = False;
+        if self.priWeapon != None:
+            self.firePrimary = True;
 
     def fireAlternate(self):
-        self.fireSecondary = False;
+        if self.altWeapon != None:
+            self.fireSecondary = True;
 
     def getPrimaryWeapon(self):
         return self.priWeapon;
@@ -84,14 +113,75 @@ class Ship(GameObject):
         return self.altWeapon;
 
     def damage(self, value):
-        if self.hitpoints > value:
-            self.hitpoints -= value;
+        if self.hitPoints > value:
+            self.hitPoints -= value;
             return [];
         else:
             self.dead = True;
             return self.kill();
 
 ####Instance Classes
+
+#Enemy 1
+        
+class EnemyShip1(Ship):
+
+    ####Initialization Methods
+
+    def initCoordinatesSystem(self):
+        self.currentCoordinatesCount = 0;
+        self.updateCoordinatesCounter = 100;
+        self.determineNewCoordinates();
+    
+    def __init__(self, x, y):
+
+        url = urlConstructor(ART_ASSETS, SHIPS, ENEMY_SHIP_1);
+        shipType = TEAM_ENEMY;
+        hitPoints = 100;
+        priWeapon = BasicWeapon;
+        altWeapon = None;
+        killScore = 100;
+
+        super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon, killScore);
+
+        self.initCoordinatesSystem();
+
+    ####Primary Functions
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        self.updateCoordinates();
+        self.updateSprite(self.projectedCoordinates);
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.fireMain();
+
+    ####Secondary Functions
+
+    def determineNewCoordinates(self):
+        self.projectedCoordinates = [random.randrange(-250, 250) + self.objectPos[0],
+                                     random.randrange(-250, 250) + self.objectPos[1]]         
+
+    def updateCoordinates(self):
+        if self.currentCoordinatesCount >= self.updateCoordinatesCounter:
+            self.currentCoordinatesCount = 0;
+            self.updateCoordinatesCounter = random.randrange(75, 125);
+            self.determineNewCoordinates();
+        else:
+            self.currentCoordinatesCount += 1;
+
+    def updatePos(self, globalSpeed, globalDisplacement):
+
+        globalHorizontalChange = -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
+        globalVerticalChange = -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();
+     
+        xDis = self.determineHorizontalDisplacement(self.projectedCoordinates)/16;
+        yDis = self.determineVerticalDisplacement(self.projectedCoordinates)/16;
+
+        self.projectedCoordinates[0] += globalHorizontalChange;
+        self.projectedCoordinates[1] += globalVerticalChange;
+        
+        self.objectPos[0] += globalHorizontalChange + xDis;
+        self.objectPos[1] += globalVerticalChange + yDis;
 
 #Player
 
@@ -108,24 +198,24 @@ class Player(Ship):
     def __init__(self, x, y):
 
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
+        shipType = TEAM_PLAYER;
         hitPoints = 1000;
-        priWeapon = BasicWeapon(self);
-        altWeapon = HailStorm(self);
+        priWeapon = BasicWeapon;
+        altWeapon = HailStorm;
 
-        super().__init__(url, x, y, hitPoints, priWeapon, altWeapon);
+        super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon);
 
-        self.initializeMultipleWeaponCapability(altWeapon);
+        self.initializeMultipleWeaponCapability(self.altWeapon);
 
     ####Primary Functions
 
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
         self.updateSprite(currentMousePos);
         self.updatePos(currentMousePos, globalSpeed, globalDisplacement);
-        self.updateBoundary();
         self.checkIfSwapWeapons(keyBoardState);
         self.fireMain(currentMouseState);
         self.fireAlternate(currentMouseState);
-        self.updateWeapons();
         
     ####Secondary Functions
 
@@ -133,9 +223,12 @@ class Player(Ship):
 
         xDis = self.determineHorizontalDisplacement(currentMousePos)/16;
         yDis = self.determineVerticalDisplacement(currentMousePos)/16;
+
+        globalHorizontalChange = -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
+        globalVerticalChange = -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();
         
-        self.objectPos[0] += -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement() + xDis;
-        self.objectPos[1] += -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement() + yDis;
+        self.objectPos[0] += globalHorizontalChange + xDis;
+        self.objectPos[1] += globalVerticalChange + yDis;
     
     def checkIfSwapWeapons(self, keyBoardState):
 

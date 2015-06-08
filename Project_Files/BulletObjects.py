@@ -28,6 +28,7 @@ class Bullet(GameObject):
         self.killCounterMax = 150;
         
         self.firer = firer;
+        self.firerType = self.firer.shipType;
         self.damage = damage;
         self.speedMult = speedMult;
         self.direction = direction;
