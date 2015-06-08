@@ -38,13 +38,15 @@ class ObjectStorage:
         self.spawnShip = 50;
         self.maxEnemySpawn = 10;
 
-    def __init__(self, background):
+    def __init__(self, background, windowWidth, windowHeight):
         self.initializeGroups();
         self.initializeEnemies();
         
         self.background = background;
         self.backgroundSpriteWidth = self.background.spriteWidth;
         self.backgroundSpriteHeight = self.background.spriteHeight;
+        self.windowWidth = windowWidth;
+        self.windowHeight = windowHeight;
 
         self.gameMode = False;
 
@@ -111,6 +113,19 @@ class ObjectStorage:
 
     ##Enemy Object
 
+    def determineSpawnPoint(self):
+
+        XBOUNDS = 100;
+        YBOUNDS = 100;
+        
+        possibleValueX = [random.randrange(-XBOUNDS, 0), random.randrange(self.windowWidth, self.windowWidth + XBOUNDS)];
+        possibleValueY = [random.randrange(-YBOUNDS, 0), random.randrange(self.windowHeight, self.windowHeight + YBOUNDS)];
+
+        xIndex = random.randrange(0, 2);
+        yIndex = random.randrange(0, 2);
+
+        return [possibleValueX[xIndex], possibleValueY[yIndex]];
+
     def obtainRandomEnemyShip(self):
         return self.enemyList[random.randrange(0, len(self.enemyList))];
 
@@ -118,7 +133,8 @@ class ObjectStorage:
         if self.spawnCounter >= self.spawnShip and len(self.ships.sprites()) <= self.maxEnemySpawn:
             self.spawnCounter = 0;
             self.spawnShip = random.randrange(50, 100);
-            self.addShip(self.obtainRandomEnemyShip()(random.randrange(0, 850), random.randrange(0, 850)));
+            spawnPoint = self.determineSpawnPoint();
+            self.addShip(self.obtainRandomEnemyShip()(spawnPoint[0], spawnPoint[1]));
         else:
             self.spawnCounter += 1;
 

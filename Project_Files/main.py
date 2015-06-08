@@ -26,7 +26,7 @@ def gameLoop():
     gameExit = False;
 
     #Main Game Properties:
-    framesPerSecond = 60;
+    framesPerSecond = 62;
     clock = pygame.time.Clock();
 
     keyBoardState = {"W":False, "A":False, "S":False, "D":False, "Q":False, "E":False};

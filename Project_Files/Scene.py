@@ -12,7 +12,7 @@ class Scene:
     def __init__(self, windowWidth, windowHeight, background):
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
-        self.currentObjectsInScene = ObjectStorage(background);
+        self.currentObjectsInScene = ObjectStorage(background, windowWidth, windowHeight);
         self.background = background;
 
     def addObjectToScene(self, obj):
@@ -31,7 +31,6 @@ class Scene:
             if button.clicked == True:
                 return button.getName();
                 
-
 ####Sub-Classes
 
 class MainMenu(Scene):
@@ -68,7 +67,6 @@ class HelpMenu(Scene):
 class Game(Scene):
 
     def __init__(self, windowWidth, windowHeight, background):
-
         super().__init__(windowWidth, windowHeight, background);
         self.currentObjectsInScene.gameMode = True;
                 
