@@ -31,7 +31,6 @@ class ObjectStorage:
         self.button = Group();
         self.ships = Group();
         self.bullets = Group();
-        self.enemies = Group();
 
     def initializeEnemies(self):
         self.enemyList = [EnemyShip1, ];
