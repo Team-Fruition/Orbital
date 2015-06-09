@@ -74,13 +74,13 @@ class GameObject(pygame.sprite.Sprite):
         self.localSpeed = SpeedController();
         self.localDisplacement = DisplacementController();
 
-    def initObjectStorage(self):
+    def setObjectStorage(self):
         self.objectStorage = self.currentObjectStorage;
 
     def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio):
         super(GameObject, self).__init__();
 
-        self.initObjectStorage();
+        self.setObjectStorage();
 
         self.fillImgList(url, fileName, indexLen, numFrames, ex);
         self.setStartingFrame();
