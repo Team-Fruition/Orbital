@@ -111,13 +111,9 @@ class ObjectStorage:
     def removeBullet(self, bullet):
         bullet.kill();
 
-    def removeObjectFromScene(self, obj):
-        obj.kill();
-
     ##Enemy Object
 
     def determineSpawnPoint(self):
-
         XBOUNDS = 128;
         YBOUNDS = 128;
         
@@ -180,13 +176,13 @@ class ObjectStorage:
             #Do Collision Checking here
             objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
 
-            for ship, bullets in objects.items():
+            for ship, bullets in objects.items():         
                 for bullet in bullets:
                     if bullet.firerType != ship.shipType:
-                        ship.damage(bullet.damage);
-                        if ship.dead == True:
-                            self.score += ship.killScore;      
-                        bullet.kill();
+                        ship.damage(bullet.damage);   
+                        bullet.kill();                       
+                if ship.dead == True:
+                    self.score += ship.killScore;   
 
             #Perform other miscellaneous operations here
             self.addEnemy();
