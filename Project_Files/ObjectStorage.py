@@ -146,8 +146,9 @@ class ObjectStorage:
     def updateScore(self):
         scoreString = str(self.score);
         bufferLen = 20 - len(scoreString);
-        finalString = bufferLen * "0" + scoreString;
-        self.renderedScore = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 225, self.windowHeight/2 - 25, finalString), ];
+        if bufferLen >= 0:
+            finalString = bufferLen * "0" + scoreString;
+            self.renderedScore = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 225, self.windowHeight/2 - 25, finalString), ];
             
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
