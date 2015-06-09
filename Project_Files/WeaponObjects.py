@@ -30,6 +30,9 @@ class Weapon:
     def fire(self):
         return self.bulletLoadout;
 
+    def adjustCounterMax(self, value):
+        self.counterMax = value;
+
 ####Instance Classes
 
 class BasicWeapon(Weapon):

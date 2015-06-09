@@ -187,6 +187,10 @@ class Drone(Ship):
 
 class Player(Ship):
 
+    ####Constants
+
+    HITPOINTS = 1000;
+
     ####Initialization Methods
 
     def initializeMultipleWeaponCapability(self, startingWeapon):
@@ -199,7 +203,7 @@ class Player(Ship):
 
         url = urlConstructor(ART_ASSETS, SHIPS, PLAYER_SHIP);
         shipType = TEAM_PLAYER;
-        hitPoints = 1000;
+        hitPoints = self.HITPOINTS;
         priWeapon = BasicWeapon;
         altWeapon = HailStorm;
 
