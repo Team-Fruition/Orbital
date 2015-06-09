@@ -12,7 +12,7 @@ pygameFlags = pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF;
 gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
 
 #Define icon:
-#pygame.display.set_icon(loadVanillaImg(urlConstructor(ART_ASSETS, PROJECTILES, YELLOW_PROJECTILE), "0000" + PNG_EX));
+#pygame.display.set_icon(loadVanillaImg(urlConstructor(ART_ASSETS, PROJECTILES, BLUE_PROJECTILE), "0000" + PNG_EX));
 
 #Define Window Title:
 pygame.display.set_caption("Space Arena");

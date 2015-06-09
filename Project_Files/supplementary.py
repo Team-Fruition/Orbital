@@ -33,7 +33,7 @@ BLUE_PROJECTILE = "Blue_Projectile";
 EXPLOSION = "Explosion";
 
 #Ship Constants
-ENEMY_SHIP_1 = "Enemy_Ship_1";
+DRONE = "Drone";
 PLAYER_SHIP = "Player_Ship";
 
 #Font Constants

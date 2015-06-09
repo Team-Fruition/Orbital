@@ -124,7 +124,7 @@ class Ship(GameObject):
 
 #Enemy 1
         
-class EnemyShip1(Ship):
+class Drone(Ship):
 
     ####Initialization Methods
 
@@ -135,10 +135,10 @@ class EnemyShip1(Ship):
     
     def __init__(self, x, y):
 
-        url = urlConstructor(ART_ASSETS, SHIPS, ENEMY_SHIP_1);
+        url = urlConstructor(ART_ASSETS, SHIPS, DRONE);
         shipType = TEAM_ENEMY;
         hitPoints = 100;
-        priWeapon = BasicWeapon;
+        priWeapon = DroneWeapon;
         altWeapon = None;
         killScore = 100;
 

@@ -71,7 +71,7 @@ class Game(Scene):
         self.currentObjectsInScene.gameMode = True;
                 
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
-
+        
         self.player = Player(windowWidth/2, windowHeight + 30);
         self.addObjectToScene(self.player);
         

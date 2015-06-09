@@ -33,7 +33,7 @@ class ObjectStorage:
         self.bullets = Group();
 
     def initializeEnemies(self):
-        self.enemyList = [EnemyShip1, ];
+        self.enemyList = [Drone, ];
         self.spawnCounter = 0;
         self.spawnShip = 50;
         self.maxEnemySpawn = 10;
@@ -48,12 +48,15 @@ class ObjectStorage:
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
 
+        self.score = 0;
+        self.renderedScore = [];
+
         self.gameMode = False;
 
     ####Operations
 
     def getAllObjects(self):
-        return [self.background, ] + self.bullets.sprites() + self.ships.sprites() + self.UIObject.sprites();
+        return [self.background, ] + self.bullets.sprites() + self.ships.sprites() + self.UIObject.sprites() + self.renderedScore;
 
     ##Generic Object Add
 
@@ -139,6 +142,12 @@ class ObjectStorage:
             self.spawnCounter += 1;
 
     ##Main Update Function
+
+    def updateScore(self):
+        scoreString = str(self.score);
+        bufferLen = 20 - len(scoreString);
+        finalString = bufferLen * "0" + scoreString;
+        self.renderedScore = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 225, self.windowHeight/2 - 25, finalString), ];
             
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
@@ -167,14 +176,19 @@ class ObjectStorage:
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
-            #Do Collision Checking Here
+            #Do Collision Checking here
             objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
 
             for ship, bullets in objects.items():
                 for bullet in bullets:
                     if bullet.firerType != ship.shipType:
                         ship.damage(bullet.damage);
+                        if ship.dead == True:
+                            self.score += ship.killScore;      
                         bullet.kill();
 
+            #Perform other miscellaneous operations here
             self.addEnemy();
+            self.updateScore();
+
         
