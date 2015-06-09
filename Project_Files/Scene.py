@@ -12,8 +12,10 @@ class Scene:
     def __init__(self, windowWidth, windowHeight, background):
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
-        self.currentObjectsInScene = ObjectStorage(background, windowWidth, windowHeight);
         self.background = background;
+        
+        self.currentObjectsInScene = ObjectStorage(background, windowWidth, windowHeight);
+        GameObject.currentObjectStorage = self.currentObjectsInScene;
 
     def addObjectToScene(self, obj):
         self.currentObjectsInScene.determineAndAddObject(obj);
@@ -22,7 +24,7 @@ class Scene:
         return self.currentObjectsInScene.getAllObjects();      
     
     def update(self, keyBoardState, currentMousePos, currentMouseState):
-        GameObject.objectStorage = self.currentObjectsInScene;
+        GameObject.currentObjectStorage = self.currentObjectsInScene;
         self.currentObjectsInScene.updateAllObjects(keyBoardState, currentMousePos, currentMouseState);
 
     def changeScene(self):

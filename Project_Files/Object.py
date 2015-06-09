@@ -39,7 +39,7 @@ class GameObject(pygame.sprite.Sprite):
 
     ####Static Variables
 
-    objectStorage = None;
+    currentObjectStorage = None;
     
     spriteImgList = None;
     spriteWidth = None;
@@ -74,8 +74,13 @@ class GameObject(pygame.sprite.Sprite):
         self.localSpeed = SpeedController();
         self.localDisplacement = DisplacementController();
 
+    def initObjectStorage(self):
+        self.objectStorage = self.currentObjectStorage;
+
     def __init__(self, url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio):
         super(GameObject, self).__init__();
+
+        self.initObjectStorage();
 
         self.fillImgList(url, fileName, indexLen, numFrames, ex);
         self.setStartingFrame();
