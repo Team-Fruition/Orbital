@@ -100,11 +100,11 @@ class Ship(GameObject):
 
     def fireMain(self):
         if self.priWeapon != None:
-            self.firePrimary = True;
+            self.objectStorage.addBullet(self.priWeapon.fire());
 
     def fireAlternate(self):
         if self.altWeapon != None:
-            self.fireSecondary = True;
+            self.objectStorage.addBullet(self.altWeapon.fire());
 
     def getPrimaryWeapon(self):
         return self.priWeapon;
@@ -263,15 +263,11 @@ class Player(Ship):
 
     def fireMain(self, currentMouseState):
         if currentMouseState[0] == 1:
-            self.firePrimary = True;
-        else:
-            self.firePrimary = False;
+            super().fireMain();
 
     def fireAlternate(self, currentMouseState):
         if currentMouseState[2] == 1:
-            self.fireSecondary = True;
-        else:
-            self.fireSecondary = False;
+            super().fireAlternate();
 
     def getSecondaryWeapon(self):
         return self.weaponList[self.weaponListIndex];

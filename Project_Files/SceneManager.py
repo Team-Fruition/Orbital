@@ -10,7 +10,6 @@ class SceneManager:
     currentScene = START;
 
     def __init__(self, windowWidth, windowHeight, acceleration, friction):
-
         #Load Background
         self.windowWidth = windowWidth;
         self.windowHeight = windowHeight;
@@ -38,7 +37,6 @@ class SceneManager:
 
     #Screen Logic
     def determineSceneChange(self):
-        
         #Main Menu Button Logic
         if self.currentScene == START:
             if self.getCurrentScene().changeScene() == PLAY:
@@ -60,5 +58,4 @@ class SceneManager:
         
     def update(self, keyBoardState, currentMousePos, currentMouseState):
         self.getCurrentScene().update(keyBoardState, currentMousePos, currentMouseState);
-
         self.determineSceneChange();

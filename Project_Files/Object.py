@@ -38,6 +38,8 @@ class GameObject(pygame.sprite.Sprite):
         return self.ID;
 
     ####Static Variables
+
+    objectStorage = None;
     
     spriteImgList = None;
     spriteWidth = None;
@@ -133,10 +135,6 @@ class GameObject(pygame.sprite.Sprite):
     def updateBoundary(self):
         #Modify self.rect
         self.rect = rectGenerator(tuple(self.objectPos), (self.getSpriteWidth(), self.getSpriteHeight()));
-
-    def kill(self):
-        super().kill();
-        return [];
 
 ####Instance Classes
 

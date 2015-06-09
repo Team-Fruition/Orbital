@@ -22,6 +22,7 @@ class Scene:
         return self.currentObjectsInScene.getAllObjects();      
     
     def update(self, keyBoardState, currentMousePos, currentMouseState):
+        GameObject.objectStorage = self.currentObjectsInScene;
         self.currentObjectsInScene.updateAllObjects(keyBoardState, currentMousePos, currentMouseState);
 
     def changeScene(self):

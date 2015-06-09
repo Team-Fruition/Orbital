@@ -73,6 +73,10 @@ class ObjectStorage:
         else:
             pass;
 
+    def determineAndAddListOfObjects(self, objList):
+        for item in objList:
+            self.determineAndAddObject(item);
+
     def addObjectToScene(self, obj):
         self.objectsToUpdate.add(obj);
 
@@ -176,13 +180,6 @@ class ObjectStorage:
 
             for ship in shipsList:
                 ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
-                
-                if ship.firePrimary == True:
-                    bulletList = ship.getPrimaryWeapon().fire();
-                    self.addBullet(bulletList);                    
-                if ship.fireSecondary == True:
-                    bulletList = ship.getSecondaryWeapon().fire();
-                    self.addBullet(bulletList);
 
                 if not self.background.rect.collidepoint(ship.objectPos):
                     ship.kill();
