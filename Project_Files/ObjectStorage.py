@@ -33,7 +33,7 @@ class ObjectStorage:
         self.bullets = Group();
 
     def initializeEnemies(self):
-        self.enemyList = [Drone, HailstormArtillery];
+        self.enemyList = [Drone, Drone, Drone, HailstormArtillery];
         self.spawnCounter = 0;
         self.spawnShip = 50;
         self.maxEnemySpawn = 10;
