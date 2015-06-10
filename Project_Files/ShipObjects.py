@@ -130,7 +130,7 @@ class HailstormArtillery(Ship):
 
     def initCoordinatesSystem(self):
         self.currentCoordinatesCount = 0;
-        self.updateCoordinatesCounter = 100;
+        self.updateCoordinatesCounter = 25;
         self.determineNewCoordinates();
     
     def __init__(self, x, y):
@@ -152,6 +152,7 @@ class HailstormArtillery(Ship):
 
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
         super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        self.updateCoordinates();
         self.updateSprite(self.projectedCoordinates);
         self.updatePos(globalSpeed, globalDisplacement);
         self.fireMain();
@@ -166,7 +167,6 @@ class HailstormArtillery(Ship):
     def updateCoordinates(self):
         if self.currentCoordinatesCount >= self.updateCoordinatesCounter:
             self.currentCoordinatesCount = 0;
-            self.updateCoordinatesCounter = random.randrange(0, 75);
             self.determineNewCoordinates();
         else:
             self.currentCoordinatesCount += 1;
@@ -179,8 +179,6 @@ class HailstormArtillery(Ship):
         if not self.dirty:
 
             self.dirty = True;
-
-            self.updateCoordinates();
             
             xDis = self.determineHorizontalDisplacement(self.projectedCoordinates)/256;
             yDis = self.determineVerticalDisplacement(self.projectedCoordinates)/256;

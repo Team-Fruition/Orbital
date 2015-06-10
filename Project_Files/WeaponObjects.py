@@ -80,6 +80,8 @@ class DroneWeapon(Weapon):
         super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(YellowProjectile);
 
+        self.alternateGunPort = True;
+
     def fire(self):
         if self.counter >= self.counterMax:
             self.counter = 0;
@@ -94,9 +96,13 @@ class DroneWeapon(Weapon):
 
             bulletList = list();
 
-            bulletList.append(self.bulletLoadout[0](firer, x - xOffSet, y - yOffSet, direction));
-            bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-                               
+            if self.alternateGunPort:
+                bulletList.append(self.bulletLoadout[0](firer, x - xOffSet, y - yOffSet, direction));
+            else:
+                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
+
+            self.alternateGunPort = not self.alternateGunPort;
+            
             return bulletList;
         
         return list();
@@ -106,7 +112,11 @@ class HailStorm(Weapon):
     ####Initialization Methods
 
     def __init__(self, firer):
-        super().__init__(firer, 100, 125);
+
+        startingCounter = 100;
+        counterMax = 125;
+        
+        super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(HailStormProjectile);
 
         self.alternateGunPort = False;
@@ -143,7 +153,11 @@ class HailStormArtilleryWeapon(Weapon):
     ####Initialization Methods
 
     def __init__(self, firer):
-        super().__init__(firer, 75, 270);
+
+        startingCounter = 75;
+        counterMax = 270;
+        
+        super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(HailStormProjectile);
 
         self.alternateGunPort = False;
@@ -168,7 +182,7 @@ class HailStormArtilleryWeapon(Weapon):
 
             bulletList = list();
 
-            for num in range(0, 10):
+            for num in range(0, 5):
                 bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
             
             return bulletList;
