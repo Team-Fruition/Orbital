@@ -33,6 +33,7 @@ BLUE_PROJECTILE = "Blue_Projectile";
 EXPLOSION = "Explosion";
 
 #Ship Constants
+HAILSTORM_ARTILLERY = "Hailstorm_Artillery";
 DRONE = "Drone";
 PLAYER_SHIP = "Player_Ship";
 

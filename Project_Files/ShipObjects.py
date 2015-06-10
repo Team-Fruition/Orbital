@@ -122,7 +122,81 @@ class Ship(GameObject):
 
 ####Instance Classes
 
-#Enemy 1
+#Hailstorm Artillery
+        
+class HailstormArtillery(Ship):
+
+    ####Initialization Methods
+
+    def initCoordinatesSystem(self):
+        self.currentCoordinatesCount = 0;
+        self.updateCoordinatesCounter = 100;
+        self.determineNewCoordinates();
+    
+    def __init__(self, x, y):
+
+        url = urlConstructor(ART_ASSETS, SHIPS, HAILSTORM_ARTILLERY);
+        shipType = TEAM_ENEMY;
+        hitPoints = 75;
+        priWeapon = HailStormArtilleryWeapon;
+        altWeapon = None;
+        killScore = 150;
+
+        super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon, killScore);
+
+        self.initCoordinatesSystem();
+        
+        self.dirty = False;
+
+    ####Primary Functions
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        self.updateSprite(self.projectedCoordinates);
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.fireMain();
+
+    ####Secondary Functions
+
+    def determineNewCoordinates(self):
+        playerPos = self.objectStorage.player.objectPos;
+        
+        self.projectedCoordinates = list(playerPos);
+
+    def updateCoordinates(self):
+        if self.currentCoordinatesCount >= self.updateCoordinatesCounter:
+            self.currentCoordinatesCount = 0;
+            self.updateCoordinatesCounter = random.randrange(0, 75);
+            self.determineNewCoordinates();
+        else:
+            self.currentCoordinatesCount += 1;
+
+    def updatePos(self, globalSpeed, globalDisplacement):
+
+        globalHorizontalChange = -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
+        globalVerticalChange = -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();
+
+        if not self.dirty:
+
+            self.dirty = True;
+
+            self.updateCoordinates();
+            
+            xDis = self.determineHorizontalDisplacement(self.projectedCoordinates)/256;
+            yDis = self.determineVerticalDisplacement(self.projectedCoordinates)/256;
+
+            self.projectedCoordinates[0] += globalHorizontalChange;
+            self.projectedCoordinates[1] += globalVerticalChange;
+            
+            self.objectPos[0] += globalHorizontalChange + xDis;
+            self.objectPos[1] += globalVerticalChange + yDis;
+
+        else:
+            
+            self.objectPos[0] += globalHorizontalChange;
+            self.objectPos[1] += globalVerticalChange;
+
+#Drone
         
 class Drone(Ship):
 

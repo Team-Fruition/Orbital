@@ -33,7 +33,7 @@ class ObjectStorage:
         self.bullets = Group();
 
     def initializeEnemies(self):
-        self.enemyList = [Drone, ];
+        self.enemyList = [Drone, HailstormArtillery];
         self.spawnCounter = 0;
         self.spawnShip = 50;
         self.maxEnemySpawn = 10;
@@ -127,8 +127,8 @@ class ObjectStorage:
     ##Enemy Object
 
     def determineSpawnPoint(self):
-        XBOUNDS = 128;
-        YBOUNDS = 128;
+        XBOUNDS = 256;
+        YBOUNDS = 256;
         
         possibleValueX = [random.randrange(-XBOUNDS, 0), random.randrange(self.windowWidth, self.windowWidth + XBOUNDS)];
         possibleValueY = [random.randrange(-YBOUNDS, 0), random.randrange(self.windowHeight, self.windowHeight + YBOUNDS)];

@@ -138,4 +138,40 @@ class HailStorm(Weapon):
 
         return list();
 
+class HailStormArtilleryWeapon(Weapon):
+    
+    ####Initialization Methods
+
+    def __init__(self, firer):
+        super().__init__(firer, 75, 270);
+        self.initializeBulletLoadout(HailStormProjectile);
+
+        self.alternateGunPort = False;
+
+    def fire(self):
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6 + random.randrange(-15, 15);
+
+            xOffSet = 10 * math.sin(math.radians(direction));
+            yOffSet = 10 * math.cos(math.radians(direction));            
+
+            if self.alternateGunPort:
+                xOffSet *= -1;
+                yOffSet *= -1;
+
+            self.alternateGunPort = not self.alternateGunPort;
+
+            bulletList = list();
+
+            for num in range(0, 10):
+                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
+            
+            return bulletList;
+
+        return list();
 
