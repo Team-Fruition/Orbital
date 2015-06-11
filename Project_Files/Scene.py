@@ -82,4 +82,16 @@ class Game(Scene):
     def changeScene(self):
         if self.player.dead:
             return GAMEOVER;
+
+class GameOver(Scene):
+
+    def __init__(self, windowWidth, windowHeight, background, finalScore):
+        super().__init__(windowWidth, windowHeight, background);
+
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 245, "GAME OVER"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 215, "Final Score:"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 185, str(finalScore)));
+
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -10, BACK));
+        
     
