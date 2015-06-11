@@ -24,6 +24,8 @@
 
 ![Main Menu](https://lh3.googleusercontent.com/-78RSBgvsRJs/VWqWapqaxlI/AAAAAAAAAXE/aBEAUfha1gw/s300/Screenshot+2015-05-31+12.55.29.png "Screenshot 2015-05-31 12.55.29.png")
 
+![Game](https://lh3.googleusercontent.com/-vnt6QgX5iVo/VXk6cR4MEqI/AAAAAAAAAXo/WKBHPD8wUt8/s300/Screenshot+2015-06-11+15.32.33.png "In Game Screen &#40;v0.1&#41;")
+
 <hr />
 
 <h3>
@@ -34,7 +36,7 @@
 	Scope
 </h4>
 
-> <p> 	This game is aimed at anybody with free time.  </p>
+> <p> This game is aimed at anybody with free time.  </p>
 
 <h4>
 	Targeted Level of Acheivement
@@ -48,33 +50,32 @@
 
 >  1. Main Menu State
 >  2. Help Screen State
+>  3. Base Game State
+>  4. Game Over State
 
 <h4>
-	Things Not Done (should hopefully be implemented by end June)
+	Things Not Done (should hopefully be implemented by end June - mid July)
 </h4>
 
 >  1. Audio Implementation (now it's really simulating the silence of space)
->  2. Game State
->  3. Game Over State 
->  4. Pause State
+>  2. Pause State
+>  3. Advanced Game Features such as Enemy Drops, etc.
+>  4. Advanced UI such as Health Bars.
+>  5. More enemies, items, etc.
 
 <h4>
 	Possible Future Extensions
 </h4>
 
->  1. Converting the whole Pygame app into a Kivy app.
+>  1. Making the game playable on Android.
+>  2. Leaderboard.
 
 <h4>
 	To Run 
 </h4>
 
->  1. For now, you will have to install [Python](https://www.python.org/downloads/) and
-> [Pygame](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame).
->  2. To install the Pygame module (which is a .whl file), follow this [video](https://www.youtube.com/watch?v=jnpC_Ib_lbc). Because some
-> modules will conflict with each other, you might want to install
-> Pygame onto a different folder/virtual environment. 
->  3. Clone this entire repo. You can use the [SourceTree](https://www.sourcetreeapp.com/) client for this.
->  4. Double click main.py within the Project_Files folder to run.
+>  1. Copy the builds folder in the root directory of this repo.
+>  2. Within the sub folder contained within, run main.exe to play.
 
 <h4>
 	Presentation Video
@@ -92,10 +93,11 @@
 	References
 </h4>
 
->  1. Python 3.4.0: [Link](https://www.python.org/downloads/)
->  2. Pygame 1.9.2: [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
->  3. Installing Python modules via PIP: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
->  4. SourceTree client for GitHub: [Link](https://www.sourcetreeapp.com/)
+ 1. Python 3.4.0: [Link](https://www.python.org/downloads/)
+ 2. Pygame 1.9.2: [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
+ 3. cx_Freeze 4.3.4: [Link](http://cx-freeze.sourceforge.net/)
+ 4. Installing Python modules via PIP: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
+ 5. SourceTree client for GitHub: [Link](https://www.sourcetreeapp.com/)
 
 <h4>
 	Game Environments Researched
