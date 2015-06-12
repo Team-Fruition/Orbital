@@ -35,6 +35,146 @@ class Weapon:
 
 ####Instance Classes
 
+class Firecracker(Weapon):
+
+    ####Initialization Methods
+
+    def __init__(self, firer):
+
+        startingCounter = 100;
+        counterMax = 200;
+
+        super().__init__(firer, startingCounter, counterMax);
+        self.initializeBulletLoadout(FirecrackerProjectile);
+
+    def fire(self):
+
+        bulletList = list();
+        
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6;        
+            
+            bulletList.append(self.bulletLoadout[0](firer, x, y, direction));
+            bulletList.append(self.bulletLoadout[0](firer, x, y, direction - 30));
+            bulletList.append(self.bulletLoadout[0](firer, x, y, direction + 30));
+
+        return bulletList;
+
+class LethalFlowerWeapon(Weapon):
+
+    ####Initialization Methods
+
+    def __init__(self, firer):
+
+        startingCounter = 100;
+        counterMax = 175;
+
+        super().__init__(firer, startingCounter, counterMax);
+        self.initializeBulletLoadout(FirecrackerProjectile);
+
+    def fire(self):
+
+        bulletList = list();
+
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6;
+
+            for num in range(0, 4):
+                bulletList.append(self.bulletLoadout[0](firer, x, y, direction));
+                direction += 90;
+
+        return bulletList;
+            
+class HailStorm(Weapon):
+
+    ####Initialization Methods
+
+    def __init__(self, firer):
+
+        startingCounter = 100;
+        counterMax = 125;
+        
+        super().__init__(firer, startingCounter, counterMax);
+        self.initializeBulletLoadout(HailStormProjectile);
+
+        self.alternateGunPort = False;
+
+    def fire(self):
+
+        bulletList = list();
+
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6;
+
+            xOffSet = 10 * math.sin(math.radians(direction));
+            yOffSet = 10 * math.cos(math.radians(direction));            
+
+            if self.alternateGunPort:
+                xOffSet *= -1;
+                yOffSet *= -1;
+
+            self.alternateGunPort = not self.alternateGunPort;
+            
+            for num in range(0, 15):
+                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
+
+        return bulletList;
+
+class HailStormArtilleryWeapon(Weapon):
+    
+    ####Initialization Methods
+
+    def __init__(self, firer):
+
+        startingCounter = 75;
+        counterMax = 270;
+        
+        super().__init__(firer, startingCounter, counterMax);
+        self.initializeBulletLoadout(HailStormProjectile);
+
+        self.alternateGunPort = False;
+
+    def fire(self):
+
+        bulletList = list();
+
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6 + random.randrange(-15, 15);
+
+            xOffSet = 10 * math.sin(math.radians(direction));
+            yOffSet = 10 * math.cos(math.radians(direction));            
+
+            if self.alternateGunPort:
+                xOffSet *= -1;
+                yOffSet *= -1;
+
+            self.alternateGunPort = not self.alternateGunPort;
+
+            for num in range(0, 5):
+                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
+            
+        return bulletList;
+
 class BasicWeapon(Weapon):
 
     ####Initialization Methods
@@ -48,6 +188,9 @@ class BasicWeapon(Weapon):
         self.initializeBulletLoadout(YellowProjectile);
 
     def fire(self):
+
+        bulletList = list();
+        
         if self.counter >= self.counterMax:
             self.counter = 0;
 
@@ -59,14 +202,10 @@ class BasicWeapon(Weapon):
             xOffSet = 10 * math.sin(math.radians(direction));
             yOffSet = 10 * math.cos(math.radians(direction));
 
-            bulletList = list();
-
             bulletList.append(self.bulletLoadout[0](firer, x - xOffSet, y - yOffSet, direction));
             bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
                                
-            return bulletList;
-        
-        return list();
+        return bulletList;
 
 class DroneWeapon(Weapon):
 
@@ -83,6 +222,9 @@ class DroneWeapon(Weapon):
         self.alternateGunPort = True;
 
     def fire(self):
+
+        bulletList = list();
+        
         if self.counter >= self.counterMax:
             self.counter = 0;
 
@@ -103,89 +245,4 @@ class DroneWeapon(Weapon):
 
             self.alternateGunPort = not self.alternateGunPort;
             
-            return bulletList;
-        
-        return list();
-
-class HailStorm(Weapon):
-
-    ####Initialization Methods
-
-    def __init__(self, firer):
-
-        startingCounter = 100;
-        counterMax = 125;
-        
-        super().__init__(firer, startingCounter, counterMax);
-        self.initializeBulletLoadout(HailStormProjectile);
-
-        self.alternateGunPort = False;
-
-    def fire(self):
-        if self.counter >= self.counterMax:
-            self.counter = 0;
-
-            firer = self.firer;
-            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
-            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
-            direction = self.firer.spriteIndex * 6;
-
-            xOffSet = 10 * math.sin(math.radians(direction));
-            yOffSet = 10 * math.cos(math.radians(direction));            
-
-            if self.alternateGunPort:
-                xOffSet *= -1;
-                yOffSet *= -1;
-
-            self.alternateGunPort = not self.alternateGunPort;
-
-            bulletList = list();
-
-            for num in range(0, 15):
-                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-            
-            return bulletList;
-
-        return list();
-
-class HailStormArtilleryWeapon(Weapon):
-    
-    ####Initialization Methods
-
-    def __init__(self, firer):
-
-        startingCounter = 75;
-        counterMax = 270;
-        
-        super().__init__(firer, startingCounter, counterMax);
-        self.initializeBulletLoadout(HailStormProjectile);
-
-        self.alternateGunPort = False;
-
-    def fire(self):
-        if self.counter >= self.counterMax:
-            self.counter = 0;
-
-            firer = self.firer;
-            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
-            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
-            direction = self.firer.spriteIndex * 6 + random.randrange(-15, 15);
-
-            xOffSet = 10 * math.sin(math.radians(direction));
-            yOffSet = 10 * math.cos(math.radians(direction));            
-
-            if self.alternateGunPort:
-                xOffSet *= -1;
-                yOffSet *= -1;
-
-            self.alternateGunPort = not self.alternateGunPort;
-
-            bulletList = list();
-
-            for num in range(0, 5):
-                bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
-            
-            return bulletList;
-
-        return list();
-
+        return bulletList;

@@ -122,6 +122,60 @@ class Ship(GameObject):
 
 ####Instance Classes
 
+#Lethal Flower
+
+class LethalFlower(Ship):
+
+    ####Initialization Methods
+
+    def __init__(self, x, y):
+
+        url = urlConstructor(ART_ASSETS, SHIPS, LETHAL_FLOWER);
+        shipType = TEAM_ENEMY;
+        hitPoints = 350;
+        priWeapon = LethalFlowerWeapon;
+        altWeapon = None;
+        killScore = 400;
+
+        super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon, killScore);
+
+        self.disCounter = 200;
+        self.disCounterMax = 200;
+
+        self.updateDis();
+
+    ####Primary Functions
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        self.updateSprite();
+        self.updateDis();
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.fireMain();
+
+    ####Secondary Functions
+
+    def updateSprite(self):
+        if self.spriteIndex >= self.imgListLen - 1:
+            self.spriteIndex = 0;
+        else:
+            self.spriteIndex += 1;
+
+    def updateDis(self):
+        if self.disCounter >= self.disCounterMax:
+            self.disCounter = 0;
+            self.xDis = random.randrange(-1, 1);
+            self.yDis = random.randrange(-1, 1);
+        else:
+            self.disCounter += 1;
+
+    def updatePos(self, globalSpeed, globalDisplacement):
+        globalHorizontalChange = -globalSpeed.getNetHorizontalSpeed() + globalDisplacement.getHorizontalDisplacement();
+        globalVerticalChange = -globalSpeed.getNetVerticalSpeed() + globalDisplacement.getVerticalDisplacement();
+
+        self.objectPos[0] += globalHorizontalChange + self.xDis;
+        self.objectPos[1] += globalVerticalChange + self.yDis;
+        
 #Hailstorm Artillery
         
 class HailstormArtillery(Ship):
@@ -282,6 +336,7 @@ class Player(Ship):
         super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon);
 
         self.initializeMultipleWeaponCapability(self.altWeapon);
+        self.addNewWeapon(Firecracker);
 
     ####Primary Functions
 
@@ -343,3 +398,7 @@ class Player(Ship):
 
     def getSecondaryWeapon(self):
         return self.weaponList[self.weaponListIndex];
+
+    def addNewWeapon(self, weapon):
+        if issubclass(weapon, Weapon):
+            self.weaponList.append(weapon(self));

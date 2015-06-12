@@ -51,6 +51,8 @@ class GameObject(pygame.sprite.Sprite):
     def fillImgList(cls, url, fileName, indexLen, numFrames, ex):
         if cls.spriteImgList == None:
             cls.spriteImgList = [];
+            cls.imgListLen = numFrames;
+
             indexingVariable = 10 ** (indexLen);
             for index in range(0, numFrames):
                 cls.spriteImgList.append(loadImg(url, fileName + str(indexingVariable + index)[1:] + ex));

@@ -82,20 +82,73 @@ class Bullet(GameObject):
 
 ####Instance Classes
 
-#Yellow Projectile
+##Firecracker Projectile
 
-class YellowProjectile(Bullet):
+class FirecrackerProjectile(Bullet):
 
     ####Initialization Methods
 
     def __init__(self, firer, x, y, direction):
 
-        url = urlConstructor(ART_ASSETS, PROJECTILES, YELLOW_PROJECTILE);
-        damage = 30;
-        speedMult = 10;
+        url = urlConstructor(ART_ASSETS, PROJECTILES, PINK_PROJECTILE);
+        damage = 40;
+        speedMult = 7;
+
+        self.originalDirection = direction;
+
+        super().__init__(url, firer, damage, x, y, speedMult, direction);
+
+        self.killCounterMax = 50;
+
+        self.spawnCounter = 0;
+        self.spawnCounterMax = 2;
+
+    ####Primary Functions
+
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.updateBoundary();
+        self.updateKillCounter();
+        self.updateSpawnCounter();
+
+    ####Secondary Functions
+
+    def updateSpawnCounter(self):
+        if self.spawnCounter >= self.spawnCounterMax:
+            self.spawnCounter = 0;
+
+            firer = self.firer;
+            x = self.objectPos[0] + self.spriteWidth/2;
+            y = self.objectPos[1] + self.spriteHeight/2;
+            direction = random.randrange(0, 360);
+
+            bulletList = list();
+
+            for counter in range(0, 4):
+                bulletList.append(SubFirecrackerProjectile(firer, x, y, direction));
+                direction += 90;
+
+            self.objectStorage.addBullet(bulletList);
+            
+        else:
+            self.spawnCounter += 1;        
+
+class SubFirecrackerProjectile(Bullet):
+
+    ####Initialization Methods
+
+    def __init__(self, firer, x, y, direction):
+
+        url = urlConstructor(ART_ASSETS, PROJECTILES, PINK_PROJECTILE);
+        damage = 5;
+        speedMult = 5;
 
         super().__init__(url, firer, damage, x, y, speedMult, direction);
         
+        self.killCounterMax = 10;
+
+##Hailstorm Projectile
+
 class HailStormProjectile(Bullet):
 
     ####Initialization Methods
@@ -131,4 +184,20 @@ class HailStormProjectile(Bullet):
             if self.speedMult <= 0:
                 self.speedUp = True;
                 self.updateDirection(self.originalDirection);
+
+##Basic Projectile
+
+class YellowProjectile(Bullet):
+
+    ####Initialization Methods
+
+    def __init__(self, firer, x, y, direction):
+
+        url = urlConstructor(ART_ASSETS, PROJECTILES, YELLOW_PROJECTILE);
+        damage = 30;
+        speedMult = 10;
+
+        super().__init__(url, firer, damage, x, y, speedMult, direction);
+        
+
     
