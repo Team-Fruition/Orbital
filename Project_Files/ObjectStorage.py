@@ -33,10 +33,17 @@ class ObjectStorage:
         self.bullets = Group();
 
     def initializeEnemies(self):
-        self.enemyList = [Drone, Drone, Drone, Drone, HailstormArtillery, LethalFlower];
         self.spawnCounter = 0;
         self.spawnShip = 50;
         self.maxEnemySpawn = 10;
+
+        enemyList0 = [Drone, ];
+        enemyList1 = [Drone, Drone, Drone, Drone, HailstormArtillery];
+        enemyList2 = [Drone, Drone, Drone, HailstormArtillery, HailstormArtillery];
+        enemyList3 = [Drone, Drone, HailstormArtillery, HailstormArtillery, LethalFlower];
+
+        self.allEnemyLists = [enemyList0, enemyList1, enemyList2, enemyList3];
+        self.currentDifficultyLevel = 0;
 
     def __init__(self, background, windowWidth, windowHeight):
         self.initializeGroups();
@@ -126,6 +133,10 @@ class ObjectStorage:
 
     ##Enemy Object
 
+    def upgradeDifficulty(self):
+        if self.currentDifficultyLevel < len(self.allEnemyLists) - 1:
+            self.currentDifficultyLevel += 1;
+
     def determineSpawnPoint(self):
         XBOUNDS = 256;
         YBOUNDS = 256;
@@ -138,8 +149,13 @@ class ObjectStorage:
 
         return [possibleValueX[xIndex], possibleValueY[yIndex]];
 
+    def getEnemyList(self):
+        return self.allEnemyLists[self.currentDifficultyLevel];
+
     def obtainRandomEnemyShip(self):
-        return self.enemyList[random.randrange(0, len(self.enemyList))];
+        enemyList = self.getEnemyList();
+        
+        return enemyList[random.randrange(0, len(enemyList))];
 
     def addEnemy(self):
         if self.spawnCounter >= self.spawnShip and len(self.ships.sprites()) <= self.maxEnemySpawn:
@@ -165,6 +181,16 @@ class ObjectStorage:
         if bufferLen >= 0:
             finalString = bufferLen * "0" + healthString;
             self.renderedHealth = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 490, self.windowHeight/2 - 25, finalString), ];
+
+    def updateDifficulty(self):
+        if self.score >= 1000 and self.currentDifficultyLevel == 0:
+            self.upgradeDifficulty();
+        elif self.score >= 2000 and self.currentDifficultyLevel == 1:
+            self.upgradeDifficulty();
+        elif self.score >= 3500 and self.currentDifficultyLevel == 2:
+            self.upgradeDifficulty();
+        elif self.score >= 5000 and self.currentDifficultyLevel == 3:
+            self.upgradeDifficulty();
 
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
@@ -201,5 +227,4 @@ class ObjectStorage:
             self.addEnemy();
             self.updateScore();
             self.updateHealth();
-
-        
+            self.updateDifficulty();
