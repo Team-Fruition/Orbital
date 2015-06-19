@@ -12,7 +12,8 @@ LOGO = "Logo";
 MAIN_MENU = "MainMenu";
 PROJECTILES = "Projectiles";
 SHIPS = "Ships";
-FONTS = "Fonts"
+FONTS = "Fonts";
+DROPS = "Drops";
 
 #State Constants
 START = "Start";
@@ -40,6 +41,9 @@ PLAYER_SHIP = "Player_Ship";
 
 #Font Constants
 STYLE = "ARDESTINE";
+
+#Drop Constants
+HEALTH = "Health";
 
 #Extension Constants
 JPG_EX = ".jpg";

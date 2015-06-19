@@ -6,11 +6,13 @@ from UIObjects import *;
 from ShipObjects import *;
 from WeaponObjects import *;
 from BulletObjects import *;
+from ItemObjects import *;
 
 ####Function Executables
 
 collideRectRatio = pygame.sprite.collide_rect_ratio;
 collideGroups = pygame.sprite.groupcollide;
+collideSprite = pygame.sprite.spritecollide;
 
 ####Class Variables
 
@@ -31,6 +33,7 @@ class ObjectStorage:
         self.button = Group();
         self.ships = Group();
         self.bullets = Group();
+        self.items = Group();
 
     def initializeEnemies(self):
         self.spawnCounter = 0;
@@ -43,7 +46,7 @@ class ObjectStorage:
         enemyList3 = [Drone, Drone, HailstormArtillery, HailstormArtillery, LethalFlower];
 
         self.allEnemyLists = [enemyList0, enemyList1, enemyList2, enemyList3];
-        self.currentDifficultyLevel = 0;
+        self.currentDifficultyLevel = 3;
 
     def __init__(self, background, windowWidth, windowHeight):
         self.initializeGroups();
@@ -66,7 +69,7 @@ class ObjectStorage:
 
     def getAllObjects(self):
         return ([self.background, ] + self.bullets.sprites() + self.ships.sprites()
-                + self.UIObject.sprites() + self.renderedScore + self.renderedHealth);
+                + self.items.sprites() + self.UIObject.sprites() + self.renderedScore + self.renderedHealth);
 
     ##Generic Object Add
 
@@ -75,6 +78,8 @@ class ObjectStorage:
             self.addBullet(obj);
         elif isinstance(obj, Ship):
             self.addShip(obj);
+        elif isinstance(obj, Item):
+            self.addItem(obj);            
         elif isinstance(obj, UIElement):
             self.addUIObject(obj);
         else:
@@ -130,6 +135,14 @@ class ObjectStorage:
 
     def removeBullet(self, bullet):
         bullet.kill();
+
+    ##Item Object Add
+
+    def addItem(self, item):
+        self.items.add(item);
+
+    def getItems(self):
+        return self.items.sprites();
 
     ##Enemy Object
 
@@ -211,6 +224,7 @@ class ObjectStorage:
                     ship.kill();
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+            self.items.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
             #Do Collision Checking here
             objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
@@ -221,7 +235,12 @@ class ObjectStorage:
                         ship.damage(bullet.damage);   
                         bullet.kill();                       
                 if ship.dead == True:
-                    self.score += ship.killScore;   
+                    self.score += ship.killScore;
+
+            items = collideSprite(self.player, self.items, True, collided = collideRectRatio(0.6));
+
+            for item in items:
+                item.effect(self.player);
 
             #Perform other miscellaneous operations here
             self.addEnemy();

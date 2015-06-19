@@ -3,6 +3,7 @@ import random;
 
 from Object import *;
 from WeaponObjects import *;
+from ItemObjects import *;
 
 ####Constants
 
@@ -175,7 +176,11 @@ class LethalFlower(Ship):
 
         self.objectPos[0] += globalHorizontalChange + self.xDis;
         self.objectPos[1] += globalVerticalChange + self.yDis;
-        
+
+    def kill(self):
+        self.objectStorage.addItem(Health(self));
+        super().kill();
+
 #Hailstorm Artillery
         
 class HailstormArtillery(Ship):
