@@ -52,18 +52,19 @@ class HelpMenu(Scene):
         super().__init__(windowWidth, windowHeight, background);
 
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "Welcome to Space Arena!"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "The objective of this game is to eliminate"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 230, "the enemies trying to attack your ship."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "The objective of this game is to score"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 230, "as many points as possible by destroying"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 195, "enemy spacecrafts."));
         
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 175, "Use the WASD keys to pan the camera."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 140, "Your ship will automatically move to the"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 105, "position of the mouse cursor, which"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 70, "also re-orients it along the direction"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 35, "it takes to travel to that point."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 145, "Use the WASD keys to pan the camera."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 110, "Your ship will automatically move to the"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 75, "position of the mouse cursor, which"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 40, "also re-orients it along the direction"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 5, "it takes to travel to that point."));
         
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -20, "Left-Click to fire your main weapon."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -55, "Right-Click to fire your secondary weapon."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -90, "Q and E cycles through available secondary weapons."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -50, "Left-Click to fire your main weapon."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -85, "Right-Click to fire your secondary weapon."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -120, "Q and E cycles through available secondary weapons."));
 
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK));
 
