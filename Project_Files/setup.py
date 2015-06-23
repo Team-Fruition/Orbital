@@ -6,6 +6,7 @@ packages = ["pygame"];
 includefiles = ["Art_Assets/",
                 "BulletObjects.py",
                 "DisplacementController.py",
+                "ItemObjects.py",
                 "Object.py",
                 "ObjectStorage.py",
                 "Scene.py",
@@ -18,7 +19,7 @@ includefiles = ["Art_Assets/",
 
 cx_Freeze.setup(
     name = "Space Arena",
-    version = "0.1",
+    version = "0.2",
     options = {"build_exe":{"packages":packages,
                             "include_files":includefiles}},
     description = "Space Arena",

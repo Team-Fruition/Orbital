@@ -12,7 +12,8 @@ LOGO = "Logo";
 MAIN_MENU = "MainMenu";
 PROJECTILES = "Projectiles";
 SHIPS = "Ships";
-FONTS = "Fonts"
+FONTS = "Fonts";
+DROPS = "Drops";
 
 #State Constants
 START = "Start";
@@ -30,15 +31,19 @@ PLAY = "Play";
 #Projectile Constants
 YELLOW_PROJECTILE = "Yellow_Projectile";
 BLUE_PROJECTILE = "Blue_Projectile";
-EXPLOSION = "Explosion";
+PINK_PROJECTILE = "Pink_Projectile";
 
 #Ship Constants
+LETHAL_FLOWER = "Lethal_Flower";
 HAILSTORM_ARTILLERY = "Hailstorm_Artillery";
 DRONE = "Drone";
 PLAYER_SHIP = "Player_Ship";
 
 #Font Constants
 STYLE = "ARDESTINE";
+
+#Drop Constants
+HEALTH = "Health";
 
 #Extension Constants
 JPG_EX = ".jpg";
