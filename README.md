@@ -74,7 +74,7 @@
 	To Run 
 </h4>
 
->  1. Copy the builds folder in the root directory of this repo.
+>  1. Download the zipped builds file under the Releases section in the repo's home page.
 >  2. Within the sub folder contained within, run main.exe to play.
 
 <h4>
