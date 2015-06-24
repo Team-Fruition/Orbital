@@ -115,9 +115,15 @@ class Ship(GameObject):
     def getSecondaryWeapon(self):
         return self.altWeapon;
 
+    def dropHealthItem(self):
+        chosenNum = random.randrange(0, 101);
+        if chosenNum >= 85:
+            self.objectStorage.addItem(Health(self));
+
     def kill(self):
         if self.shipType == TEAM_ENEMY:
             self.objectStorage.enemyCount -= 1;
+            self.dropHealthItem();
         super().kill();
 
     def damage(self, value):
