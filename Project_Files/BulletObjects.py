@@ -91,7 +91,7 @@ class GreenProjectile(Bullet):
     def __init__(self, firer, x, y, direction):
 
         url = urlConstructor(ART_ASSETS, PROJECTILES, GREEN_PROJECTILE);
-        damage = 7;
+        damage = 10;
         speedMult = 20;
 
         super().__init__(url, firer, damage, x, y, speedMult, direction);
