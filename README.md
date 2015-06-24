@@ -108,6 +108,13 @@
 >  3. Pygame (Currently Using)
 >  4. Unity (May switch over early June if using vanilla Pygame proves too much of a challenge)
 
+<h4>
+	Art Programs Used
+</h4>
+
+> 1. Blender (Mainly for Ship Sprites)
+> 2. Photoshop
+
 <hr />
 
 > Written with [StackEdit](https://stackedit.io/).
