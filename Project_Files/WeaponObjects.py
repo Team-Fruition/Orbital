@@ -28,12 +28,75 @@ class Weapon:
     ####Secondary Functions
 
     def fire(self):
-        return self.bulletLoadout;
+        return list();
 
     def adjustCounterMax(self, value):
         self.counterMax = value;
 
 ####Instance Classes
+
+#Green Projectile
+
+class XYGunLauncher(Weapon):
+
+    ####Initialization Methods
+
+    def __init__(self, firer):
+
+        startingCounter = 5;
+        counterMax = 175;
+
+        super().__init__(firer, startingCounter, counterMax);
+
+        import ShipObjects;
+        
+        self.initializeBulletLoadout(ShipObjects.XYGun);
+
+    def fire(self):
+
+        bulletList = list();
+
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            shipType = self.firer.shipType;
+            direction = self.firer.spriteIndex * 6;        
+            
+            bulletList.append(self.bulletLoadout[0](x, y, shipType, direction));
+
+        return bulletList;
+        
+class XYGunWeapon(Weapon):
+
+    ####Initialization Methods
+
+    def __init__(self, firer):
+
+        startingCounter = 0;
+        counterMax = 0;
+
+        super().__init__(firer, startingCounter, counterMax);
+        self.initializeBulletLoadout(GreenProjectile);
+
+    def fire(self):
+
+        bulletList = list();
+
+        if self.counter >= self.counterMax:
+            self.counter = 0;
+
+            firer = self.firer;
+            x = self.firer.objectPos[0] + self.firer.spriteWidth/2;
+            y = self.firer.objectPos[1] + self.firer.spriteHeight/2;
+            direction = self.firer.spriteIndex * 6;        
+            
+            bulletList.append(self.bulletLoadout[0](firer, x, y, direction));
+
+        return bulletList;
+
+#Firecracker Projectile
 
 class Firecracker(Weapon):
 
@@ -94,6 +157,8 @@ class LethalFlowerWeapon(Weapon):
                 direction += 90;
 
         return bulletList;
+
+#Hailstorm Projectile
             
 class HailStorm(Weapon):
 
@@ -174,6 +239,8 @@ class HailStormArtilleryWeapon(Weapon):
                 bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
             
         return bulletList;
+
+#Yellow Projectile
 
 class BasicWeapon(Weapon):
 

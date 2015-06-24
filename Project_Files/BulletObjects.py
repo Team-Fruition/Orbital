@@ -82,6 +82,22 @@ class Bullet(GameObject):
 
 ####Instance Classes
 
+##Green Projectile
+
+class GreenProjectile(Bullet):
+
+    ####Initialization Methods
+
+    def __init__(self, firer, x, y, direction):
+
+        url = urlConstructor(ART_ASSETS, PROJECTILES, GREEN_PROJECTILE);
+        damage = 7;
+        speedMult = 20;
+
+        super().__init__(url, firer, damage, x, y, speedMult, direction);
+
+        self.killCounterMax = 75;
+
 ##Firecracker Projectile
 
 class FirecrackerProjectile(Bullet):

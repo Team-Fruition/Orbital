@@ -38,8 +38,11 @@ class ObjectStorage:
     def initializeEnemies(self):
         self.spawnCounter = 0;
         self.spawnShip = 50;
+
+        self.enemyCount = 0;        
         self.maxEnemySpawn = 10;
 
+        testEnemyList = [];
         enemyList0 = [Drone, ];
         enemyList1 = [Drone, Drone, Drone, Drone, HailstormArtillery];
         enemyList2 = [Drone, Drone, Drone, HailstormArtillery, HailstormArtillery];
@@ -171,8 +174,9 @@ class ObjectStorage:
         return enemyList[random.randrange(0, len(enemyList))];
 
     def addEnemy(self):
-        if self.spawnCounter >= self.spawnShip and len(self.ships.sprites()) <= self.maxEnemySpawn:
+        if self.spawnCounter >= self.spawnShip and self.enemyCount <= self.maxEnemySpawn:
             self.spawnCounter = 0;
+            self.enemyCount += 1;
             self.spawnShip = random.randrange(50, 100);
             spawnPoint = self.determineSpawnPoint();
             self.addShip(self.obtainRandomEnemyShip()(spawnPoint[0], spawnPoint[1]));

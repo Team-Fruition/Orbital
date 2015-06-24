@@ -32,12 +32,15 @@ PLAY = "Play";
 YELLOW_PROJECTILE = "Yellow_Projectile";
 BLUE_PROJECTILE = "Blue_Projectile";
 PINK_PROJECTILE = "Pink_Projectile";
+GREEN_PROJECTILE = "Green_Projectile";
 
 #Ship Constants
 LETHAL_FLOWER = "Lethal_Flower";
 HAILSTORM_ARTILLERY = "Hailstorm_Artillery";
 DRONE = "Drone";
 PLAYER_SHIP = "Player_Ship";
+
+XYGUN = "XYGun";
 
 #Font Constants
 STYLE = "ARDESTINE";

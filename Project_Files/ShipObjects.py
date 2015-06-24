@@ -52,6 +52,8 @@ class Ship(GameObject):
         
         self.initializeObjectGameVariables(hitPoints, priWeapon, altWeapon, killScore);
 
+        self.updateBoundary();
+
     ####Primary Functions
         
     def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
@@ -101,17 +103,22 @@ class Ship(GameObject):
 
     def fireMain(self):
         if self.priWeapon != None:
-            self.objectStorage.addBullet(self.priWeapon.fire());
+            self.objectStorage.determineAndAddListOfObjects(self.priWeapon.fire());
 
     def fireAlternate(self):
         if self.altWeapon != None:
-            self.objectStorage.addBullet(self.altWeapon.fire());
+            self.objectStorage.determineAndAddListOfObjects(self.altWeapon.fire());
 
     def getPrimaryWeapon(self):
         return self.priWeapon;
 
     def getSecondaryWeapon(self):
         return self.altWeapon;
+
+    def kill(self):
+        if self.shipType == TEAM_ENEMY:
+            self.objectStorage.enemyCount -= 1;
+        super().kill();
 
     def damage(self, value):
         if self.hitPoints > value:
@@ -122,7 +129,110 @@ class Ship(GameObject):
 
 ####Instance Classes
 
-#Lethal Flower
+##XYGun
+
+class XYGun(Ship):
+
+    ####Initialization Methods
+
+    def determineSpriteIndex(self):
+        self.spriteIndex = max(0, min(59, self.direction//6));
+
+    def __init__(self, x, y, shipType = TEAM_ENEMY, direction = 0):
+
+        url = urlConstructor(ART_ASSETS, SHIPS, XYGUN);
+        hitPoints = 125;
+        priWeapon = XYGunWeapon;
+        altWeapon = None;
+        killScore = 5;
+
+        super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon, killScore);
+
+        self.objectPos[0] = x - self.spriteWidth/2;
+        self.objectPos[1] = y - self.spriteHeight/2;
+        
+        self.direction = direction;
+        self.determineSpriteIndex();
+
+        self.speedMult = 20;
+        self.determineSpeedVector();
+
+        self.changeState = False;
+        self.rotationCounter = 45;
+
+    ####Primary Methods
+        
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
+        self.updateSpeed();
+        self.determineBehavior();
+        self.determineSpeedVector();
+        self.updatePos(globalSpeed, globalDisplacement);
+        self.fire();
+
+    ####Secondary Methods
+
+    def updateSpeed(self):
+        if self.speedMult <= 0:
+            self.speedMult = 0;
+        else:
+            self.speedMult -= 1;
+
+    def determineRotation(self):
+        determinedChance = random.randrange(0, 2);
+        if determinedChance == 0:
+            self.rotateLeft = True;
+        else:
+            self.rotateLeft = False;
+
+    def updateSpriteIndex(self):
+        self.rotationCounter -= 1;
+        
+        spriteIndex = self.spriteIndex;
+
+        if self.rotateLeft == True:
+            spriteIndex += 1;
+        else:
+            spriteIndex -= 1;
+
+        if spriteIndex >= 60:
+            spriteIndex = 0;
+        elif spriteIndex <= 0:
+            spriteIndex = 59;
+
+        self.spriteIndex = spriteIndex;
+
+    def faceRandomShip(self):
+        activeShipList = self.objectStorage.ships.sprites();
+        chosenShip = activeShipList[random.randrange(0, len(activeShipList))];
+        self.updateSprite(chosenShip.objectPos);
+        
+    def determineBehavior(self):
+        if self.speedMult == 0 and self.changeState == False:
+            self.changeState = True;
+            self.faceRandomShip();
+            self.determineRotation();
+        elif self.changeState == True and self.rotationCounter > 0:
+            self.updateSpriteIndex();
+        elif self.rotationCounter <= 0:
+            self.kill();
+
+    def determineSpeedVector(self):
+        #Modify self.localSpeed here
+
+        radDirection = math.radians(self.direction);
+        
+        speedx = 1 * self.speedMult * math.cos(radDirection);
+        speedy = 1 * self.speedMult * math.sin(radDirection);
+
+        self.localSpeed.adjustHorizontalSpeed(speedx, True);
+        self.localSpeed.adjustVerticalSpeed(speedy, True);
+
+    def fire(self):
+        if self.changeState:
+            super().fireMain();
+        
+##Lethal Flower
 
 class LethalFlower(Ship):
 
@@ -180,7 +290,7 @@ class LethalFlower(Ship):
         self.objectStorage.addItem(Health(self));
         super().kill();
 
-#Hailstorm Artillery
+##Hailstorm Artillery
         
 class HailstormArtillery(Ship):
 
@@ -252,7 +362,7 @@ class HailstormArtillery(Ship):
             self.objectPos[0] += globalHorizontalChange;
             self.objectPos[1] += globalVerticalChange;
 
-#Drone
+##Drone
         
 class Drone(Ship):
 
@@ -341,6 +451,7 @@ class Player(Ship):
 
         self.initializeMultipleWeaponCapability(self.altWeapon);
         self.addNewWeapon(Firecracker);
+        self.addNewWeapon(XYGunLauncher);
 
     ####Primary Functions
 
