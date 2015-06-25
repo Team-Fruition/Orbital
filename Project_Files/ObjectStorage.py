@@ -47,8 +47,10 @@ class ObjectStorage:
         enemyList1 = [Drone, Drone, HailstormArtillery];
         enemyList2 = [Drone, Drone, Drone, HailstormArtillery, HailstormArtillery];
         enemyList3 = [Drone, Drone, HailstormArtillery, HailstormArtillery, LethalFlower];
+        enemyList4 = [Drone, HailstormArtillery, HailstormArtillery, LethalFlower];
+        enemyList5 = [HailstormArtillery, HailstormArtillery, HailstormArtillery, LethalFlower];
 
-        self.allEnemyLists = [enemyList0, enemyList1, enemyList2, enemyList3];
+        self.allEnemyLists = [enemyList0, enemyList1, enemyList2, enemyList3, enemyList4, enemyList5];
         self.currentDifficultyLevel = 0;
 
     def __init__(self, background, windowWidth, windowHeight):
