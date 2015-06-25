@@ -44,7 +44,7 @@ class ObjectStorage:
 
         testEnemyList = [];
         enemyList0 = [Drone, ];
-        enemyList1 = [Drone, Drone, Drone, Drone, HailstormArtillery];
+        enemyList1 = [Drone, Drone, HailstormArtillery];
         enemyList2 = [Drone, Drone, Drone, HailstormArtillery, HailstormArtillery];
         enemyList3 = [Drone, Drone, HailstormArtillery, HailstormArtillery, LethalFlower];
 
@@ -210,8 +210,10 @@ class ObjectStorage:
             self.player.addNewWeapon(HailStorm);
         elif self.score >= 3500 and self.currentDifficultyLevel == 2:
             self.upgradeDifficulty();
-            self.player.addNewWeapon(Firecracker);
         elif self.score >= 5000 and self.currentDifficultyLevel == 3:
+            self.upgradeDifficulty();
+            self.player.addNewWeapon(Firecracker);
+        elif self.score >= 8500 and self.currentDifficultyLevel == 4:
             self.upgradeDifficulty();
             self.player.addNewWeapon(XYGunLauncher);
 
