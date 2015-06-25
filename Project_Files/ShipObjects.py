@@ -126,6 +126,11 @@ class Ship(GameObject):
             self.dropHealthItem();
         super().kill();
 
+    def killCleanly(self):
+        if self.shipType == TEAM_ENEMY:
+            self.objectStorage.enemyCount -= 1;
+        super().kill();
+
     def damage(self, value):
         if self.hitPoints > value:
             self.hitPoints -= value;
@@ -436,12 +441,17 @@ class Player(Ship):
     ####Constants
 
     HITPOINTS = 1000;
+    EMPTY = -1;
 
     ####Initialization Methods
 
-    def initializeMultipleWeaponCapability(self, startingWeapon):
-        self.weaponList = [startingWeapon, ];
-        self.weaponListIndex = 0;
+    def initializeMultipleWeaponCapability(self, startingWeapon = None):
+        if startingWeapon != None:
+            self.weaponList = [startingWeapon, ];
+            self.weaponListIndex = 0;
+        else:
+            self.weaponList = [];
+            self.weaponListIndex = self.EMPTY;
         self.previousQInput = False;
         self.previousEInput = False;
         
@@ -451,13 +461,11 @@ class Player(Ship):
         shipType = TEAM_PLAYER;
         hitPoints = self.HITPOINTS;
         priWeapon = BasicWeapon;
-        altWeapon = HailStorm;
+        altWeapon = None;
 
         super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon);
 
-        self.initializeMultipleWeaponCapability(self.altWeapon);
-        self.addNewWeapon(Firecracker);
-        self.addNewWeapon(XYGunLauncher);
+        self.initializeMultipleWeaponCapability();
 
     ####Primary Functions
 
@@ -484,30 +492,31 @@ class Player(Ship):
     
     def checkIfSwapWeapons(self, keyBoardState):
 
-        if keyBoardState["Q"] == True:
-            if self.previousQInput == False:
-                self.previousQInput = True;
-                if self.weaponListIndex == 0:
-                    self.weaponListIndex = len(self.weaponList) - 1;
-                else:
-                    self.weaponListIndex -= 1;
-        else:
-            self.previousQInput = False;
-            
-        if keyBoardState["E"] == True:
-            if self.previousEInput == False:
-                self.previousEInput = True;
-                if self.weaponListIndex == len(self.weaponList) - 1:
-                    self.weaponListIndex = 0;
-                else:
-                    self.weaponListIndex += 1;
-        else:
-            self.previousEInput = False;
+        if not self.weaponListIndex == self.EMPTY:
+            if keyBoardState["Q"] == True:
+                if self.previousQInput == False:
+                    self.previousQInput = True;
+                    if self.weaponListIndex == 0:
+                        self.weaponListIndex = len(self.weaponList) - 1;
+                    else:
+                        self.weaponListIndex -= 1;
+            else:
+                self.previousQInput = False;
+                
+            if keyBoardState["E"] == True:
+                if self.previousEInput == False:
+                    self.previousEInput = True;
+                    if self.weaponListIndex == len(self.weaponList) - 1:
+                        self.weaponListIndex = 0;
+                    else:
+                        self.weaponListIndex += 1;
+            else:
+                self.previousEInput = False;
 
-        if keyBoardState["Q"] == False and keyBoardState["E"] == False:
-            return;
+            if keyBoardState["Q"] == False and keyBoardState["E"] == False:
+                return;
 
-        self.altWeapon = self.weaponList[self.weaponListIndex];
+            self.altWeapon = self.weaponList[self.weaponListIndex];
 
     def fireMain(self, currentMouseState):
         if currentMouseState[0] == 1:
@@ -518,8 +527,15 @@ class Player(Ship):
             super().fireAlternate();
 
     def getSecondaryWeapon(self):
-        return self.weaponList[self.weaponListIndex];
+        if not self.weaponListIndex == self.EMPTY:
+            return self.weaponList[self.weaponListIndex];
+        else:
+            return None;
 
     def addNewWeapon(self, weapon):
         if issubclass(weapon, Weapon):
-            self.weaponList.append(weapon(self));
+            weapon = weapon(self);
+            self.weaponList.append(weapon);
+            if self.weaponListIndex == self.EMPTY:
+                self.weaponListIndex = 0;
+                self.altWeapon = weapon;

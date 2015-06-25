@@ -66,13 +66,16 @@ class ObjectStorage:
 
         self.renderedHealth = [];
 
+        self.renderedDifficulty = [];
+
         self.gameMode = False;
 
     ####Operations
 
     def getAllObjects(self):
         return ([self.background, ] + self.bullets.sprites() + self.ships.sprites()
-                + self.items.sprites() + self.UIObject.sprites() + self.renderedScore + self.renderedHealth);
+                + self.items.sprites() + self.UIObject.sprites() + self.renderedScore + self.renderedHealth
+                + self.renderedDifficulty);
 
     ##Generic Object Add
 
@@ -204,10 +207,19 @@ class ObjectStorage:
             self.upgradeDifficulty();
         elif self.score >= 2000 and self.currentDifficultyLevel == 1:
             self.upgradeDifficulty();
+            self.player.addNewWeapon(HailStorm);
         elif self.score >= 3500 and self.currentDifficultyLevel == 2:
             self.upgradeDifficulty();
+            self.player.addNewWeapon(Firecracker);
         elif self.score >= 5000 and self.currentDifficultyLevel == 3:
             self.upgradeDifficulty();
+            self.player.addNewWeapon(XYGunLauncher);
+
+        difficultyString = str(self.currentDifficultyLevel);
+        bufferLen = 2 - len(difficultyString);
+        if bufferLen >= 0:
+            finalString = bufferLen * "0" + difficultyString;
+            self.renderedDifficulty = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 670, self.windowHeight/2 - 25, finalString), ];
 
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);

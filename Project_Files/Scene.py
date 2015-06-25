@@ -51,21 +51,25 @@ class HelpMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "Welcome to Space Arena!"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "The objective of this game is to score"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 230, "as many points as possible by destroying"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 195, "enemy spacecrafts."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 335, "Welcome to Space Arena!"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "The objective of this game is to score"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "as many points as possible by destroying"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 230, "enemy spacecrafts."));
         
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 145, "Use the WASD keys to pan the camera."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 110, "Your ship will automatically move to the"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 75, "position of the mouse cursor, which"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 40, "also re-orients it along the direction"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 5, "it takes to travel to that point."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 185, "Use the WASD keys to pan the camera."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 150, "Your ship will automatically move to the"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 115, "position of the mouse cursor, which"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 80, "also re-orients it along the direction"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 45, "it takes to travel to that point."));
         
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -50, "Left-Click to fire your main weapon."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -85, "Right-Click to fire your secondary weapon."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -120, "Q and E cycles through available secondary weapons."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 0, "Left-Click to fire your main weapon."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -35, "Right-Click to fire your secondary weapon."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -70, "Q and E cycles through available secondary weapons."));
 
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -115, "Secondary Weapons are acquired when the"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -150, "difficulty increases, which is determined"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -185, "by certain score thresholds."));
+        
         self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK));
 
 class Game(Scene):
@@ -76,6 +80,7 @@ class Game(Scene):
                 
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
         self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 425, windowHeight/2 - 25, "HEALTH: "));
+        self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 590, windowHeight/2 - 25, "DIFFICULTY: "));
         
         self.player = Player(windowWidth/2, windowHeight + 30);
         self.addObjectToScene(self.player);
