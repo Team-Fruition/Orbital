@@ -33,6 +33,8 @@ def gameLoop():
     acceleration = 0.3;
     friction = 0.1;
 
+    pauseState = False;
+
     #Initialize SceneManager Here:
 
     sceneManager = SceneManager(windowWidth, windowHeight, acceleration, friction);
@@ -63,6 +65,8 @@ def gameLoop():
                     keyBoardState["Q"] = True;
                 if event.key == pygame.K_e:     #Detect for E key
                     keyBoardState["E"] = True;
+                if event.key == pygame.K_SPACE: #Detect for Space Key
+                    pauseState = not pauseState;
 
             if event.type == pygame.KEYUP:      #Detect for Key release
                 if event.key == pygame.K_a or event.key == pygame.K_d:             
@@ -74,20 +78,21 @@ def gameLoop():
                 if event.key == pygame.K_q or event.key == pygame.K_e:
                     keyBoardState["Q"] = False;
                     keyBoardState["E"] = False;
-                    
-        currentMousePos = pygame.mouse.get_pos();
-        currentMouseState = pygame.mouse.get_pressed();
 
-        #Update all objects in current Scene
-        sceneManager.update(keyBoardState, currentMousePos, currentMouseState);
+        if not pauseState:
+            currentMousePos = pygame.mouse.get_pos();
+            currentMouseState = pygame.mouse.get_pressed();
 
-        currentObjectsInCurrentScene = sceneManager.getObjectsToRender();
-        
-        #Render Loop Here
-        for item in currentObjectsInCurrentScene:
-            gameDisplay.blit(item.getSprite(), item.getPos());
+            #Update all objects in current Scene
+            sceneManager.update(keyBoardState, currentMousePos, currentMouseState);
 
-        pygame.display.update();
+            currentObjectsInCurrentScene = sceneManager.getObjectsToRender();
+            
+            #Render Loop Here
+            for item in currentObjectsInCurrentScene:
+                gameDisplay.blit(item.getSprite(), item.getPos());
+
+            pygame.display.update();
 
         #Control FPS:
         clock.tick(framesPerSecond);
