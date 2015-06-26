@@ -15,6 +15,11 @@ SHIPS = "Ships";
 FONTS = "Fonts";
 DROPS = "Drops";
 
+SOUND_ASSETS = "Sound_Assets";
+
+MUSIC = "Music";
+SOUND = "Sound";
+
 #State Constants
 START = "Start";
 INSTRUCTIONS = "Instructions";
@@ -48,10 +53,14 @@ STYLE = "ARDESTINE";
 #Drop Constants
 HEALTH = "Health";
 
+#Music Constants
+BACKGROUND_MUSIC = "Subtle_Bodies";
+
 #Extension Constants
 JPG_EX = ".jpg";
 PNG_EX = ".png";
 TTF_EX = ".ttf";
+MP3_EX = ".mp3";
 
 def nearest(num):
     return round(num/10.0)*10.0;
@@ -69,3 +78,6 @@ def loadImg(rootURL, fileName):
     img = img.convert_alpha();
     img.set_colorkey(WHITE);
     return img;
+
+def loadMusic(rootURL, filename):
+    pass;
