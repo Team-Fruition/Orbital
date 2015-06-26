@@ -4,6 +4,7 @@ executables = [cx_Freeze.Executable("main.py")];
 
 packages = ["pygame"];
 includefiles = ["Art_Assets/",
+                "Sound_Assets/",
                 "BulletObjects.py",
                 "DisplacementController.py",
                 "ItemObjects.py",

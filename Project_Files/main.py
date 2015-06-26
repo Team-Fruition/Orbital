@@ -1,6 +1,7 @@
 import pygame;
 
 from SceneManager import *;
+from supplementary import *;
 
 pygame.init();
 
@@ -16,6 +17,10 @@ gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
 
 #Define Window Title:
 pygame.display.set_caption("Space Arena");
+
+#Set Background Music:
+pygame.mixer.music.load(urlConstructor(SOUND_ASSETS, MUSIC, BACKGROUND_MUSIC) + MP3_EX);
+pygame.mixer.music.play(-1);
 
 #Main Loop
 def gameLoop():
