@@ -241,7 +241,7 @@ class ObjectStorage:
                 ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
                 if not self.background.rect.collidepoint(ship.objectPos):
-                    ship.kill();
+                    ship.killCleanly();
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             self.items.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);

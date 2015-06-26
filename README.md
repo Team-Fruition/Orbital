@@ -93,20 +93,20 @@
 	References
 </h4>
 
- 1. Python 3.4.0: [Link](https://www.python.org/downloads/)
- 2. Pygame 1.9.2: [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
- 3. cx_Freeze 4.3.4: [Link](http://cx-freeze.sourceforge.net/)
- 4. Installing Python modules via PIP: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
- 5. SourceTree client for GitHub: [Link](https://www.sourcetreeapp.com/)
+>  1. Python 3.4.0: [Link](https://www.python.org/downloads/)
+>  2. Pygame 1.9.2: [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
+>  3. cx_Freeze 4.3.4: [Link](http://cx-freeze.sourceforge.net/)
+>  4. Installing Python modules via PIP: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
+>  5. SourceTree client for GitHub: [Link](https://www.sourcetreeapp.com/)
 
 <h4>
 	Game Environments Researched
 </h4>
 
->  1. GameMaker
+>  1. Pygame (Currently Using)
 >  2. Phaser
->  3. Pygame (Currently Using)
->  4. Unity (May switch over early June if using vanilla Pygame proves too much of a challenge)
+>  3. Gamemaker
+>  4. Unity
 
 <h4>
 	Art Programs Used
@@ -114,6 +114,12 @@
 
 > 1. Blender (Mainly for Ship Sprites)
 > 2. Photoshop
+
+<h4>
+	Credits
+</h4>
+
+>  1. In-Game Music by: Sirius Beat - [Subtle Bodies](http://youtu.be/1rC7pNgxkZU)
 
 <hr />
 
