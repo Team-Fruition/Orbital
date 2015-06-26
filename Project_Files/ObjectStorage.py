@@ -36,10 +36,12 @@ class ObjectStorage:
         self.items = Group();
 
     def initializeEnemies(self):
+
+        self.enemy = Group();
+        
         self.spawnCounter = 0;
         self.spawnShip = 50;
-
-        self.enemyCount = 0;        
+ 
         self.maxEnemySpawn = 10;
 
         testEnemyList = [];
@@ -179,12 +181,15 @@ class ObjectStorage:
         return enemyList[random.randrange(0, len(enemyList))];
 
     def addEnemy(self):
-        if self.spawnCounter >= self.spawnShip and self.enemyCount <= self.maxEnemySpawn:
+        if self.spawnCounter >= self.spawnShip and len(self.enemy.sprites()) < self.maxEnemySpawn:
             self.spawnCounter = 0;
-            self.enemyCount += 1;
             self.spawnShip = random.randrange(50, 100);
             spawnPoint = self.determineSpawnPoint();
-            self.addShip(self.obtainRandomEnemyShip()(spawnPoint[0], spawnPoint[1]));
+
+            ship = self.obtainRandomEnemyShip()(spawnPoint[0], spawnPoint[1])
+            self.addShip(ship);
+            self.enemy.add(ship);
+            
         else:
             self.spawnCounter += 1;
 
@@ -217,6 +222,7 @@ class ObjectStorage:
             self.player.addNewWeapon(Firecracker);
         elif self.score >= 8500 and self.currentDifficultyLevel == 4:
             self.upgradeDifficulty();
+            self.maxEnemySpawn = 15;
             self.player.addNewWeapon(XYGunLauncher);
 
         difficultyString = str(self.currentDifficultyLevel);

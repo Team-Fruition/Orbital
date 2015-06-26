@@ -121,14 +121,10 @@ class Ship(GameObject):
             self.objectStorage.addItem(Health(self));
 
     def kill(self):
-        if self.shipType == TEAM_ENEMY:
-            self.objectStorage.enemyCount -= 1;
-            self.dropHealthItem();
+        self.dropHealthItem();
         super().kill();
 
     def killCleanly(self):
-        if self.shipType == TEAM_ENEMY:
-            self.objectStorage.enemyCount -= 1;
         super().kill();
 
     def damage(self, value):
@@ -226,7 +222,7 @@ class XYGun(Ship):
         elif self.changeState == True and self.rotationCounter > 0:
             self.updateSpriteIndex();
         elif self.rotationCounter <= 0:
-            self.kill();
+            self.killCleanly();
 
     def determineSpeedVector(self):
         #Modify self.localSpeed here
@@ -242,6 +238,9 @@ class XYGun(Ship):
     def fire(self):
         if self.changeState:
             super().fireMain();
+
+    def kill(self):
+        super().killCleanly();
         
 ##Lethal Flower
 
