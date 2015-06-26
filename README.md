@@ -51,15 +51,17 @@
 >  1. Main Menu State
 >  2. Help Screen State
 >  3. Base Game State
->  4. Game Over State
+>  4. Base Pause State
+>  5. Background Music.
+>  6. Game Over State
 
 <h4>
 	Things Not Done (should hopefully be implemented by end June - mid July)
 </h4>
 
->  1. Audio Implementation (now it's really simulating the silence of space)
->  2. Pause State
->  3. Advanced Game Features such as Enemy Drops, etc.
+>  1. Sound FX
+>  2. Better Pause State
+>  3. Other Drops besides Health Pickups
 >  4. Advanced UI such as Health Bars.
 >  5. More enemies, items, etc.
 
