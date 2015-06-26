@@ -299,7 +299,7 @@ class LethalFlower(Ship):
 
     def kill(self):
         self.objectStorage.addItem(Health(self));
-        super().kill();
+        super().killCleanly();
 
 ##Hailstorm Artillery
         
