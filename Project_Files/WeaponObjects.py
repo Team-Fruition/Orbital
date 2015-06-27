@@ -44,7 +44,7 @@ class XYGunLauncher(Weapon):
     def __init__(self, firer):
 
         startingCounter = 5;
-        counterMax = 175;
+        counterMax = 150;
 
         super().__init__(firer, startingCounter, counterMax);
 
@@ -105,7 +105,7 @@ class Firecracker(Weapon):
     def __init__(self, firer):
 
         startingCounter = 100;
-        counterMax = 200;
+        counterMax = 125;
 
         super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(FirecrackerProjectile);
@@ -166,8 +166,8 @@ class HailStorm(Weapon):
 
     def __init__(self, firer):
 
-        startingCounter = 100;
-        counterMax = 125;
+        startingCounter = 75;
+        counterMax = 100;
         
         super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(HailStormProjectile);
@@ -249,7 +249,7 @@ class BasicWeapon(Weapon):
     def __init__(self, firer):
 
         startingCounter = 15;
-        counterMax = 45;
+        counterMax = 37;
         
         super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(YellowProjectile);
@@ -281,7 +281,7 @@ class DroneWeapon(Weapon):
     def __init__(self, firer):
 
         startingCounter = 15;
-        counterMax = 45;
+        counterMax = 35;
         
         super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(YellowProjectile);

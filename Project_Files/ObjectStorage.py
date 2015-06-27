@@ -210,17 +210,17 @@ class ObjectStorage:
             self.renderedHealth = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 490, self.windowHeight/2 - 25, finalString), ];
 
     def updateDifficulty(self):
-        if self.score >= 1000 and self.currentDifficultyLevel == 0:
+        if self.score >= 1500 and self.currentDifficultyLevel == 0:
             self.upgradeDifficulty();
-        elif self.score >= 2000 and self.currentDifficultyLevel == 1:
+        elif self.score >= 3000 and self.currentDifficultyLevel == 1:
             self.upgradeDifficulty();
             self.player.addNewWeapon(HailStorm);
-        elif self.score >= 3500 and self.currentDifficultyLevel == 2:
+        elif self.score >= 4500 and self.currentDifficultyLevel == 2:
             self.upgradeDifficulty();
-        elif self.score >= 5000 and self.currentDifficultyLevel == 3:
+        elif self.score >= 5750 and self.currentDifficultyLevel == 3:
             self.upgradeDifficulty();
             self.player.addNewWeapon(Firecracker);
-        elif self.score >= 8500 and self.currentDifficultyLevel == 4:
+        elif self.score >= 7750 and self.currentDifficultyLevel == 4:
             self.upgradeDifficulty();
             self.maxEnemySpawn = 15;
             self.player.addNewWeapon(XYGunLauncher);
