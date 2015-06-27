@@ -6,11 +6,11 @@ from supplementary import *;
 pygame.init();
 
 #Define and initialize surface to show to the user:
-windowWidth = 875;
-windowHeight = 875;
+windowWidth = 1024;
+windowHeight = 1024;
 
 pygameFlags = pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF;
-gameDisplay = pygame.display.set_mode((windowWidth, windowHeight), pygameFlags);
+gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
 
 #Define icon:
 #pygame.display.set_icon(loadVanillaImg(urlConstructor(ART_ASSETS, PROJECTILES, BLUE_PROJECTILE), "0000" + PNG_EX));
