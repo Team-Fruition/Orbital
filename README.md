@@ -80,6 +80,12 @@
 >  2. Within the sub folder contained within, run main.exe to play.
 
 <h4>
+	Milestone 2 Video
+</h4>
+
+> [Video Link](https://www.youtube.com/watch?v=ShYHnJcImi4)
+
+<h4>
 	Presentation Video
 </h4>
 
