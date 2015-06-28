@@ -7,9 +7,6 @@ from ItemObjects import *;
 
 ####Constants
 
-TEAM_PLAYER = "Player";
-TEAM_ENEMY = "Enemy";
-
 ####Base Classes
 
 class Ship(GameObject):

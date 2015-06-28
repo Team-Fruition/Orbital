@@ -207,7 +207,7 @@ class HailStormArtilleryWeapon(Weapon):
     def __init__(self, firer):
 
         startingCounter = 75;
-        counterMax = 270;
+        counterMax = 260;
         
         super().__init__(firer, startingCounter, counterMax);
         self.initializeBulletLoadout(HailStormProjectile);
@@ -235,7 +235,7 @@ class HailStormArtilleryWeapon(Weapon):
 
             self.alternateGunPort = not self.alternateGunPort;
 
-            for num in range(0, 5):
+            for num in range(0, 4):
                 bulletList.append(self.bulletLoadout[0](firer, x + xOffSet, y + yOffSet, direction));
             
         return bulletList;

@@ -1,11 +1,29 @@
 from Object import *;
+from supplementary import *;
 
 ####Base Classes
 
 class Bullet(GameObject):
 
+    ####Constants
+    fileName = "";
+    indexLen = 4;
+    numFrames = 1;
+    ex = PNG_EX;
+    boundaryRatio = 0.7;
+
+    playerBulletSprite = None;
+
     ####Assumptions
     #self.direction is in degrees (i.e. ship.spriteIndex * 60 is passed in as the argument to bullet.updateDirection()
+
+    ####Player Projectile Setting
+
+    def initPlayerBulletSprite(self):
+        if self.playerBulletSprite == None:
+            url = urlConstructor(ART_ASSETS, PROJECTILES, WHITE_PROJECTILE);
+            indexingVariable = 10 ** (self.indexLen);
+            self.playerBulletSprite = loadImg(url, self.fileName + str(indexingVariable)[1:] + self.ex);
 
     ####Initialization Methods
 
@@ -14,13 +32,9 @@ class Bullet(GameObject):
         
     def __init__(self, url, firer, damage, x, y, speedMult, direction):
 
-        fileName = "";
-        indexLen = 4;
-        numFrames = 1;
-        ex = PNG_EX;
-        boundaryRatio = 0.7;
-
-        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio);
+        self.initPlayerBulletSprite();
+        
+        super().__init__(url, self.fileName, self.indexLen, self.numFrames, self.ex, x, y, self.boundaryRatio);
         self.centralizeBulletFromGivenPoint(x, y);
         self.updateBoundary();
 
@@ -43,6 +57,12 @@ class Bullet(GameObject):
         self.updateKillCounter();
 
     ####Secondary Functions
+
+    def getSprite(self):
+        if self.firerType == TEAM_PLAYER:
+            return self.playerBulletSprite;
+        else:
+            return super().getSprite();
 
     def updateKillCounter(self):
         if self.killCounter >= self.killCounterMax:

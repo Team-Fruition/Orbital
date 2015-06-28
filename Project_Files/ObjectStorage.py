@@ -246,7 +246,7 @@ class ObjectStorage:
             for ship in shipsList:
                 ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
-                if not self.background.rect.collidepoint(ship.objectPos):
+                if not self.background.rect.contains(ship.rect):
                     ship.killCleanly();
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);

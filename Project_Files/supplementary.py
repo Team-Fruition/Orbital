@@ -38,6 +38,7 @@ YELLOW_PROJECTILE = "Yellow_Projectile";
 BLUE_PROJECTILE = "Blue_Projectile";
 PINK_PROJECTILE = "Pink_Projectile";
 GREEN_PROJECTILE = "Green_Projectile";
+WHITE_PROJECTILE = "White_Projectile";
 
 #Ship Constants
 LETHAL_FLOWER = "Lethal_Flower";
@@ -61,6 +62,10 @@ JPG_EX = ".jpg";
 PNG_EX = ".png";
 TTF_EX = ".ttf";
 MP3_EX = ".mp3";
+
+#Game Constants
+TEAM_PLAYER = "Player";
+TEAM_ENEMY = "Enemy";
 
 def nearest(num):
     return round(num/10.0)*10.0;

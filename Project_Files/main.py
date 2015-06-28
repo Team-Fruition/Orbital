@@ -7,10 +7,11 @@ pygame.init();
 
 #Define and initialize surface to show to the user:
 windowWidth = 1024;
-windowHeight = 1024;
+windowHeight = 800;
 
 pygameFlags = pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF;
-gameDisplay = pygame.display.set_mode((windowWidth, windowHeight));
+pygameResizableFlag = pygame.RESIZABLE;
+gameDisplay = pygame.display.set_mode((windowWidth, windowHeight), pygame.RESIZABLE);
 
 #Define icon:
 #pygame.display.set_icon(loadVanillaImg(urlConstructor(ART_ASSETS, PROJECTILES, BLUE_PROJECTILE), "0000" + PNG_EX));
@@ -21,6 +22,7 @@ pygame.display.set_caption("Space Arena");
 #Set Background Music:
 pygame.mixer.music.load(urlConstructor(SOUND_ASSETS, MUSIC, BACKGROUND_MUSIC) + MP3_EX);
 pygame.mixer.music.play(-1);
+pygame.mixer.music.set_volume(0.05);
 
 #Main Loop
 def gameLoop():
@@ -35,8 +37,8 @@ def gameLoop():
     clock = pygame.time.Clock();
 
     keyBoardState = {"W":False, "A":False, "S":False, "D":False, "Q":False, "E":False};
-    acceleration = 0.3;
-    friction = 0.1;
+    acceleration = 0.5;
+    friction = 0.2;
 
     pauseState = False;
 

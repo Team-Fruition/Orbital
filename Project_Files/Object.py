@@ -152,7 +152,7 @@ class Background(GameObject):
     ####Static Constants
     
     BORDER = 16;
-    BOUNCE_VALUE = 2;
+    BOUNCE_VALUE = 0;
 
     ####Static Variables
     
@@ -188,7 +188,7 @@ class Background(GameObject):
         url = urlConstructor(ART_ASSETS, MAIN_MENU);
         fileName = MAIN_MENU;
         indexLen = 3;
-        numFrames = 18;
+        numFrames = 6;
         ex = JPG_EX;
         x = 0;
         y = 0;
