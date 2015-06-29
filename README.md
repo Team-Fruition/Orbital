@@ -56,7 +56,7 @@
 >  6. Game Over State
 
 <h4>
-	Things Not Done (should hopefully be implemented by end June - mid July)
+	Things Not Done (should hopefully be implemented by end July)
 </h4>
 
 >  1. Sound FX
