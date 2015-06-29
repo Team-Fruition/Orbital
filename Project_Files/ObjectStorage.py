@@ -31,8 +31,15 @@ class ObjectStorage:
 
         self.UIObject = Group();
         self.button = Group();
+        
         self.ships = Group();
+        self.alliedShips = Group();
+        self.enemyShips = Group();
+
         self.bullets = Group();
+        self.alliedBullets = Group();
+        self.enemyBullets = Group();
+        
         self.items = Group();
 
     def initializeEnemies(self):
@@ -125,20 +132,51 @@ class ObjectStorage:
 
     def addPlayer(self, player):
         self.player = player;
+
+    def addAlliedShip(self, ship):
+        self.alliedShips.add(ship);
+
+    def addEnemyShip(self, ship):
+        self.enemyShips.add(ship);
         
     def addShip(self, ship):
+        if ship.shipType == TEAM_PLAYER:
+            self.addAlliedShip(ship);
+        elif ship.shipType == TEAM_ENEMY:
+            self.addEnemyShip(ship);
+        
         if isinstance(ship, Player):
             self.addPlayer(ship);
         
         self.ships.add(ship);
+
+    def addListOfShips(self, listShips):
+        for ship in listShips:
+            self.addShip(ship);
 
     def getShips(self):
         return self.ships.sprites();
 
     ##Bullet Object Add
 
+    def addAlliedBullets(self, bullet):
+        self.alliedBullets.add(bullet);
+
+    def addEnemyBullets(self, bullet):
+        self.enemyBullets.add(bullet);
+
     def addBullet(self, bullet):
+
+        if bullet.firerType == TEAM_PLAYER:
+            self.addAlliedBullets(bullet);
+        elif bullet.firerType == TEAM_ENEMY:
+            self.addEnemyBullets(bullet);
+
         self.bullets.add(bullet);
+
+    def addListOfBullets(self, listBullets):
+        for bullet in listBullets:
+            self.addBullet(bullet);
 
     def getBullets(self):
         return self.bullet.sprites();
@@ -231,6 +269,15 @@ class ObjectStorage:
             finalString = bufferLen * "0" + difficultyString;
             self.renderedDifficulty = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 670, self.windowHeight/2 - 25, finalString), ];
 
+    def processCollisions(self, objects):
+        for ship, bullets in objects.items():         
+            for bullet in bullets:
+                if bullet.firerType != ship.shipType:
+                    ship.damage(bullet.damage);   
+                    bullet.kill();                       
+            if ship.dead == True:
+                self.score += ship.killScore;        
+
     def updateAllObjects(self, keyBoardState, currentMousePos, currentMouseState):
         self.background.update(keyBoardState, currentMousePos, currentMouseState);
         
@@ -253,15 +300,13 @@ class ObjectStorage:
             self.items.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
             
             #Do Collision Checking here
-            objects = collideGroups(self.ships, self.bullets, False, False, collided = collideRectRatio(0.5));
+            objects = collideGroups(self.alliedShips, self.enemyBullets, False, False, collided = collideRectRatio(0.5));
 
-            for ship, bullets in objects.items():         
-                for bullet in bullets:
-                    if bullet.firerType != ship.shipType:
-                        ship.damage(bullet.damage);   
-                        bullet.kill();                       
-                if ship.dead == True:
-                    self.score += ship.killScore;
+            self.processCollisions(objects);
+
+            objects = collideGroups(self.enemyShips, self.alliedBullets, False, False, collided = collideRectRatio(0.5));
+
+            self.processCollisions(objects);
 
             items = collideSprite(self.player, self.items, True, collided = collideRectRatio(0.6));
 

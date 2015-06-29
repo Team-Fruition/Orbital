@@ -104,7 +104,7 @@ class Health(Item):
     ####Secondary Functions
 
     def effect(self, ship):
-        if ship.hitPoints - 100 <= 1200:
+        if ship.hitPoints + 100 <= 1200:
             ship.hitPoints += 100;
         else:
             ship.hitPoints = 1200;

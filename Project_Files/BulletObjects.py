@@ -164,7 +164,7 @@ class FirecrackerProjectile(Bullet):
                 bulletList.append(SubFirecrackerProjectile(firer, x, y, direction));
                 direction += 90;
 
-            self.objectStorage.addBullet(bulletList);
+            self.objectStorage.addListOfBullets(bulletList);
             
         else:
             self.spawnCounter += 1;        
