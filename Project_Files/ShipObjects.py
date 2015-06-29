@@ -114,7 +114,7 @@ class Ship(GameObject):
 
     def dropHealthItem(self):
         chosenNum = random.randrange(0, 101);
-        if chosenNum >= 85:
+        if chosenNum >= 95:
             self.objectStorage.addItem(Health(self));
 
     def kill(self):
