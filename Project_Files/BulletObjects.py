@@ -19,11 +19,12 @@ class Bullet(GameObject):
 
     ####Player Projectile Setting
 
-    def initPlayerBulletSprite(self):
-        if self.playerBulletSprite == None:
+    @classmethod
+    def initPlayerBulletSprite(cls):
+        if cls.playerBulletSprite == None:
             url = urlConstructor(ART_ASSETS, PROJECTILES, WHITE_PROJECTILE);
-            indexingVariable = 10 ** (self.indexLen);
-            self.playerBulletSprite = loadImg(url, self.fileName + str(indexingVariable)[1:] + self.ex);
+            indexingVariable = 10 ** (cls.indexLen);
+            cls.playerBulletSprite = loadImg(url, cls.fileName + str(indexingVariable)[1:] + cls.ex);
 
     ####Initialization Methods
 
