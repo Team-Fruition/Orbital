@@ -7,6 +7,7 @@ WHITE = (255, 255, 255);
 #Directory Constants:
 ART_ASSETS = "Art_Assets";
 
+BAR = "Bar";
 BUTTON = "Button";
 LOGO = "Logo";
 MAIN_MENU = "MainMenu";
@@ -25,6 +26,11 @@ START = "Start";
 INSTRUCTIONS = "Instructions";
 GAME = "Game";
 GAMEOVER = "GameOver";
+
+#Bar Constants
+HPBAR = "Destine_Bar";
+HPEMPTY = "Health_Depleted";
+HPPIECE = "Health";
 
 #Button Constants
 BACK = "Back";

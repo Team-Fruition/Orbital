@@ -35,6 +35,10 @@ class SceneManager:
     def getObjectsToRender(self):
         return self.getCurrentScene().getAllObjectsInScene();
 
+    def changeWindowWidthAndHeight(self, widthAndHeight):
+        self.windowWidth = widthAndHeight[0];
+        self.windowHeight = widthAndHeight[1];
+
     #Screen Logic
     def determineSceneChange(self):
         #Main Menu Button Logic

@@ -81,11 +81,14 @@ class ObjectStorage:
 
         self.gameMode = False;
 
+        self.HPGaugeBacking = HPBarBacking(windowWidth, windowHeight, 0, windowHeight/2 - 59);
+        self.HPGauge = HPBar(windowWidth, windowHeight, 0, windowHeight/2 - 55);
+
     ####Operations
 
     def getAllObjects(self):
         return ([self.background, ] + self.bullets.sprites() + self.ships.sprites()
-                + self.items.sprites() + self.UIObject.sprites() + self.renderedScore + self.renderedHealth
+                + self.items.sprites() + self.UIObject.sprites() + self.renderedHealth + self.renderedScore 
                 + self.renderedDifficulty);
 
     ##Generic Object Add
@@ -238,14 +241,11 @@ class ObjectStorage:
         bufferLen = 20 - len(scoreString);
         if bufferLen >= 0:
             finalString = bufferLen * "0" + scoreString;
-            self.renderedScore = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 225, self.windowHeight/2 - 25, finalString), ];
+            #self.renderedScore = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 225, self.windowHeight/2 - 25, finalString), ];
 
     def updateHealth(self):
-        healthString = str(int(self.player.hitPoints/self.player.HITPOINTS * 100));
-        bufferLen = 3 - len(healthString);
-        if bufferLen >= 0:
-            finalString = bufferLen * "0" + healthString;
-            self.renderedHealth = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 490, self.windowHeight/2 - 25, finalString), ];
+        HPObj = HP(self.windowWidth, self.windowHeight, 0, self.windowHeight/2 - 59, self.player);
+        self.renderedHealth = [self.HPGaugeBacking, HPObj, self.HPGauge];
 
     def updateDifficulty(self):
         if self.score >= 1500 and self.currentDifficultyLevel == 0:
@@ -267,7 +267,7 @@ class ObjectStorage:
         bufferLen = 2 - len(difficultyString);
         if bufferLen >= 0:
             finalString = bufferLen * "0" + difficultyString;
-            self.renderedDifficulty = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 670, self.windowHeight/2 - 25, finalString), ];
+            #self.renderedDifficulty = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 670, self.windowHeight/2 - 25, finalString), ];
 
     def processCollisions(self, objects):
         for ship, bullets in objects.items():         
@@ -293,7 +293,7 @@ class ObjectStorage:
             for ship in shipsList:
                 ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
-                if not isinstance(ship, Player) and not self.background.rect.contains(ship.rect):
+                if not isinstance(ship, Player) and not self.background.rect.colliderect(ship.rect):
                     ship.killCleanly();
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);

@@ -26,6 +26,7 @@ class Ship(GameObject):
 
     def initializeObjectGameVariables(self, hitPoints, priWeapon, altWeapon, killScore):
         self.hitPoints = hitPoints;
+        self.maxHitPoints = hitPoints;
         self.initializeWeapons(priWeapon, altWeapon);
         self.killScore = killScore;
         

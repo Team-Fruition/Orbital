@@ -6,12 +6,23 @@ from supplementary import *;
 pygame.init();
 
 #Define and initialize surface to show to the user:
-windowWidth = 1024;
-windowHeight = 800;
+
+def getCurrentWindowWidthAndHeight():
+    infoObj = pygame.display.Info();
+
+    windowWidth = infoObj.current_w;
+    windowHeight = infoObj.current_h;
+
+    return (windowWidth, windowHeight);
+
+infoObj = getCurrentWindowWidthAndHeight();
+
+windowWidth = infoObj[0];
+windowHeight = infoObj[1];
 
 pygameFlags = pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF;
 pygameResizableFlag = pygame.RESIZABLE;
-gameDisplay = pygame.display.set_mode((windowWidth, windowHeight), pygame.RESIZABLE);
+gameDisplay = pygame.display.set_mode((windowWidth, windowHeight), pygameFlags);
 
 #Define icon:
 #pygame.display.set_icon(loadVanillaImg(urlConstructor(ART_ASSETS, PROJECTILES, BLUE_PROJECTILE), "0000" + PNG_EX));

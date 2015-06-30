@@ -45,6 +45,90 @@ class UIElement(GameObject):
 
 ####Instance Classes
 
+#HPBar
+
+class HPBar(UIElement):
+
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = HPBAR;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+class HPBarBacking(UIElement):
+
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = HPEMPTY;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+class HP(UIElement):
+
+    #Initialization Methods
+
+    img = None;
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY, ship):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = HPPIECE;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+        hitPoints = ship.hitPoints;
+        maxHitPoints = ship.maxHitPoints;
+
+        percentage = max(0, min(1, hitPoints/maxHitPoints));
+
+        img = super().getSprite();
+        self.img = img;
+        
+        width = int(percentage * self.getSpriteWidth());
+        height = self.getSpriteHeight();
+        
+        newImage = pygame.Surface((width, height));
+        newImage.set_colorkey((0, 0, 0));
+        newImage.blit(img, (0, 0), (0, 0, width, height));
+
+        self.croppedSprite = newImage;
+
+        self.objectPos[0] += 26;
+        self.objectPos[1] -= 3;
+
+    def getSprite(self):
+        return self.croppedSprite;
+
 #Button
 
 class Button(UIElement):
