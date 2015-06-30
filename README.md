@@ -13,8 +13,13 @@
 > different take on the bullet hell genre. <p />
 > 
 > <p> 	For those that have heard of games like Solomon's Boneyard and
-> Amorphous+, this game will have similar mechanics, with a controllable camera instead of having the usual 
-> linearly scrolling backdrop featuring in most arcade bullet hell variants. </p>
+> Amorphous+, this game will have similar mechanics, with a controllable
+> camera instead of having the usual  linearly scrolling backdrop
+> featuring in most arcade bullet hell variants. </p>
+> 
+> <p> Currently, this game only works on Windows. Once we get our
+> hands on a Mac machine, we would be able to get a Mac-runnable version
+> of the game. </p>
 
 <hr />
 
@@ -39,6 +44,12 @@
 > <p> This game is aimed at anybody with free time.  </p>
 
 <h4>
+	 Project Scope
+</h4>
+
+> Really only limited by time constraints.
+
+<h4>
 	Targeted Level of Acheivement
 </h4>
 
@@ -52,7 +63,7 @@
 >  2. Help Screen State
 >  3. Base Game State
 >  4. Base Pause State
->  5. Background Music.
+>  5. Background Music
 >  6. Game Over State
 
 <h4>
@@ -62,22 +73,24 @@
 >  1. Sound FX
 >  2. Better Pause State
 >  3. Other Drops besides Health Pickups
->  4. Advanced UI such as Health Bars.
+>  4. Advanced UI such as Health Bars
 >  5. More enemies, items, etc.
+>  6. Adjustable Volume
 
 <h4>
 	Possible Future Extensions
 </h4>
 
->  1. Making the game playable on Android.
->  2. Leaderboard.
+>  1. Making the game playable on Mac and Ubuntu.
+>  2. Multiplayer -> Leaderboard.
 
 <h4>
 	To Run 
 </h4>
 
->  1. Download the zipped builds file under the Releases section in the repo's home page.
->  2. Within the sub folder contained within, run main.exe to play.
+>  1. Download the latest zipped builds file under the Releases section in the [repo's home page](https://github.com/Team-Fruition/Orbital/releases).
+>  2. Once downloaded, extract out the builds folder.
+>  3. In the sub-folder within, run main.exe to execute.
 
 <h4>
 	Milestone 2 Video
@@ -86,13 +99,13 @@
 > [Video Link](https://www.youtube.com/watch?v=ShYHnJcImi4)
 
 <h4>
-	Presentation Video
+	Ignition Video
 </h4>
 
 > [Video Link](https://www.youtube.com/watch?v=osQjStOAci0&feature=youtu.be&t=22m19s)
 
 <h4>
-	Presentation Slide
+	Ignition Slide
 </h4>
 
 > [Slide Link](https://drive.google.com/open?id=0B5MZ1b8oUVSrdEU0NVJzeTBETDA&authuser=0)

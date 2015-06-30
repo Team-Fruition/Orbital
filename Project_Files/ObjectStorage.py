@@ -250,15 +250,15 @@ class ObjectStorage:
     def updateDifficulty(self):
         if self.score >= 1500 and self.currentDifficultyLevel == 0:
             self.upgradeDifficulty();
+            self.player.addNewWeapon(HailStorm);
         elif self.score >= 3000 and self.currentDifficultyLevel == 1:
             self.upgradeDifficulty();
-            self.player.addNewWeapon(HailStorm);
         elif self.score >= 4500 and self.currentDifficultyLevel == 2:
             self.upgradeDifficulty();
         elif self.score >= 5750 and self.currentDifficultyLevel == 3:
             self.upgradeDifficulty();
             self.player.addNewWeapon(Firecracker);
-        elif self.score >= 7750 and self.currentDifficultyLevel == 4:
+        elif self.score >= 8000 and self.currentDifficultyLevel == 4:
             self.upgradeDifficulty();
             self.maxEnemySpawn = 15;
             self.player.addNewWeapon(XYGunLauncher);
