@@ -202,8 +202,8 @@ class ObjectStorage:
             self.currentDifficultyLevel += 1;
 
     def determineSpawnPoint(self):
-        XBOUNDS = 256;
-        YBOUNDS = 256;
+        XBOUNDS = 2;
+        YBOUNDS = 2;
         
         possibleValueX = [random.randrange(-XBOUNDS, 0), random.randrange(self.windowWidth, self.windowWidth + XBOUNDS)];
         possibleValueY = [random.randrange(-YBOUNDS, 0), random.randrange(self.windowHeight, self.windowHeight + YBOUNDS)];
@@ -293,7 +293,7 @@ class ObjectStorage:
             for ship in shipsList:
                 ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
-                if not isinstance(ship, Player) and not self.background.rect.colliderect(ship.rect):
+                if not isinstance(ship, Player) and not self.background.rect.inflate(64, 64).colliderect(ship.rect):
                     ship.killCleanly();
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
