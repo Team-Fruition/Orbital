@@ -293,7 +293,7 @@ class ObjectStorage:
             for ship in shipsList:
                 ship.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
-                if not isinstance(ship, Player) and not self.background.rect.inflate(64, 64).colliderect(ship.rect):
+                if not isinstance(ship, Player) and not self.background.rect.colliderect(ship.rect):
                     ship.killCleanly();
 
             self.bullets.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
