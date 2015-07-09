@@ -63,6 +63,7 @@
 >  2. Help Screen State
 >  3. Base Game State
 >  4. Base Pause State
+>  5. Health Bar UI
 >  5. Background Music
 >  6. Game Over State
 
@@ -73,7 +74,6 @@
 >  1. Sound FX
 >  2. Better Pause State
 >  3. Other Drops besides Health Pickups
->  4. Advanced UI such as Health Bars
 >  5. More enemies, items, etc.
 >  6. Adjustable Volume
 
