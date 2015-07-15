@@ -47,45 +47,103 @@ class UIElement(GameObject):
 
 #HPBar
 
+class UIObj(UIElement):
+
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = UI;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+class ProgressBar(UIElement):
+
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = PROGRESSBAR;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+        objectStorage = self.objectStorage;
+
+        currentScore = objectStorage.score;
+
+        previousDifficultyString = str(objectStorage.currentDifficultyLevel - 1);        
+        currentDifficultyString = str(objectStorage.currentDifficultyLevel);
+
+        previousScoreAdvancement = objectStorage.scoreAdvancement[previousDifficultyString][0];
+
+        if currentDifficultyString in objectStorage.scoreAdvancement:
+            nextScoreAdvancement = objectStorage.scoreAdvancement[currentDifficultyString][0];
+            fraction = (currentScore - previousScoreAdvancement)/(nextScoreAdvancement - previousScoreAdvancement);       
+        else:
+            fraction = 1;
+            
+        percentage = max(0, min(1, fraction));
+
+        img = super().getSprite();
+        self.img = img;
+        
+        width = int(percentage * self.getSpriteWidth());
+        height = self.getSpriteHeight();
+        
+        newImage = pygame.Surface((width, height));
+        newImage.set_colorkey((0, 0, 0));
+        newImage.blit(img, (0, 0), (0, 0, width, height));
+
+        self.croppedSprite = newImage;
+
+        self.objectPos[0] += 105;
+        self.objectPos[1] += 21;
+
+    def getSprite(self):
+        return self.croppedSprite;
+
+class ProgressBarBacking(UIElement):
+    
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = PROGRESSBARBACKING;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+        self.objectPos[0] += 105;
+        self.objectPos[1] += 21;
+    
+
 class HPBar(UIElement):
-
-    ####Initialization Methods
-
-    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
-
-        url = urlConstructor(ART_ASSETS, BAR);
-        fileName = HPBAR;
-        indexLen = 3;
-        numFrames = 1;
-        ex = PNG_EX;
-        x = 0;
-        y = 0;
-        boundaryRatio = 1;
-
-        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
-                         windowWidth, windowHeight, displaceX, displaceY);
-        self.updateBoundary();
-
-class HPBarBacking(UIElement):
-
-    ####Initialization Methods
-
-    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
-
-        url = urlConstructor(ART_ASSETS, BAR);
-        fileName = HPEMPTY;
-        indexLen = 3;
-        numFrames = 1;
-        ex = PNG_EX;
-        x = 0;
-        y = 0;
-        boundaryRatio = 1;
-
-        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
-                         windowWidth, windowHeight, displaceX, displaceY);
-        self.updateBoundary();
-
-class HP(UIElement):
 
     #Initialization Methods
 
@@ -94,7 +152,7 @@ class HP(UIElement):
     def __init__(self, windowWidth, windowHeight, displaceX, displaceY, ship):
 
         url = urlConstructor(ART_ASSETS, BAR);
-        fileName = HPPIECE;
+        fileName = HPBAR;
         indexLen = 3;
         numFrames = 1;
         ex = PNG_EX;
@@ -123,11 +181,33 @@ class HP(UIElement):
 
         self.croppedSprite = newImage;
 
-        self.objectPos[0] += 26;
-        self.objectPos[1] -= 3;
+        self.objectPos[0] -= 95;
+        self.objectPos[1] += 21;
 
     def getSprite(self):
         return self.croppedSprite;
+
+class HPBarBacking(UIElement):
+    
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, BAR);
+        fileName = HPBARBACKING;
+        indexLen = 3;
+        numFrames = 1;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+        self.objectPos[0] -= 95;
+        self.objectPos[1] += 21;
 
 #Button
 

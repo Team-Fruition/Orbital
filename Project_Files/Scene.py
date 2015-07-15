@@ -20,6 +20,9 @@ class Scene:
     def addObjectToScene(self, obj):
         self.currentObjectsInScene.determineAndAddObject(obj);
 
+    def getObjectStorage(self):
+        return self.currentObjectsInScene;
+
     def getAllObjectsInScene(self):
         return self.currentObjectsInScene.getAllObjects();      
     
@@ -77,12 +80,12 @@ class Game(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
         self.currentObjectsInScene.gameMode = True;
-                
-        #self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 55, windowHeight/2 - 25, "SCORE: "));
-        #self.addObjectToScene(Text(windowWidth, windowHeight, -windowWidth/2 + 590, windowHeight/2 - 25, "DIFFICULTY: "));
         
         self.player = Player(windowWidth/2, windowHeight + 30);
         self.addObjectToScene(self.player);
+        
+        self.getObjectStorage().interface += [UIObj(self.windowWidth, self.windowHeight, 0, self.windowHeight/2 - 65), ];
+        self.addObjectToScene(Text(windowWidth, windowHeight, -185, self.windowHeight/2 - 74, "HP"));
         
     def changeScene(self):
         if self.player.dead:

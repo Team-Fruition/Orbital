@@ -530,7 +530,10 @@ class Player(Ship):
             return None;
 
     def addNewWeapon(self, weapon):
-        if issubclass(weapon, Weapon):
+
+        if weapon == None:
+            return;
+        elif issubclass(weapon, Weapon):
             weapon = weapon(self);
             self.weaponList.append(weapon);
             if self.weaponListIndex == self.EMPTY:

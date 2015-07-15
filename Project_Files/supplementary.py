@@ -28,9 +28,15 @@ GAME = "Game";
 GAMEOVER = "GameOver";
 
 #Bar Constants
-HPBAR = "Destine_Bar";
-HPEMPTY = "Health_Depleted";
-HPPIECE = "Health";
+##HPBAR = "Destine_Bar";
+##HPEMPTY = "Health_Depleted";
+##HPPIECE = "Health";
+
+UI = "UI";
+HPBAR = "UI_HP_Bar";
+HPBARBACKING = "UI_HP_Bar_Backing";
+PROGRESSBAR = "UI_Progress_Bar";
+PROGRESSBARBACKING = "UI_Progress_Bar_Backing";
 
 #Button Constants
 BACK = "Back";

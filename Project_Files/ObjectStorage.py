@@ -26,7 +26,8 @@ class ObjectStorage:
     
     ####Initialization Methods
 
-    def initializeGroups(self):        
+    def initializeGroups(self):
+        
         self.objectsToUpdate = Group();
 
         self.UIObject = Group();
@@ -62,9 +63,22 @@ class ObjectStorage:
         self.allEnemyLists = [enemyList0, enemyList1, enemyList2, enemyList3, enemyList4, enemyList5];
         self.currentDifficultyLevel = 0;
 
+    def initializeDifficultyThresholds(self):
+
+        self.scoreAdvancement = {};
+
+        self.scoreAdvancement["-1"] = (0, None);
+        self.scoreAdvancement["0"] = (1500, HailStorm);
+        self.scoreAdvancement["1"] = (3000, None);
+        self.scoreAdvancement["2"] = (4500, None);
+        self.scoreAdvancement["3"] = (5750, Firecracker);
+        self.scoreAdvancement["4"] = (8000, XYGunLauncher);
+
     def __init__(self, background, windowWidth, windowHeight):
+        
         self.initializeGroups();
         self.initializeEnemies();
+        self.initializeDifficultyThresholds();
         
         self.background = background;
         self.backgroundSpriteWidth = self.background.spriteWidth;
@@ -81,15 +95,14 @@ class ObjectStorage:
 
         self.gameMode = False;
 
-        self.HPGaugeBacking = HPBarBacking(windowWidth, windowHeight, 0, windowHeight/2 - 59);
-        self.HPGauge = HPBar(windowWidth, windowHeight, 0, windowHeight/2 - 55);
+        self.interface = [];
 
     ####Operations
 
     def getAllObjects(self):
         return ([self.background, ] + self.bullets.sprites() + self.ships.sprites()
-                + self.items.sprites() + self.UIObject.sprites() + self.renderedHealth + self.renderedScore 
-                + self.renderedDifficulty);
+                + self.items.sprites() + self.renderedScore + self.renderedHealth
+                + self.interface + self.renderedDifficulty + self.UIObject.sprites());
 
     ##Generic Object Add
 
@@ -118,10 +131,10 @@ class ObjectStorage:
         self.button.add(button);
         self.addObjectToScene(button);
 
-    ##UI Object Add
-
     def getButtons(self):
         return self.button.sprites();
+
+    ##UI Object Add
 
     def addUIObject(self, UIobj):
         self.UIObject.add(UIobj);
@@ -237,37 +250,36 @@ class ObjectStorage:
     ##Main Update Function
 
     def updateScore(self):
-        scoreString = str(self.score);
-        bufferLen = 20 - len(scoreString);
-        if bufferLen >= 0:
-            finalString = bufferLen * "0" + scoreString;
-            #self.renderedScore = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 225, self.windowHeight/2 - 25, finalString), ];
+        
+        displaceX = 0;
+        displaceY = self.windowHeight/2 - 65;
+
+        self.renderedScore = [ProgressBarBacking(self.windowWidth, self.windowHeight, displaceX, displaceY),
+                              ProgressBar(self.windowWidth, self.windowHeight, displaceX, displaceY), ];
 
     def updateHealth(self):
-        HPObj = HP(self.windowWidth, self.windowHeight, 0, self.windowHeight/2 - 59, self.player);
-        self.renderedHealth = [self.HPGaugeBacking, HPObj, self.HPGauge];
+
+        displaceX = 0;
+        displaceY = self.windowHeight/2 - 65;
+        
+        self.renderedHealth = [HPBarBacking(self.windowWidth, self.windowHeight, displaceX, displaceY),
+                               HPBar(self.windowWidth, self.windowHeight, displaceX, displaceY, self.player), ];
 
     def updateDifficulty(self):
-        if self.score >= 1500 and self.currentDifficultyLevel == 0:
-            self.upgradeDifficulty();
-            self.player.addNewWeapon(HailStorm);
-        elif self.score >= 3000 and self.currentDifficultyLevel == 1:
-            self.upgradeDifficulty();
-        elif self.score >= 4500 and self.currentDifficultyLevel == 2:
-            self.upgradeDifficulty();
-        elif self.score >= 5750 and self.currentDifficultyLevel == 3:
-            self.upgradeDifficulty();
-            self.player.addNewWeapon(Firecracker);
-        elif self.score >= 8000 and self.currentDifficultyLevel == 4:
-            self.upgradeDifficulty();
-            self.maxEnemySpawn = 15;
-            self.player.addNewWeapon(XYGunLauncher);
 
         difficultyString = str(self.currentDifficultyLevel);
+
         bufferLen = 2 - len(difficultyString);
         if bufferLen >= 0:
             finalString = bufferLen * "0" + difficultyString;
-            #self.renderedDifficulty = [Text(self.windowWidth, self.windowHeight, -self.windowWidth/2 + 670, self.windowHeight/2 - 25, finalString), ];
+            self.renderedDifficulty = [Text(self.windowWidth, self.windowHeight, 195, self.windowHeight/2 - 74, finalString), ];
+
+        if difficultyString in self.scoreAdvancement:
+            levelData = self.scoreAdvancement[difficultyString];
+
+            if self.score >= levelData[0]:
+                self.upgradeDifficulty();
+                self.player.addNewWeapon(levelData[1]);
 
     def processCollisions(self, objects):
         for ship, bullets in objects.items():         
@@ -287,6 +299,7 @@ class ObjectStorage:
         self.objectsToUpdate.update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
 
         if self.gameMode:
+            
             #Do Ship and Bullet updates here
             shipsList = self.getShips();
 
