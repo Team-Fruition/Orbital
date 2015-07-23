@@ -306,14 +306,14 @@ class HailstormArtillery(Ship):
 
     def initCoordinatesSystem(self):
         self.currentCoordinatesCount = 0;
-        self.updateCoordinatesCounter = 25;
+        self.updateCoordinatesCounter = 5;
         self.determineNewCoordinates();
     
     def __init__(self, x, y):
 
         url = urlConstructor(ART_ASSETS, SHIPS, HAILSTORM_ARTILLERY);
         shipType = TEAM_ENEMY;
-        hitPoints = 75;
+        hitPoints = 200;
         priWeapon = HailStormArtilleryWeapon;
         altWeapon = None;
         killScore = 150;
@@ -336,7 +336,15 @@ class HailstormArtillery(Ship):
     ####Secondary Functions
 
     def determineNewCoordinates(self):
-        playerPos = self.objectStorage.player.objectPos;
+
+        player = self.objectStorage.player;
+        
+        playerPos = list(player.objectPos);
+        playerWidth = player.spriteWidth;
+        playerHeight = player.spriteHeight;
+
+        playerPos[0] += playerWidth/2;
+        playerPos[1] += playerHeight/2;
         
         self.projectedCoordinates = list(playerPos);
 
