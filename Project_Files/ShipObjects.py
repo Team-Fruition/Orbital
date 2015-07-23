@@ -530,7 +530,6 @@ class Player(Ship):
             return None;
 
     def addNewWeapon(self, weapon):
-
         if weapon == None:
             return;
         elif issubclass(weapon, Weapon):

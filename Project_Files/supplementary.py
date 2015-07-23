@@ -15,6 +15,7 @@ PROJECTILES = "Projectiles";
 SHIPS = "Ships";
 FONTS = "Fonts";
 DROPS = "Drops";
+WEAPON_ICONS = "WeaponIcons";
 
 SOUND_ASSETS = "Sound_Assets";
 

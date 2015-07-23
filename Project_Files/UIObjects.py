@@ -1,4 +1,5 @@
 from Object import *;
+from WeaponObjects import *;
 
 ####Base Classes
 
@@ -45,7 +46,7 @@ class UIElement(GameObject):
 
 ####Instance Classes
 
-#HPBar
+#In Game UI
 
 class UIObj(UIElement):
 
@@ -65,6 +66,49 @@ class UIObj(UIElement):
         super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
                          windowWidth, windowHeight, displaceX, displaceY);
         self.updateBoundary();
+
+class WeaponIcon(UIElement):
+
+    NONE = 0;
+    HAILSTORM = 1;
+    FIRECRACKER = 2;
+    XYGUN = 3;
+
+    ####Initialization Methods
+
+    def __init__(self, windowWidth, windowHeight, displaceX, displaceY):
+
+        url = urlConstructor(ART_ASSETS, WEAPON_ICONS);
+        fileName = "";
+        indexLen = 1;
+        numFrames = 4;
+        ex = PNG_EX;
+        x = 0;
+        y = 0;
+        boundaryRatio = 1;
+
+        super().__init__(url, fileName, indexLen, numFrames, ex, x, y, boundaryRatio,
+                         windowWidth, windowHeight, displaceX, displaceY);
+        self.updateBoundary();
+
+    ####Primary Functions
+    
+    def update(self, keyBoardState, currentMousePos, currentMouseState, globalSpeed = SpeedController(), globalDisplacement = DisplacementController()):
+        self.updateSprite();
+
+    ####Secondary Functions
+
+    def updateSprite(self):
+        player = self.objectStorage.player;
+
+        if player.getSecondaryWeapon() == None:
+            self.spriteIndex = self.NONE;
+        elif isinstance(player.getSecondaryWeapon(), HailStorm):
+            self.spriteIndex = self.HAILSTORM;
+        elif isinstance(player.getSecondaryWeapon(), Firecracker):
+            self.spriteIndex = self.FIRECRACKER;
+        elif isinstance(player.getSecondaryWeapon(), XYGunLauncher):
+            self.spriteIndex = self.XYGUN;
 
 class ProgressBar(UIElement):
 

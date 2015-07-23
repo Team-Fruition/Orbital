@@ -54,26 +54,27 @@ class HelpMenu(Scene):
     def __init__(self, windowWidth, windowHeight, background):
         super().__init__(windowWidth, windowHeight, background);
 
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 335, "Welcome to Space Arena!"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 300, "The objective of this game is to score"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 265, "as many points as possible by destroying"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 230, "enemy spacecrafts."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 400, "Welcome to Space Arena!"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 365, "The objective of this game is to score"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 330, "as many points as possible by destroying"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 295, "enemy spacecrafts."));
         
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 185, "Use the WASD keys to pan the camera."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 150, "Your ship will automatically move to the"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 115, "position of the mouse cursor, which"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 80, "also re-orients it along the direction"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 45, "it takes to travel to that point."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 250, "Use the WASD keys to pan the camera."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 215, "Your ship will automatically move to the"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 180, "position of the mouse cursor, which"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 145, "also re-orients it along the direction"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 110, "it takes to travel to that point."));
         
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 0, "Left-Click to fire your main weapon."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -35, "Right-Click to fire your secondary weapon."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -70, "Q and E cycles through available secondary weapons."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 65, "Left-Click to fire your main weapon."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, 30, "Right-Click to fire your secondary weapon."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -5, "Q and E cycles through available secondary weapons."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -40, "Spacebar pauses the game."));
 
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -115, "Secondary Weapons are acquired when the"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -150, "difficulty increases, which is determined"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -185, "by certain score thresholds."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -85, "Secondary Weapons are acquired when the"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -120, "difficulty increases, which is determined"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -155, "by surpassing certain score thresholds."));
         
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -250, BACK));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -230, BACK));
 
 class Game(Scene):
 
@@ -86,6 +87,7 @@ class Game(Scene):
         
         self.getObjectStorage().interface += [UIObj(self.windowWidth, self.windowHeight, 0, self.windowHeight/2 - 65), ];
         self.addObjectToScene(Text(windowWidth, windowHeight, -185, self.windowHeight/2 - 74, "HP"));
+        self.addObjectToScene(WeaponIcon(windowWidth, windowHeight, 5, self.windowHeight/2 - 64));
         
     def changeScene(self):
         if self.player.dead:

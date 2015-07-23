@@ -47,7 +47,7 @@
 	 Project Scope
 </h4>
 
-> Really only limited by time constraints.
+> Really only limited by time and motivational constraints.  
 
 <h4>
 	Targeted Level of Acheivement
@@ -63,7 +63,7 @@
 >  2. Help Screen State
 >  3. Base Game State
 >  4. Base Pause State
->  5. Health Bar UI
+>  5. Player HUD
 >  5. Background Music
 >  6. Game Over State
 
@@ -71,18 +71,18 @@
 	Things Not Done (should hopefully be implemented by end July)
 </h4>
 
->  1. Sound FX
->  2. Better Pause State
->  3. Other Drops besides Health Pickups
->  5. More enemies, items, etc.
->  6. Adjustable Volume
+>  1. A visible notification which indicates to the Player that a new Weapon has been unlocked.
+>  2. More content past the 5th difficulty.
+>  3. Bug fixing - particularly the out of bounds ship placement.
 
 <h4>
-	Possible Future Extensions
+	Possible Future Extensions (which may or may not get pursued)
 </h4>
 
 >  1. Making the game playable on Mac and Ubuntu.
 >  2. Multiplayer -> Leaderboard.
+>  3. An "Options" Menu, with adjustable sound.
+>  4. A prettier Help Screen.
 
 <h4>
 	To Run 
@@ -125,9 +125,9 @@
 </h4>
 
 >  1. Pygame (Currently Using)
->  2. Phaser
->  3. Gamemaker
->  4. Unity
+>  2. Phaser (Not Using)
+>  3. Gamemaker (Not Using)
+>  4. Unity (Not Using)
 
 <h4>
 	Art Programs Used
