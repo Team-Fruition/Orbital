@@ -73,7 +73,7 @@
 
 >  1. A visible notification which indicates to the Player that a new Weapon has been unlocked.
 >  2. More content past the 5th difficulty.
->  3. Bug fixing - particularly the out of bounds ship placement.
+>  3. Bug fixing.
 
 <h4>
 	Possible Future Extensions (which may or may not get pursued)
