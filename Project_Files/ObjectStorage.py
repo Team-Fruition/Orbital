@@ -225,7 +225,10 @@ class ObjectStorage:
         xIndex = random.randrange(0, 2);
         yIndex = random.randrange(0, 2);
 
-        return [possibleValueX[xIndex], possibleValueY[yIndex]];
+        firstPossibleSet = [possibleValueX[xIndex], possibleValueY[yIndex]];
+        secondPossibleSet = [random.randrange(0, self.windowWidth - SHIPSIZE), random.randrange(0 + SHIPSIZE, self.windowHeight)];
+
+        return secondPossibleSet;
 
     def getEnemyList(self):
         return self.allEnemyLists[self.currentDifficultyLevel];
