@@ -471,6 +471,7 @@ class Player(Ship):
         super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon);
 
         self.initializeMultipleWeaponCapability();
+        self.toggleAutoFireCapability = False;
 
     ####Primary Functions
 
@@ -478,11 +479,17 @@ class Player(Ship):
         super().update(keyBoardState, currentMousePos, currentMouseState, globalSpeed, globalDisplacement);
         self.updateSprite(currentMousePos);
         self.updatePos(currentMousePos, globalSpeed, globalDisplacement);
+        self.updateToggler(currentMouseState);
         self.checkIfSwapWeapons(keyBoardState);
         self.fireMain(currentMouseState);
         self.fireAlternate(currentMouseState);
         
     ####Secondary Functions
+
+    def updateToggler(self, currentMouseState):
+
+        if currentMouseState[1] == 1:
+            self.toggleAutoFireCapability = not self.toggleAutoFireCapability;
 
     def updatePos(self, currentMousePos, globalSpeed, globalDisplacement):
 
@@ -524,11 +531,11 @@ class Player(Ship):
             self.altWeapon = self.weaponList[self.weaponListIndex];
 
     def fireMain(self, currentMouseState):
-        if currentMouseState[0] == 1:
+        if currentMouseState[0] == 1 or self.toggleAutoFireCapability:
             super().fireMain();
 
     def fireAlternate(self, currentMouseState):
-        if currentMouseState[2] == 1:
+        if currentMouseState[2] == 1 or self.toggleAutoFireCapability:
             super().fireAlternate();
 
     def getSecondaryWeapon(self):

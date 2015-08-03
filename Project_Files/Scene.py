@@ -68,13 +68,14 @@ class HelpMenu(Scene):
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 65, "Left-Click to fire your main weapon."));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, 30, "Right-Click to fire your secondary weapon."));
         self.addObjectToScene(Text(windowWidth, windowHeight, 0, -5, "Q and E cycles through available secondary weapons."));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -40, "Spacebar pauses the game."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -40, "Click the Middle Mouse Button to toggle Auto-Firing capabilities"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -75, "Spacebar pauses the game."));
 
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -85, "Secondary Weapons are acquired when the"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -120, "difficulty increases, which is determined"));
-        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -155, "by surpassing certain score thresholds."));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -120, "Secondary Weapons are acquired when the"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -155, "difficulty increases, which is determined"));
+        self.addObjectToScene(Text(windowWidth, windowHeight, 0, -190, "by surpassing certain score thresholds."));
         
-        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -230, BACK));
+        self.addObjectToScene(Button(windowWidth, windowHeight, 0, -275, BACK));
 
 class Game(Scene):
 
