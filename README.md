@@ -17,9 +17,7 @@
 > camera instead of having the usual  linearly scrolling backdrop
 > featuring in most arcade bullet hell variants. </p>
 > 
-> <p> Currently, this game only works on Windows. Once we get our
-> hands on a Mac machine, we would be able to get a Mac-runnable version
-> of the game. </p>
+> <p> Currently, this game only works on Windows. </p>
 
 <hr />
 
@@ -27,9 +25,9 @@
 	Screenshots
 </h3>
 
-![Main Menu](https://lh3.googleusercontent.com/-78RSBgvsRJs/VWqWapqaxlI/AAAAAAAAAXE/aBEAUfha1gw/s300/Screenshot+2015-05-31+12.55.29.png "Screenshot 2015-05-31 12.55.29.png")
+![Main Menu](https://lh3.googleusercontent.com/-vugpeR7yNYM/Vb9cArVr8kI/AAAAAAAAAcc/PFHvZbTtFAk/s0/Screenshot+2015-08-03+20.15.24.png "Main Menu")
 
-![Game](https://lh3.googleusercontent.com/-vnt6QgX5iVo/VXk6cR4MEqI/AAAAAAAAAXo/WKBHPD8wUt8/s300/Screenshot+2015-06-11+15.32.33.png "In Game Screen &#40;v0.1&#41;")
+![In Game](https://lh3.googleusercontent.com/-1QTmNFkeWgY/Vb9cOlHmd4I/AAAAAAAAAco/RdzhS4--tQs/s0/Screenshot+2015-08-03+20.16.49.png "In Game")
 
 <hr />
 
@@ -41,19 +39,19 @@
 	Scope
 </h4>
 
-> <p> This game is aimed at anybody with free time.  </p>
+> <p> This game is aimed at anybody with free time. Which is everyone. </p>
 
 <h4>
 	 Project Scope
 </h4>
 
-> Really only limited by time and motivational constraints.  
+> Really only limited by time and motivational constraints. As of now the game is "completed", but why stop here?  
 
 <h4>
 	Targeted Level of Acheivement
 </h4>
 
-> <p> 	We are aiming for the Project Gemini level achievement. </p>
+> We are aiming for the Project Gemini level achievement. We would like this achievement because everything besides the [Music](http://youtu.be/1rC7pNgxkZU), down to the Art Assets and the Code Structure itself, was 99% original. But if it's not worthy we understand :)
 
 <h4>
 	Things Done
@@ -68,21 +66,21 @@
 >  6. Game Over State
 
 <h4>
-	Things Not Done (should hopefully be implemented by end July)
+	Things Not Done (should hopefully be implemented by Splashdown)
 </h4>
 
 >  1. A visible notification which indicates to the Player that a new Weapon has been unlocked.
->  2. More content past the 5th difficulty.
->  3. Bug fixing.
+>  2. Bug fixing.
 
 <h4>
-	Possible Future Extensions (which may or may not get pursued)
+	Possible Future Extensions (which are unlikely to get pursued)
 </h4>
 
 >  1. Making the game playable on Mac and Ubuntu.
 >  2. Multiplayer -> Leaderboard.
 >  3. An "Options" Menu, with adjustable sound.
->  4. A prettier Help Screen.
+>  4. More content past the 5th difficulty.
+>  5. A prettier Help Screen.
 
 <h4>
 	To Run 
@@ -91,6 +89,12 @@
 >  1. Download the latest zipped builds file under the Releases section in the [repo's home page](https://github.com/Team-Fruition/Orbital/releases).
 >  2. Once downloaded, extract out the builds folder.
 >  3. In the sub-folder within, run main.exe to execute.
+
+<h4>
+	Milestone 3 Video
+</h4>
+
+> To Be Added
 
 <h4>
 	Milestone 2 Video
