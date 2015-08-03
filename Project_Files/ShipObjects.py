@@ -471,7 +471,9 @@ class Player(Ship):
         super().__init__(url, shipType, x, y, hitPoints, priWeapon, altWeapon);
 
         self.initializeMultipleWeaponCapability();
+        
         self.toggleAutoFireCapability = False;
+        self.previousMouseInput = 0;
 
     ####Primary Functions
 
@@ -488,8 +490,10 @@ class Player(Ship):
 
     def updateToggler(self, currentMouseState):
 
-        if currentMouseState[1] == 1:
+        if currentMouseState[1] == 1 and currentMouseState[1] != self.previousMouseInput:
             self.toggleAutoFireCapability = not self.toggleAutoFireCapability;
+
+        self.previousMouseInput = currentMouseState[1];
 
     def updatePos(self, currentMousePos, globalSpeed, globalDisplacement):
 
