@@ -62,31 +62,33 @@ def gameLoop():
 
         #Event Detection and Handling
 
-        for event in pygame.event.get():        #Get events in real time
+        for event in pygame.event.get():            #Get events in real time
 
             #DEBUG: Print individual event info
             #print(event);
             
-            if event.type == pygame.QUIT:       #Detect for Quit Event 
+            if event.type == pygame.QUIT:           #Detect for Quit Event 
                 gameExit = True;
 
-            if event.type == pygame.KEYDOWN:    #Detect for Key press
-                if event.key == pygame.K_a:     #Detect for A Key
+            if event.type == pygame.KEYDOWN:        #Detect for Key press
+                if event.key == pygame.K_a:         #Detect for A Key
                     keyBoardState["A"] = True;
-                if event.key == pygame.K_d:     #Detect for D Key
+                if event.key == pygame.K_d:         #Detect for D Key
                     keyBoardState["D"] = True;
-                if event.key == pygame.K_w:     #Detect for W Key
+                if event.key == pygame.K_w:         #Detect for W Key
                     keyBoardState["W"] = True;
-                if event.key == pygame.K_s:     #Detect for S Key
+                if event.key == pygame.K_s:         #Detect for S Key
                     keyBoardState["S"] = True;
-                if event.key == pygame.K_q:     #Detect for Q Key
+                if event.key == pygame.K_q:         #Detect for Q Key
                     keyBoardState["Q"] = True;
-                if event.key == pygame.K_e:     #Detect for E key
+                if event.key == pygame.K_e:         #Detect for E key
                     keyBoardState["E"] = True;
-                if event.key == pygame.K_SPACE: #Detect for Space Key
+                if event.key == pygame.K_SPACE:     #Detect for Space Key
                     pauseState = not pauseState;
+                if event.key == pygame.K_BACKSPACE: #Detect for Backspace Key
+                    gameExit= True;
 
-            if event.type == pygame.KEYUP:      #Detect for Key release
+            if event.type == pygame.KEYUP:          #Detect for Key release
                 if event.key == pygame.K_a or event.key == pygame.K_d:             
                     keyBoardState["A"] = False;
                     keyBoardState["D"] = False;
