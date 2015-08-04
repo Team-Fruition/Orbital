@@ -93,7 +93,7 @@
 >  1. Download Python 3.4.0++:  [Link](https://www.python.org/downloads/)
 >  2. Download Pygame 1.9.2++:  [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
 >  3. Install Pygame via Python's PIP script: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
->  4. Pull the Repo, then load up main.py with Python's IDLE.
+>  4. Clone, then pull the Repo via the [SourceTree](https://www.sourcetreeapp.com/) client, then load up main.py with Python's IDLE editor.
 >  5. Compile and Run (via the F5 key).
 
 <h4>
