@@ -16,8 +16,6 @@
 > Amorphous+, this game will have similar mechanics, with a controllable
 > camera instead of having the usual  linearly scrolling backdrop
 > featuring in most arcade bullet hell variants. </p>
-> 
-> <p> Currently, this game only works on Windows. </p>
 
 <hr />
 
@@ -76,7 +74,7 @@
 	Possible Future Extensions (which are unlikely to get pursued)
 </h4>
 
->  1. Making the game playable on Mac and Ubuntu.
+>  1. Making the standalone game playable on Mac and Ubuntu.
 >  2. Multiplayer -> Leaderboard.
 >  3. An "Options" Menu, with adjustable sound.
 >  4. More content past the 5th difficulty.
@@ -86,9 +84,17 @@
 	To Run 
 </h4>
 
+> **Windows**
 >  1. Download the latest zipped builds file under the Releases section in the [repo's home page](https://github.com/Team-Fruition/Orbital/releases).
 >  2. Once downloaded, extract out the builds folder.
 >  3. In the sub-folder within, run main.exe to execute.
+> 
+> **Mac, or any other OS that can run Python**
+>  1. Download Python 3.4.0++:  [Link](https://www.python.org/downloads/)
+>  2. Download Pygame 1.9.2++:  [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
+>  3. Install Pygame via Python's PIP script: [Video Link](https://www.youtube.com/watch?v=jnpC_Ib_lbc)
+>  4. Pull the Repo, then load up main.py with Python's IDLE.
+>  5. Compile and Run (via the F5 key).
 
 <h4>
 	Milestone 3 Video
@@ -149,3 +155,4 @@
 <hr />
 
 > Written with [StackEdit](https://stackedit.io/).
+
