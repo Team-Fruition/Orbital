@@ -100,7 +100,7 @@
 	Milestone 3 Video
 </h4>
 
-> To Be Added
+> [Video Link](http://youtu.be/-R0uxm8RknU)
 
 <h4>
 	Milestone 2 Video
