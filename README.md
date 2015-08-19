@@ -64,21 +64,17 @@
 >  6. Game Over State
 
 <h4>
-	Things Not Done (should hopefully be implemented by Splashdown)
-</h4>
-
->  1. A visible notification which indicates to the Player that a new Weapon has been unlocked.
->  2. Bug fixing.
-
-<h4>
 	Possible Future Extensions (which are unlikely to get pursued)
 </h4>
 
->  1. Making the standalone game playable on Mac and Ubuntu.
->  2. Multiplayer -> Leaderboard.
->  3. An "Options" Menu, with adjustable sound.
->  4. More content past the 5th difficulty.
->  5. A prettier Help Screen.
+> Main: Redo this in Unity for increased extensibility.
+> 
+>  1. Making a standalone game that is playable on Mac and Ubuntu.
+>  2. A visible notification which indicates to the Player that a new Weapon has been unlocked.
+>  3. Multiplayer -> Leaderboard.
+>  4. An "Options" Menu, with adjustable sound.
+>  5. More content past the 5th difficulty.
+>  6. A prettier Help Screen.
 
 <h4>
 	To Run 
