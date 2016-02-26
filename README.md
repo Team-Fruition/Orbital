@@ -37,19 +37,19 @@
 	Scope
 </h4>
 
-> <p> This game is aimed at anybody with free time. Which is everyone. </p>
+> <p> This game is aimed at gamers who have a taste for the arcade genre. </p>
 
 <h4>
 	 Project Scope
 </h4>
 
-> Really only limited by time and motivational constraints. As of now the game is "completed", but why stop here?  
+> Really only limited by time and motivational constraints. As of now the game is "functioning", but why stop here?  
 
 <h4>
-	Targeted Level of Acheivement
+	Level of Acheivement
 </h4>
 
-> We are aiming for the Project Gemini level achievement. We would like this achievement because everything besides the [Music](http://youtu.be/1rC7pNgxkZU), down to the Art Assets and the Code Structure itself, was 99% original. But if it's not worthy we understand :)
+> Project Gemini Achieved! :D
 
 <h4>
 	Things Done
@@ -67,7 +67,7 @@
 	Possible Future Extensions (which are unlikely to get pursued)
 </h4>
 
-> Main: Redo this in Unity for increased extensibility.
+> Main: Redo this in Unreal for increased extensibility.
 > 
 >  1. Making a standalone game that is playable on Mac and Ubuntu.
 >  2. A visible notification which indicates to the Player that a new Weapon has been unlocked.
